@@ -7,7 +7,7 @@ namespace Chopper.Objects.Base
 {
     public class BaseGameObject
     {
-        protected Texture2D Texture;
+        protected Texture2D _texture;
 
         private Microsoft.Xna.Framework.Vector2 _position;
         public int zIndex;
@@ -20,7 +20,7 @@ namespace Chopper.Objects.Base
         public void Render(SpriteBatch spriteBatch)
         {
             // TODO : Drawing call here
-            spriteBatch.Draw(Texture, _position, Color.White);
+            spriteBatch.Draw(_texture, _position, Color.White);
         }
     }
 }
