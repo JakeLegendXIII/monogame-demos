@@ -1,6 +1,7 @@
 ﻿using Chopper.Enums;
 using Chopper.Objects.Base;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
@@ -12,16 +13,36 @@ namespace Chopper.States.Base
 {
     public abstract class BaseGameState
     {
+        private const string FallbackTexture = "Empty";
+
+        private ContentManager _contentManager;
+
         private readonly List<BaseGameObject> _gameObjects = new List<BaseGameObject>();
 
-        public abstract void LoadContent(ContentManager contentManager);
+        public abstract void LoadContent();
 
-        public abstract void UnloadContent(ContentManager contentManager);
+        public void Initialize(ContentManager contentManager)
+        {
+            _contentManager = contentManager;
+        }
+
+        public void UnloadContent(ContentManager contentManager)
+        {
+            _contentManager.Unload();
+        }
+
         public abstract void HandleInput();
 
         public event EventHandler<BaseGameState> OnStateSwitched;
 
         public event EventHandler<Events> OnEventNotification;
+
+        protected Texture2D LoadTexture(string textureName)
+        {
+            var texture = _contentManager.Load<Texture2D>(textureName);
+
+            return texture ?? _contentManager.Load<Texture2D>(FallbackTexture);
+        }
 
         protected void NotifyEvent(Events eventType, object argument = null)
         {

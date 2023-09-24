@@ -9,22 +9,16 @@ namespace Chopper.States
 {
     public class SplashState : BaseGameState
     {
-        public override void LoadContent(ContentManager contentManager)
+        public override void LoadContent()
         {
-            // TODO: Add Content Loading
-
-            AddGameObject(new SplashImage(contentManager.Load<Texture2D>("Barren")));
-        }
-
-        public override void UnloadContent(ContentManager contentManager)
-        {
-            contentManager.Unload();
+            AddGameObject(new SplashImage(LoadTexture("splash")));
         }
 
         public override void HandleInput()
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-                Keyboard.GetState().IsKeyDown(Keys.Enter))
+            var state = Keyboard.GetState();
+
+            if (state.IsKeyDown(Keys.Enter))
             {
                 SwitchState(new GameplayState());
             }

@@ -3,25 +3,27 @@ using Chopper.States.Base;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using Chopper.Objects;
 
 namespace Chopper.States
 {
     public class GameplayState : BaseGameState
     {
-        public override void LoadContent(ContentManager contentManager)
-        {
+        private const string PlayerFighter = "fighter";
 
-        }
+        private const string BackgroundTexture = "Barren";
 
-        public override void UnloadContent(ContentManager contentManager)
+        public override void LoadContent()
         {
-            contentManager.Unload();
+            AddGameObject(new SplashImage(LoadTexture(BackgroundTexture)));
+            AddGameObject(new PlayerSprite(LoadTexture(PlayerFighter)));
         }
 
         public override void HandleInput()
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-                Keyboard.GetState().IsKeyDown(Keys.Enter))
+            var state = Keyboard.GetState();
+
+            if (state.IsKeyDown(Keys.Escape))
             {
                 NotifyEvent(Events.GAME_QUIT);
             }

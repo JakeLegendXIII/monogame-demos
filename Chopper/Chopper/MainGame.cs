@@ -19,8 +19,8 @@ namespace Chopper
         private RenderTarget2D _renderTarget;
         private Rectangle _renderScaleRectangle;
 
-        private const int DESIGNED_RESOLUTION_WIDTH = 640;
-        private const int DESIGNED_RESOLUTION_HEIGHT = 480;
+        private const int DESIGNED_RESOLUTION_WIDTH = 1280;
+        private const int DESIGNED_RESOLUTION_HEIGHT = 720;
 
         private float DESIGNED_RESOLUTION_ASPECT_RATIO = DESIGNED_RESOLUTION_WIDTH / (float)DESIGNED_RESOLUTION_HEIGHT;
 
@@ -33,8 +33,8 @@ namespace Chopper
 
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferWidth = 1024;
-            _graphics.PreferredBackBufferHeight = 768;
+            _graphics.PreferredBackBufferWidth = DESIGNED_RESOLUTION_WIDTH;
+            _graphics.PreferredBackBufferHeight = DESIGNED_RESOLUTION_HEIGHT;
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
@@ -138,7 +138,9 @@ namespace Chopper
 
             _currentGameState = gameState;
 
-            _currentGameState.LoadContent(Content);
+            _currentGameState.Initialize(Content);
+
+            _currentGameState.LoadContent();
 
             _currentGameState.OnStateSwitched += CurrentGameState_OnStateSwitched;
             _currentGameState.OnEventNotification += _currentGameState_OnEventNotification;
