@@ -71,7 +71,8 @@ namespace Chopper
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             //    Exit();
 
-            _currentGameState.HandleInput();
+            _currentGameState.HandleInput(gameTime);
+            _currentGameState.Update(gameTime);
 
             base.Update(gameTime);
         }

@@ -1,6 +1,7 @@
 ﻿using Chopper.Enums;
 using Chopper.Input.Base;
 using Chopper.Objects.Base;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -39,7 +40,9 @@ namespace Chopper.States.Base
             _contentManager.Unload();
         }
 
-        public abstract void HandleInput();
+        public virtual void Update(GameTime gameTime) { }
+
+        public abstract void HandleInput(GameTime gameTime);
 
         public event EventHandler<BaseGameState> OnStateSwitched;
 

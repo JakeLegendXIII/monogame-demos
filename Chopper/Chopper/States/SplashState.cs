@@ -16,7 +16,7 @@ namespace Chopper.States
             AddGameObject(new SplashImage(LoadTexture("splash")));
         }
 
-        public override void HandleInput()
+        public override void HandleInput(GameTime gameTime)
         {
             InputManager.GetCommands(cmd =>
             {
