@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using Chopper.Input.Base;
+using Chopper.Input;
 
 namespace Chopper.States
 {
@@ -16,12 +18,18 @@ namespace Chopper.States
 
         public override void HandleInput()
         {
-            var state = Keyboard.GetState();
-
-            if (state.IsKeyDown(Keys.Enter))
+            InputManager.GetCommands(cmd =>
             {
-                SwitchState(new GameplayState());
-            }
+                if (cmd is SplashInputCommand.GameSelect)
+                {
+                    SwitchState(new GameplayState());
+                }
+            });
+        }
+
+        protected override void SetInputManager()
+        {
+            InputManager = new InputManager(new SplashInputMapper());
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿using Chopper.Enums;
+using Chopper.Input.Base;
 using Chopper.Objects.Base;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chopper.States.Base
 {
@@ -19,6 +17,8 @@ namespace Chopper.States.Base
         protected int _viewportHeight;
         protected int _viewportWidth;
 
+        protected InputManager InputManager { get; set; }
+
         private readonly List<BaseGameObject> _gameObjects = new List<BaseGameObject>();
 
         public abstract void LoadContent();
@@ -28,7 +28,11 @@ namespace Chopper.States.Base
             _contentManager = contentManager;
             _viewportHeight = viewportHeight;
             _viewportWidth = viewportWidth;
+
+            SetInputManager();
         }
+
+        protected abstract void SetInputManager();
 
         public void UnloadContent(ContentManager contentManager)
         {
