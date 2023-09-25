@@ -57,6 +57,15 @@ namespace Chopper
             SwitchGameState(new SplashState());
         }
 
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// game-specific content.
+        /// </summary>
+        protected override void UnloadContent()
+        {
+            _currentGameState?.UnloadContent(Content);
+        }
+
         protected override void Update(GameTime gameTime)
         {
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -93,6 +102,40 @@ namespace Chopper
             base.Draw(gameTime);
         }
 
+        private void SwitchGameState(BaseGameState gameState)
+        {
+            if (_currentGameState != null)
+            {
+                _currentGameState.OnStateSwitched -= CurrentGameState_OnStateSwitched;
+                _currentGameState.OnEventNotification -= _currentGameState_OnEventNotification;
+                _currentGameState.UnloadContent(Content);
+            }
+
+            _currentGameState = gameState;
+
+            _currentGameState.Initialize(Content, _graphics.GraphicsDevice.Viewport.Width, _graphics.GraphicsDevice.Viewport.Height);
+
+            _currentGameState.LoadContent();
+
+            _currentGameState.OnStateSwitched += CurrentGameState_OnStateSwitched;
+            _currentGameState.OnEventNotification += _currentGameState_OnEventNotification;
+        }
+
+        private void CurrentGameState_OnStateSwitched(object sender, BaseGameState e)
+        {
+            SwitchGameState(e);
+        }
+
+        private void _currentGameState_OnEventNotification(object sender, Events e)
+        {
+            switch (e)
+            {
+                case Events.GAME_QUIT:
+                    Exit();
+                    break;
+            }
+        }
+
         /// <summary>
         /// Uses the current window size compared to the design resolution
         /// </summary>
@@ -122,47 +165,5 @@ namespace Chopper
             return scaleRectangle;
         }
 
-        private void CurrentGameState_OnStateSwitched(object sender, BaseGameState e)
-        {
-            SwitchGameState(e);
-        }
-
-        private void SwitchGameState(BaseGameState gameState)
-        {
-            if (_currentGameState != null)
-            {
-                _currentGameState.OnStateSwitched -= CurrentGameState_OnStateSwitched;
-                _currentGameState.OnEventNotification -= _currentGameState_OnEventNotification;
-                _currentGameState.UnloadContent(Content);
-            }
-
-            _currentGameState = gameState;
-
-            _currentGameState.Initialize(Content);
-
-            _currentGameState.LoadContent();
-
-            _currentGameState.OnStateSwitched += CurrentGameState_OnStateSwitched;
-            _currentGameState.OnEventNotification += _currentGameState_OnEventNotification;
-        }
-
-        private void _currentGameState_OnEventNotification(object sender, Events e)
-        {
-            switch (e)
-            {
-                case Events.GAME_QUIT:
-                    Exit();
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            _currentGameState?.UnloadContent(Content);
-        }
     }
 }
