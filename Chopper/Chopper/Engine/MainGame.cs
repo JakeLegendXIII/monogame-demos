@@ -1,13 +1,13 @@
-﻿using Chopper.Enums;
+﻿using Chopper.Engine.States;
+using Chopper.Enums;
 using Chopper.States;
-using Chopper.States.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
-namespace Chopper
+namespace Chopper.Engine
 {
     public class MainGame : Game
     {
@@ -23,7 +23,7 @@ namespace Chopper
         private int _DesignedResolutionHeight;
         private float _designedResolutionAspectRatio;
 
-        private BaseGameState _firstGameState;        
+        private BaseGameState _firstGameState;
 
         public MainGame(int width, int height, BaseGameState firstGameState)
         {
@@ -35,7 +35,7 @@ namespace Chopper
             _firstGameState = firstGameState;
             _DesignedResolutionWidth = width;
             _DesignedResolutionHeight = height;
-            _designedResolutionAspectRatio = width / (float)height;            
+            _designedResolutionAspectRatio = width / (float)height;
         }
 
         protected override void Initialize()
@@ -45,7 +45,7 @@ namespace Chopper
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
-            _renderTarget = new RenderTarget2D(GraphicsDevice, _DesignedResolutionWidth, _DesignedResolutionHeight, 
+            _renderTarget = new RenderTarget2D(GraphicsDevice, _DesignedResolutionWidth, _DesignedResolutionHeight,
                 false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
 
             _renderScaleRectangle = GetScaleRectangle();

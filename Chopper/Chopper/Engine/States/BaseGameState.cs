@@ -1,6 +1,6 @@
-﻿using Chopper.Enums;
-using Chopper.Input.Base;
-using Chopper.Objects.Base;
+﻿using Chopper.Engine.Input;
+using Chopper.Engine.Objects;
+using Chopper.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Chopper.States.Base
+namespace Chopper.Engine.States
 {
     public abstract class BaseGameState
     {
@@ -59,7 +59,7 @@ namespace Chopper.States.Base
         {
             OnEventNotification?.Invoke(this, eventType);
 
-            foreach(var gameObject in _gameObjects)
+            foreach (var gameObject in _gameObjects)
             {
                 gameObject.OnNotify(eventType);
             }
@@ -80,9 +80,9 @@ namespace Chopper.States.Base
             _gameObjects.Remove(gameObject);
         }
 
-        public void Render(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        public void Render(SpriteBatch spriteBatch)
         {
-            foreach(var gameObject in _gameObjects.OrderBy(x => x.zIndex))
+            foreach (var gameObject in _gameObjects.OrderBy(x => x.zIndex))
             {
                 gameObject.Render(spriteBatch);
             }

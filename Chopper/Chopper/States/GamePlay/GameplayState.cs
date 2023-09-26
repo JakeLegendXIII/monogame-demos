@@ -1,16 +1,16 @@
 ﻿using Chopper.Enums;
-using Chopper.States.Base;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using Chopper.Objects;
-using Chopper.Input.Base;
 using Chopper.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
+using Chopper.Engine.Input;
+using Chopper.Engine.States;
 
-namespace Chopper.States
+namespace Chopper.States.GamePlay
 {
     public class GameplayState : BaseGameState
     {
@@ -79,7 +79,7 @@ namespace Chopper.States
                 {
                     NotifyEvent(Events.GAME_QUIT);
                 }
-                
+
                 if (cmd is GameplayInputCommand.PlayerMoveLeft)
                 {
                     _playerSprite.MoveLeft();
@@ -98,7 +98,7 @@ namespace Chopper.States
                 }
 
             });
-        }       
+        }
 
         protected override void SetInputManager()
         {

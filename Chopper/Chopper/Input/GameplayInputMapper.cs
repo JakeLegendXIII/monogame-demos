@@ -1,4 +1,4 @@
-﻿using Chopper.Input.Base;
+﻿using Chopper.Engine.Input;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 

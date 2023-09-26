@@ -1,4 +1,4 @@
-﻿using Chopper.Objects.Base;
+﻿using Chopper.Engine.Objects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

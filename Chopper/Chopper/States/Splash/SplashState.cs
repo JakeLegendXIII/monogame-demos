@@ -1,13 +1,14 @@
 ﻿using Chopper.Objects;
-using Chopper.States.Base;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
-using Chopper.Input.Base;
+using Chopper.Engine.Input;
 using Chopper.Input;
+using Chopper.Engine.States;
+using Chopper.States.GamePlay;
 
-namespace Chopper.States
+namespace Chopper.States.Splash
 {
     public class SplashState : BaseGameState
     {

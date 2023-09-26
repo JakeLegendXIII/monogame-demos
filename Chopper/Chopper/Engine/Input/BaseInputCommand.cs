@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chopper.Input.Base
+namespace Chopper.Engine.Input
 {
     public class BaseInputCommand { }
 }

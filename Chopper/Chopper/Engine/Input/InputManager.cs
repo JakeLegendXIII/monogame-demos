@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Chopper.Engine.Input;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chopper.Input.Base
+namespace Chopper.Engine.Input
 {
     public class InputManager
     {

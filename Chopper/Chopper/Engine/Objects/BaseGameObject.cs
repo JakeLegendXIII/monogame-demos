@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace Chopper.Objects.Base
+namespace Chopper.Engine.Objects
 {
     public class BaseGameObject
     {
