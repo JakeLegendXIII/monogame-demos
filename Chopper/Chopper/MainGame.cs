@@ -19,26 +19,33 @@ namespace Chopper
         private RenderTarget2D _renderTarget;
         private Rectangle _renderScaleRectangle;
 
-        private const int DESIGNED_RESOLUTION_WIDTH = 1280;
-        private const int DESIGNED_RESOLUTION_HEIGHT = 720;
+        private int _DesignedResolutionWidth;
+        private int _DesignedResolutionHeight;
+        private float _designedResolutionAspectRatio;
 
-        private float DESIGNED_RESOLUTION_ASPECT_RATIO = DESIGNED_RESOLUTION_WIDTH / (float)DESIGNED_RESOLUTION_HEIGHT;
+        private BaseGameState _firstGameState;        
 
-        public MainGame()
+        public MainGame(int width, int height, BaseGameState firstGameState)
         {
-            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            _graphics = new GraphicsDeviceManager(this);
+
+            _firstGameState = firstGameState;
+            _DesignedResolutionWidth = width;
+            _DesignedResolutionHeight = height;
+            _designedResolutionAspectRatio = width / (float)height;            
         }
 
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferWidth = DESIGNED_RESOLUTION_WIDTH;
-            _graphics.PreferredBackBufferHeight = DESIGNED_RESOLUTION_HEIGHT;
+            _graphics.PreferredBackBufferWidth = _DesignedResolutionWidth;
+            _graphics.PreferredBackBufferHeight = _DesignedResolutionHeight;
             _graphics.IsFullScreen = false;
             _graphics.ApplyChanges();
 
-            _renderTarget = new RenderTarget2D(GraphicsDevice, DESIGNED_RESOLUTION_WIDTH, DESIGNED_RESOLUTION_HEIGHT, 
+            _renderTarget = new RenderTarget2D(GraphicsDevice, _DesignedResolutionWidth, _DesignedResolutionHeight, 
                 false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents);
 
             _renderScaleRectangle = GetScaleRectangle();
@@ -54,7 +61,7 @@ namespace Chopper
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            SwitchGameState(new SplashState());
+            SwitchGameState(_firstGameState);
         }
 
         /// <summary>
@@ -148,16 +155,16 @@ namespace Chopper
 
             Rectangle scaleRectangle;
 
-            if (actualAspectRatio <= DESIGNED_RESOLUTION_ASPECT_RATIO)
+            if (actualAspectRatio <= _designedResolutionAspectRatio)
             {
-                var presentHeight = (int)(Window.ClientBounds.Width / DESIGNED_RESOLUTION_ASPECT_RATIO + variance);
+                var presentHeight = (int)(Window.ClientBounds.Width / _designedResolutionAspectRatio + variance);
                 var barHeight = (Window.ClientBounds.Height - presentHeight) / 2;
 
                 scaleRectangle = new Rectangle(0, barHeight, Window.ClientBounds.Width, presentHeight);
             }
             else
             {
-                var presentHeight = (int)(Window.ClientBounds.Height * DESIGNED_RESOLUTION_ASPECT_RATIO + variance);
+                var presentHeight = (int)(Window.ClientBounds.Height * _designedResolutionAspectRatio + variance);
                 var barWidth = (Window.ClientBounds.Width - presentHeight) / 2;
 
                 scaleRectangle = new Rectangle(barWidth, 0, presentHeight, Window.ClientBounds.Height);
