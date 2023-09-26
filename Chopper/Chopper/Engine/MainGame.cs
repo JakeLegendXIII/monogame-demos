@@ -1,5 +1,4 @@
 ﻿using Chopper.Engine.States;
-using Chopper.Enums;
 using Chopper.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -134,11 +133,11 @@ namespace Chopper.Engine
             SwitchGameState(e);
         }
 
-        private void _currentGameState_OnEventNotification(object sender, Events e)
+        private void _currentGameState_OnEventNotification(object sender, BaseGameStateEvent e)
         {
             switch (e)
             {
-                case Events.GAME_QUIT:
+                case BaseGameStateEvent.GameQuit:
                     Exit();
                     break;
             }

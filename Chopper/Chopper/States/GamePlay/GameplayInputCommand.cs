@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chopper.Input
+namespace Chopper.States.GamePlay
 {
     public class GameplayInputCommand : BaseInputCommand
     {

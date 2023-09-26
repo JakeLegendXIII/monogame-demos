@@ -1,4 +1,4 @@
-﻿using Chopper.Enums;
+﻿using Chopper.Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -27,7 +27,7 @@ namespace Chopper.Engine.Objects
             set { _position = value; }
         }
 
-        public virtual void OnNotify(Events eventType)
+        public virtual void OnNotify(BaseGameStateEvent eventType)
         {
 
         }

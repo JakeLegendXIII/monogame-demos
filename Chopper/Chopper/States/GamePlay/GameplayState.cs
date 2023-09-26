@@ -1,9 +1,8 @@
-﻿using Chopper.Enums;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using Chopper.Objects;
-using Chopper.Input;
+using Chopper.States.GamePlay;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
@@ -77,7 +76,7 @@ namespace Chopper.States.GamePlay
             {
                 if (cmd is GameplayInputCommand.GameExit)
                 {
-                    NotifyEvent(Events.GAME_QUIT);
+                    NotifyEvent(new BaseGameStateEvent.GameQuit());
                 }
 
                 if (cmd is GameplayInputCommand.PlayerMoveLeft)

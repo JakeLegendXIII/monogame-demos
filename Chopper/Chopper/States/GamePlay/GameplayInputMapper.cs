@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
-namespace Chopper.Input
+namespace Chopper.States.GamePlay
 {
     public class GameplayInputMapper : BaseInputMapper
     {
@@ -23,7 +23,7 @@ namespace Chopper.Input
             if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
             {
                 commands.Add(new GameplayInputCommand.PlayerMoveRight());
-            }            
+            }
 
             if (state.IsKeyDown(Keys.Space))
             {

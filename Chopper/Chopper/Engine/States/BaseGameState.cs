@@ -1,6 +1,5 @@
 ﻿using Chopper.Engine.Input;
 using Chopper.Engine.Objects;
-using Chopper.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -46,7 +45,7 @@ namespace Chopper.Engine.States
 
         public event EventHandler<BaseGameState> OnStateSwitched;
 
-        public event EventHandler<Events> OnEventNotification;
+        public event EventHandler<BaseGameStateEvent> OnEventNotification;
 
         protected Texture2D LoadTexture(string textureName)
         {
@@ -55,7 +54,7 @@ namespace Chopper.Engine.States
             return texture ?? _contentManager.Load<Texture2D>(FallbackTexture);
         }
 
-        protected void NotifyEvent(Events eventType, object argument = null)
+        protected void NotifyEvent(BaseGameStateEvent eventType, object argument = null)
         {
             OnEventNotification?.Invoke(this, eventType);
 

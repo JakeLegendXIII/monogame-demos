@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using Chopper.Engine.Input;
-using Chopper.Input;
+using Chopper.States.Splash;
 using Chopper.Engine.States;
 using Chopper.States.GamePlay;
 
