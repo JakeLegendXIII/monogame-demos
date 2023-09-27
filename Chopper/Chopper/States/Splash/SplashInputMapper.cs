@@ -1,4 +1,5 @@
 ﻿using Chopper.Engine.Input;
+using Chopper.States.GamePlay;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,23 @@ namespace Chopper.States.Splash
             var commands = new List<SplashInputCommand>();
 
             if (state.IsKeyDown(Keys.Enter))
+            {
+                commands.Add(new SplashInputCommand.GameSelect());
+            }
+
+            return commands;
+        }
+
+        public override IEnumerable<BaseInputCommand> GetGamePadState(GamePadState state)
+        {
+            var commands = new List<SplashInputCommand>();
+
+            if (state.IsButtonDown(Buttons.A))
+            {
+                commands.Add(new SplashInputCommand.GameSelect());
+            }
+
+            if (state.IsButtonDown(Buttons.Start))
             {
                 commands.Add(new SplashInputCommand.GameSelect());
             }

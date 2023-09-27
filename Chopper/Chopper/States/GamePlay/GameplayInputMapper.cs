@@ -32,5 +32,42 @@ namespace Chopper.States.GamePlay
 
             return commands;
         }
+
+        public override IEnumerable<BaseInputCommand> GetGamePadState(GamePadState state)
+        {
+            var commands = new List<GameplayInputCommand>();
+
+            if (state.IsButtonDown(Buttons.Back))
+            {
+                commands.Add(new GameplayInputCommand.GameExit());
+            }
+
+            if (state.IsButtonDown(Buttons.RightTrigger))
+            {
+                commands.Add(new GameplayInputCommand.PlayerShoots());
+            }
+
+            if (state.DPad.Left == ButtonState.Pressed)
+            {
+                commands.Add(new GameplayInputCommand.PlayerMoveLeft());
+            }
+
+            if (state.DPad.Right == ButtonState.Pressed)
+            {
+                commands.Add(new GameplayInputCommand.PlayerMoveRight());
+            }
+
+            if (state.ThumbSticks.Left.X < 0)
+            {
+                commands.Add(new GameplayInputCommand.PlayerMoveLeft());
+            }
+
+            if (state.ThumbSticks.Left.X > 0)
+            {
+                commands.Add(new GameplayInputCommand.PlayerMoveRight());
+            }
+
+            return commands;
+        }
     }
 }
