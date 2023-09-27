@@ -37,6 +37,12 @@
 /processorParam:TextureFormat=Color
 /build:bullet.png
 
+#begin bulletSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:bulletSound.wav
+
 #begin Empty.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -49,6 +55,12 @@
 /processorParam:TextureFormat=Color
 /build:Empty.png
 
+#begin emptySound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:emptySound.wav
+
 #begin Fighter.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -60,6 +72,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Fighter.png
+
+#begin FutureAmbient_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:FutureAmbient_1.wav
+
+#begin FutureAmbient_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:FutureAmbient_2.wav
+
+#begin FutureAmbient_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:FutureAmbient_3.wav
+
+#begin FutureAmbient_4.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:FutureAmbient_4.wav
 
 #begin splash.png
 /importer:TextureImporter

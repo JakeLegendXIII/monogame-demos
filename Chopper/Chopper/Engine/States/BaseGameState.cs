@@ -1,6 +1,8 @@
 ﻿using Chopper.Engine.Input;
 using Chopper.Engine.Objects;
+using Chopper.Engine.Sound;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -12,14 +14,15 @@ namespace Chopper.Engine.States
     public abstract class BaseGameState
     {
         private const string FallbackTexture = "Empty";
+        private const string FallbackSong = "EmptySound";
 
         private ContentManager _contentManager;
         protected int _viewportHeight;
         protected int _viewportWidth;
+        private readonly List<BaseGameObject> _gameObjects = new List<BaseGameObject>();
 
         protected InputManager InputManager { get; set; }
-
-        private readonly List<BaseGameObject> _gameObjects = new List<BaseGameObject>();
+        protected SoundManager _soundManager = new SoundManager();        
 
         public abstract void LoadContent();
 
@@ -39,9 +42,14 @@ namespace Chopper.Engine.States
             _contentManager.Unload();
         }
 
-        public virtual void Update(GameTime gameTime) { }
+        public void Update(GameTime gameTime)
+        {
+            UpdateGameState(gameTime);
+            _soundManager.PlaySoundTrack();
+        }
 
         public abstract void HandleInput(GameTime gameTime);
+        public abstract void UpdateGameState(GameTime gameTime);
 
         public event EventHandler<BaseGameState> OnStateSwitched;
 
@@ -52,6 +60,11 @@ namespace Chopper.Engine.States
             var texture = _contentManager.Load<Texture2D>(textureName);
 
             return texture ?? _contentManager.Load<Texture2D>(FallbackTexture);
+        }
+
+        protected SoundEffect LoadSound(string soundName)
+        {
+            return _contentManager.Load<SoundEffect>(soundName);
         }
 
         protected void NotifyEvent(BaseGameStateEvent eventType, object argument = null)

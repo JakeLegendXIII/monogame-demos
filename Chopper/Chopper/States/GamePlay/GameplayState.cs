@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System;
 using Chopper.Engine.Input;
 using Chopper.Engine.States;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Chopper.States.GamePlay
 {
@@ -36,9 +37,14 @@ namespace Chopper.States.GamePlay
             var playerXPos = _viewportWidth / 2 - _playerSprite.Width / 2;
             var playerYPos = _viewportHeight - _playerSprite.Height - 30;
             _playerSprite.Position = new Vector2(playerXPos, playerYPos);
+
+            // load soundtracks into sound manager
+            var track1 = LoadSound("FutureAmbient_1").CreateInstance();
+            var track2 = LoadSound("FutureAmbient_2").CreateInstance();
+            _soundManager.SetSoundTrack(new List<SoundEffectInstance>() { track1, track2 });
         }
 
-        public override void Update(GameTime gameTime)
+        public override void UpdateGameState(GameTime gameTime)
         {
             foreach (var bullet in _bulletList)
             {

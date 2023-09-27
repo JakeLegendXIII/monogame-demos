@@ -12,6 +12,8 @@ namespace Chopper.States.Splash
 {
     public class SplashState : BaseGameState
     {
+        public override void UpdateGameState(GameTime _) { }
+
         public override void LoadContent()
         {
             AddGameObject(new SplashImage(LoadTexture("splash")));
