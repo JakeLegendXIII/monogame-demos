@@ -67,14 +67,16 @@ namespace Chopper.Engine.States
             return _contentManager.Load<SoundEffect>(soundName);
         }
 
-        protected void NotifyEvent(BaseGameStateEvent eventType, object argument = null)
+        protected void NotifyEvent(BaseGameStateEvent gameEvent, object argument = null)
         {
-            OnEventNotification?.Invoke(this, eventType);
+            OnEventNotification?.Invoke(this, gameEvent);
 
             foreach (var gameObject in _gameObjects)
             {
-                gameObject.OnNotify(eventType);
+                gameObject.OnNotify(gameEvent);
             }
+
+            _soundManager.OnNotify(gameEvent);
         }
 
         protected void SwitchState(BaseGameState newState)

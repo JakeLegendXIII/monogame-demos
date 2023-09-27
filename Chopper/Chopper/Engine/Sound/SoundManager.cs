@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using Chopper.Engine.States;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Chopper.Engine.Sound
     {
         private int _soundTrackIndex = -1;
         private List<SoundEffectInstance> _soundTracks = new List<SoundEffectInstance>();
+        private Dictionary<Type, SoundEffect> _soundBank = new Dictionary<Type, SoundEffect>();
 
         public void SetSoundTrack(List<SoundEffectInstance> tracks)
         {
@@ -39,6 +41,19 @@ namespace Chopper.Engine.Sound
                 {
                     _soundTrackIndex = 0;
                 }
+            }
+        }
+
+        public void RegisterSound(BaseGameStateEvent gameStateEvent, SoundEffect sound)
+        {
+            _soundBank[gameStateEvent.GetType()] = sound;
+        }
+
+        public void OnNotify(BaseGameStateEvent gameEvent)
+        {
+            if (_soundBank.ContainsKey(gameEvent.GetType()))
+            {
+                _soundBank[gameEvent.GetType()].Play();
             }
         }
     }
