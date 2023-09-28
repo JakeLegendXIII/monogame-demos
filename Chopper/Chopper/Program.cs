@@ -1,6 +1,4 @@
-﻿
-
-using Chopper.States.Splash;
+﻿using Chopper.States.Splash;
 using Chopper.Engine;
 using Chopper.States.Dev;
 
