@@ -43,6 +43,18 @@
 /processorParam:Quality=Best
 /build:bulletSound.wav
 
+#begin Cloud001.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Cloud001.png
+
 #begin Empty.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -96,6 +108,24 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:FutureAmbient_4.wav
+
+#begin missile.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:missile.wav
+
+#begin Missile05.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Missile05.png
 
 #begin splash.png
 /importer:TextureImporter
