@@ -9,6 +9,7 @@ namespace Chopper.States.GamePlay
 {
     public class GameplayEvents : BaseGameStateEvent
     {
-        public class PlayerShoots : GameplayEvents { }
+        public class PlayerShootsBullets : GameplayEvents { }
+        public class PlayerShootsMissile : GameplayEvents { }
     }
 }

@@ -21,7 +21,7 @@ namespace Chopper.Engine.Objects
         {
             get { return _texture.Height; }
         }   
-        public Vector2 Position
+        public virtual Vector2 Position
         {
             get { return _position; }
             set { _position = value; }

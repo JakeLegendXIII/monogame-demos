@@ -45,7 +45,7 @@ namespace Chopper.Engine.States
         public void Update(GameTime gameTime)
         {
             UpdateGameState(gameTime);
-            _soundManager.PlaySoundTrack();
+            _soundManager.PlaySoundtrack();
         }
 
         public abstract void HandleInput(GameTime gameTime);

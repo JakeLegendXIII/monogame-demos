@@ -9,27 +9,40 @@ using System;
 using Chopper.Engine.Input;
 using Chopper.Engine.States;
 using Microsoft.Xna.Framework.Audio;
+using Chopper.Engine.Objects;
 
 namespace Chopper.States.GamePlay
 {
     public class GameplayState : BaseGameState
     {
-        private const string PlayerFighter = "fighter";
         private const string BackgroundTexture = "Barren";
+        private const string PlayerFighter = "fighter";
         private const string BulletTexture = "bullet";
+        private const string ExhaustTexture = "Cloud";
+        private const string MissileTexture = "Missile";
+
+        private Texture2D _missileTexture;
+        private Texture2D _exhaustTexture;
+        private Texture2D _bulletTexture;
 
         private PlayerSprite _playerSprite;
-        private Texture2D _bulletTexture;
-        private bool _isShooting;
-        private TimeSpan _lastShotAt;
+
+        private bool _isShootingBullets;
+        private bool _isShootingMissile;
+        private TimeSpan _lastBulletShotAt;
+        private TimeSpan _lastMissileShotAt;
 
         private List<BulletSprite> _bulletList;
+        private List<MissileSprite> _missileList;
 
         public override void LoadContent()
         {
             _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
+            _missileTexture = LoadTexture(MissileTexture);
+            _exhaustTexture = LoadTexture(ExhaustTexture);
             _bulletTexture = LoadTexture(BulletTexture);
             _bulletList = new List<BulletSprite>();
+            _missileList = new List<MissileSprite>();
 
             AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
             AddGameObject(_playerSprite);
@@ -40,12 +53,14 @@ namespace Chopper.States.GamePlay
 
             // load sound effects and register in the sound manager
             var bulletSound = LoadSound("bulletSound");
-            _soundManager.RegisterSound(new GameplayEvents.PlayerShoots(), bulletSound);
+            var missileSound = LoadSound("missileSound");
+            _soundManager.RegisterSound(new GameplayEvents.PlayerShootsBullets(), bulletSound);
+            _soundManager.RegisterSound(new GameplayEvents.PlayerShootsMissile(), missileSound, 0.4f, -0.2f, 0.0f);
 
             // load soundtracks into sound manager
             var track1 = LoadSound("FutureAmbient_1").CreateInstance();
             var track2 = LoadSound("FutureAmbient_2").CreateInstance();
-            _soundManager.SetSoundTrack(new List<SoundEffectInstance>() { track1, track2 });
+            _soundManager.SetSoundtrack(new List<SoundEffectInstance>() { track1, track2 });
         }
 
         public override void UpdateGameState(GameTime gameTime)
@@ -55,29 +70,46 @@ namespace Chopper.States.GamePlay
                 bullet.MoveUp();
             }
 
-            // can't shoot more than every 0.2 seconds
-            if (_lastShotAt != null && gameTime.TotalGameTime - _lastShotAt > TimeSpan.FromSeconds(0.2))
+            foreach (var missile in _missileList)
             {
-                _isShooting = false;
+                missile.Update(gameTime);
             }
 
-            // get rid of bullets that have gone out of view
-            var newBulletList = new List<BulletSprite>();
-            foreach (var bullet in _bulletList)
+            // can't shoot bullets more than every 0.2 second
+            if (_lastBulletShotAt != null && gameTime.TotalGameTime - _lastBulletShotAt > TimeSpan.FromSeconds(0.2))
             {
-                var bulletStillOnScreen = bullet.Position.Y > -30;
+                _isShootingBullets = false;
+            }
 
-                if (bulletStillOnScreen)
+            // can't shoot missiles more than every 1 second
+            if (_lastMissileShotAt != null && gameTime.TotalGameTime - _lastMissileShotAt > TimeSpan.FromSeconds(1.0))
+            {
+                _isShootingMissile = false;
+            }
+
+            // get rid of bullets and missiles that have gone out of view
+            _bulletList = CleanObjects(_bulletList);
+            _missileList = CleanObjects(_missileList);
+        }
+
+        private List<T> CleanObjects<T>(List<T> objectList) where T : BaseGameObject
+        {
+            List<T> listOfItemsToKeep = new List<T>();
+            foreach (T item in objectList)
+            {
+                var stillOnScreen = item.Position.Y > -50;
+
+                if (stillOnScreen)
                 {
-                    newBulletList.Add(bullet);
+                    listOfItemsToKeep.Add(item);
                 }
                 else
                 {
-                    RemoveGameObject(bullet);
+                    RemoveGameObject(item);
                 }
             }
 
-            _bulletList = newBulletList;
+            return listOfItemsToKeep;
         }
 
         public override void HandleInput(GameTime gameTime)
@@ -140,13 +172,22 @@ namespace Chopper.States.GamePlay
 
         private void Shoot(GameTime gameTime)
         {
-            if (!_isShooting)
+            if (!_isShootingBullets)
             {
                 CreateBullets();
-                _isShooting = true;
-                _lastShotAt = gameTime.TotalGameTime;
+                _isShootingBullets = true;
+                _lastBulletShotAt = gameTime.TotalGameTime;
 
-                NotifyEvent(new GameplayEvents.PlayerShoots());
+                NotifyEvent(new GameplayEvents.PlayerShootsBullets());
+            }
+
+            if (!_isShootingMissile)
+            {
+                CreateMissile();
+                _isShootingMissile = true;
+                _lastMissileShotAt = gameTime.TotalGameTime;
+
+                NotifyEvent(new GameplayEvents.PlayerShootsMissile());
             }
         }
 
@@ -167,6 +208,15 @@ namespace Chopper.States.GamePlay
 
             AddGameObject(bulletSpriteLeft);
             AddGameObject(bulletSpriteRight);
+        }
+
+        private void CreateMissile()
+        {
+            var missileSprite = new MissileSprite(_missileTexture, _exhaustTexture);
+            missileSprite.Position = new Vector2(_playerSprite.Position.X + 33, _playerSprite.Position.Y - 25);
+
+            _missileList.Add(missileSprite);
+            AddGameObject(missileSprite);
         }
     }
 }
