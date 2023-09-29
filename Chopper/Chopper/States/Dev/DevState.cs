@@ -3,7 +3,6 @@ using Chopper.Engine.States;
 using Chopper.Objects;
 using Chopper.Particles;
 using Microsoft.Xna.Framework;
-using System;
 
 namespace Chopper.States.Dev
 {

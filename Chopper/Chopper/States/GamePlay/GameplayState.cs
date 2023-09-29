@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using Chopper.Objects;
-using Chopper.States.GamePlay;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;

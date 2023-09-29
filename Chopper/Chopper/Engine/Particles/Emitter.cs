@@ -15,6 +15,9 @@ namespace Chopper.Engine.Particles
         private IEmitterType _emitterType;
         private int _nbParticleEmittedPerUpdate = 0;
         private int _maxNbParticle = 0;
+        private bool _active = true;
+
+        public int Age { get; set; }
 
         public Emitter(Texture2D texture, Vector2 position, EmitterParticleState particleState, IEmitterType emitterType, int nbParticleEmittedPerUpdate, int maxParticles)
         {
@@ -24,11 +27,15 @@ namespace Chopper.Engine.Particles
             _nbParticleEmittedPerUpdate = nbParticleEmittedPerUpdate;
             _maxNbParticle = maxParticles;
             Position = position;
+            Age = 0;
         }
 
         public void Update(GameTime gameTime)
         {
-            EmitParticles();
+            if (_active)
+            {
+                EmitParticles();
+            }
 
             var particleNode = _activeParticles.First;
             while (particleNode != null)
@@ -40,8 +47,11 @@ namespace Chopper.Engine.Particles
                     _activeParticles.Remove(particleNode);
                     _inactiveParticles.AddLast(particleNode.Value);
                 }
+
                 particleNode = nextNode;
             }
+
+            Age++;
         }
 
         public override void Render(SpriteBatch spriteBatch)
@@ -52,6 +62,10 @@ namespace Chopper.Engine.Particles
             {
                 spriteBatch.Draw(_texture, particle.Position, sourceRectangle, Color.White * particle.Opacity, 0.0f, new Vector2(0, 0), particle.Scale, SpriteEffects.None, zIndex);
             }
+        }
+        public void Deactivate()
+        {
+            _active = false;
         }
 
         private void EmitParticles()
