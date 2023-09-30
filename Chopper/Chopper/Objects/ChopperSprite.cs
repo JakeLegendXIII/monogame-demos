@@ -57,6 +57,7 @@ namespace Chopper.Objects
         {
             _texture = texture;
             _path = path;
+            // AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
         }
 
         public void Update()
@@ -73,7 +74,7 @@ namespace Chopper.Objects
                 }
             }
 
-            Position += (_direction * Speed);
+            Position = Position + (_direction * Speed);
 
             _age++;
         }
@@ -94,21 +95,6 @@ namespace Chopper.Objects
             _angle += BladeSpeed;
         }
 
-        private Color GetColor()
-        {
-            var color = Color.White;
-            //foreach (var flashStartEndFrames in GetFlashStartEndFrames())
-            //{
-            //    if (_hitAt >= flashStartEndFrames.Item1 && _hitAt < flashStartEndFrames.Item2)
-            //    {
-            //        color = Color.OrangeRed;
-            //    }
-            //}
-
-            _hitAt++;
-            return color;
-        }
-
         public override void OnNotify(BaseGameStateEvent gameEvent)
         {
             switch (gameEvent)
@@ -120,11 +106,34 @@ namespace Chopper.Objects
             }
         }
 
-
         private void JustHit(IGameObjectWithDamage o)
         {
             _hitAt = 0;
             _life -= o.Damage;
+        }
+
+        private Color GetColor()
+        {
+            var color = Color.White;
+            foreach (var flashStartEndFrames in GetFlashStartEndFrames())
+            {
+                if (_hitAt >= flashStartEndFrames.Item1 && _hitAt < flashStartEndFrames.Item2)
+                {
+                    color = Color.OrangeRed;
+                }
+            }
+
+            _hitAt++;
+            return color;
+        }
+
+        private List<(int, int)> GetFlashStartEndFrames()
+        {
+            return new List<(int, int)>
+            {
+                (0, 3),
+                (10, 13)
+            };
         }
     }
 }

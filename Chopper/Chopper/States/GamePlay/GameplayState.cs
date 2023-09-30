@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System;
 using Chopper.Engine.Input;
 using Chopper.Engine.States;
+using Chopper.Particles;
 using Microsoft.Xna.Framework.Audio;
 using Chopper.Engine.Objects;
 
@@ -19,20 +20,32 @@ namespace Chopper.States.GamePlay
         private const string BulletTexture = "bullet";
         private const string ExhaustTexture = "Cloud";
         private const string MissileTexture = "Missile";
+        private const string ChopperTexture = "Chopper";
+        private const string ExplosionTexture = "explosion";
+
+        private const int MaxExplosionAge = 100; // 10 seconds at 60 frames per second = 600
+        private const int ExplosionActiveLength = 75; // emit particles for 1.2 seconds and let them fade out for 10 seconds
 
         private Texture2D _missileTexture;
         private Texture2D _exhaustTexture;
         private Texture2D _bulletTexture;
+        private Texture2D _explosionTexture;
+        private Texture2D _chopperTexture;
 
         private PlayerSprite _playerSprite;
+        private bool _playerDead;
 
         private bool _isShootingBullets;
         private bool _isShootingMissile;
         private TimeSpan _lastBulletShotAt;
         private TimeSpan _lastMissileShotAt;
 
-        private List<BulletSprite> _bulletList;
-        private List<MissileSprite> _missileList;
+        private List<BulletSprite> _bulletList = new List<BulletSprite>();
+        private List<MissileSprite> _missileList = new List<MissileSprite>();
+        private List<ExplosionEmitter> _explosionList = new List<ExplosionEmitter>();
+        private List<ChopperSprite> _enemyList = new List<ChopperSprite>();
+
+        private ChopperGenerator _chopperGenerator;
 
         public override void LoadContent()
         {
@@ -40,8 +53,6 @@ namespace Chopper.States.GamePlay
             _missileTexture = LoadTexture(MissileTexture);
             _exhaustTexture = LoadTexture(ExhaustTexture);
             _bulletTexture = LoadTexture(BulletTexture);
-            _bulletList = new List<BulletSprite>();
-            _missileList = new List<MissileSprite>();
 
             AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
             AddGameObject(_playerSprite);
@@ -216,6 +227,53 @@ namespace Chopper.States.GamePlay
 
             _missileList.Add(missileSprite);
             AddGameObject(missileSprite);
+        }
+
+        private void AddChopper(ChopperSprite chopper)
+        {
+            chopper.OnObjectChanged += _chopperSprite_OnObjectChanged;
+            _enemyList.Add(chopper);
+            AddGameObject(chopper);
+        }
+
+        private void _chopperSprite_OnObjectChanged(object sender, BaseGameStateEvent e)
+        {
+            var chopper = (ChopperSprite)sender;
+            switch (e)
+            {
+                case GameplayEvents.EnemyLostLife ge:
+                    if (ge.CurrentLife <= 0)
+                    {
+                        AddExplosion(new Vector2(chopper.Position.X - 40, chopper.Position.Y - 40));
+                        chopper.Destroy();
+                    }
+                    break;
+            }
+        }
+
+        private void AddExplosion(Vector2 position)
+        {
+            var explosion = new ExplosionEmitter(_explosionTexture, position);
+            AddGameObject(explosion);
+            _explosionList.Add(explosion);
+        }
+
+        private void UpdateExplosions(GameTime gameTime)
+        {
+            foreach (var explosion in _explosionList)
+            {
+                explosion.Update(gameTime);
+
+                if (explosion.Age > ExplosionActiveLength)
+                {
+                    explosion.Deactivate();
+                }
+
+                if (explosion.Age > MaxExplosionAge)
+                {
+                    RemoveGameObject(explosion);
+                }
+            }
         }
     }
 }

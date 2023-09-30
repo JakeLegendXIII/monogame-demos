@@ -13,6 +13,8 @@ namespace Chopper.Engine.Objects
         public int zIndex;
         public event EventHandler<BaseGameStateEvent> OnObjectChanged;
 
+        public bool Destroyed { get; private set; }
+
         public int Width
         {
             get { return _texture.Width; }
@@ -40,6 +42,11 @@ namespace Chopper.Engine.Objects
         public void SendEvent(BaseGameStateEvent e)
         {
             OnObjectChanged?.Invoke(this, e);
+        }
+
+        public void Destroy()
+        {
+            Destroyed = true;
         }
     }
 }
