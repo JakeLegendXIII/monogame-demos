@@ -1,7 +1,7 @@
 ﻿using Chopper.Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using System;
 
 namespace Chopper.Engine.Objects
 {
@@ -11,7 +11,7 @@ namespace Chopper.Engine.Objects
 
         protected Vector2 _position;
         public int zIndex;
-
+        public event EventHandler<BaseGameStateEvent> OnObjectChanged;
 
         public int Width
         {
@@ -35,6 +35,11 @@ namespace Chopper.Engine.Objects
         public virtual void Render(SpriteBatch spriteBatch)
         {            
             spriteBatch.Draw(_texture, _position, Color.White);
+        }
+
+        public void SendEvent(BaseGameStateEvent e)
+        {
+            OnObjectChanged?.Invoke(this, e);
         }
     }
 }
