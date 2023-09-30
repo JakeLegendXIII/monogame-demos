@@ -53,9 +53,60 @@ namespace Chopper.Objects
 
         private List<(int, Vector2)> _path;
 
-        public ChopperSprite(Texture2D texture)
+        public ChopperSprite(Texture2D texture, List<(int, Vector2)> path)
         {
             _texture = texture;
+            _path = path;
+        }
+
+        public void Update()
+        {
+            // Choppers follow a path where the direction changes at a certain frame, which is tracked by the chopper's age
+            foreach (var p in _path)
+            {
+                int pAge = p.Item1;
+                Vector2 pDirection = p.Item2;
+
+                if (_age > pAge)
+                {
+                    _direction = pDirection;
+                }
+            }
+
+            Position += (_direction * Speed);
+
+            _age++;
+        }
+
+        public override void Render(SpriteBatch spriteBatch)
+        {
+            var chopperRect = new Rectangle(ChopperStartX, ChopperStartY, ChopperWidth, ChopperHeight);
+            var chopperDestRect = new Rectangle(_position.ToPoint(), new Point(ChopperWidth, ChopperHeight));
+
+            var bladesRect = new Rectangle(BladesStartX, BladesStartY, BladesWidth, BladesHeight);
+            var bladesDestRect = new Rectangle(_position.ToPoint(), new Point(BladesWidth, BladesHeight));
+
+            // if the chopper was just hit and is flashing, Color should alternate between OrangeRed and White
+            var color = GetColor();
+            spriteBatch.Draw(_texture, chopperDestRect, chopperRect, color, MathHelper.Pi, new Vector2(ChopperBladePosX, ChopperBladePosY), SpriteEffects.None, 0f);
+            spriteBatch.Draw(_texture, bladesDestRect, bladesRect, Color.White, _angle, new Vector2(BladesCenterX, BladesCenterY), SpriteEffects.None, 0f);
+
+            _angle += BladeSpeed;
+        }
+
+        private Color GetColor()
+        {
+            var color = Color.White;
+            //foreach (var flashStartEndFrames in GetFlashStartEndFrames())
+            //{
+            //    if (_hitAt >= flashStartEndFrames.Item1 && _hitAt < flashStartEndFrames.Item2)
+            //    {
+            //        color = Color.OrangeRed;
+            //    }
+            //}
+
+            _hitAt++;
+            return color;
         }
 
         public override void OnNotify(BaseGameStateEvent gameEvent)

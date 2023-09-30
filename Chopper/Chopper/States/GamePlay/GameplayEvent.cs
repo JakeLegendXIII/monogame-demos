@@ -1,9 +1,5 @@
-﻿using Chopper.Engine.States;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chopper.Engine.Objects;
+using Chopper.Engine.States;
 
 namespace Chopper.States.GamePlay
 {
