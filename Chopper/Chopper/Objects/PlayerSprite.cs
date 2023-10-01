@@ -21,6 +21,7 @@ namespace Chopper.Objects
         public PlayerSprite(Texture2D texture)
         {
             _texture = texture;
+            
             AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BB1PosX, BB1PosY), BB1Width, BB1Height));
             AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BB2PosX, BB2PosY), BB2Width, BB2Height));
         }
