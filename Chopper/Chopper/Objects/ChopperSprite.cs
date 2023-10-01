@@ -57,7 +57,7 @@ namespace Chopper.Objects
         {
             _texture = texture;
             _path = path;
-            // AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
+            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
         }
 
         public void Update()

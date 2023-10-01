@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Chopper.Objects
 {
-    public class MissileSprite : BaseGameObject
+    public class MissileSprite : BaseGameObject, IGameObjectWithDamage
     {
         private const float StartSpeed = 0.5f;
         private const float Acceleration = 0.15f;
@@ -27,6 +27,8 @@ namespace Chopper.Objects
             }
         }
 
+        public int Damage => 25;
+
         public MissileSprite(Texture2D missleTexture, Texture2D exhaustTexture)
         {
             _texture = missleTexture;
@@ -35,6 +37,21 @@ namespace Chopper.Objects
             var ratio = (float)_texture.Height / (float)_texture.Width;
             _missileWidth = 50;
             _missileHeight = (int)(_missileWidth * ratio);
+
+            // note that the missile is scaled down! so it's bounding box must be scaled down as well
+            var bbRatio = (float)_missileWidth / _texture.Width;
+
+            var bbOriginalPositionX = 352;
+            var bbOriginalPositionY = 7;
+            var bbOriginalWidth = 150;
+            var bbOriginalHeight = 500;
+
+            var bbPositionX = bbOriginalPositionX * bbRatio;
+            var bbPositionY = bbOriginalPositionY * bbRatio;
+            var bbWidth = bbOriginalWidth * bbRatio;
+            var bbHeight = bbOriginalHeight * bbRatio;
+
+            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(bbPositionX, bbPositionY), bbWidth, bbHeight));
         }
 
         public void Update(GameTime gameTime)

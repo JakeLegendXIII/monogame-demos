@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication.ExtendedProtection;
 
 namespace Chopper.Engine.States
 {
@@ -23,6 +24,7 @@ namespace Chopper.Engine.States
 
         protected InputManager InputManager { get; set; }
         protected SoundManager _soundManager = new SoundManager();        
+        protected bool _debug = false;
 
         public abstract void LoadContent();
 
@@ -99,6 +101,11 @@ namespace Chopper.Engine.States
             foreach (var gameObject in _gameObjects.OrderBy(x => x.zIndex))
             {
                 gameObject.Render(spriteBatch);
+
+                if (_debug)
+                {
+                    gameObject.RenderBoundingBoxes(spriteBatch);
+                }
             }
         }
 
