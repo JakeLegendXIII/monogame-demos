@@ -14,6 +14,8 @@ namespace Chopper.States.Dev
     {
         private const string CloudTexture = "Sprites/explosion";
         private const string ChopperTexture = "Sprites/chopper";
+        private const string FighterSpriteSheet = "Sprites/Animations/FighterSpriteSheet";
+        private PlayerSprite _player;
 
         private ChopperSprite _chopper;
         private ExplosionEmitter _explosion;
@@ -21,8 +23,12 @@ namespace Chopper.States.Dev
 
         public override void LoadContent()
         {
+            _player = new PlayerSprite(LoadTexture(FighterSpriteSheet));
+            _player.Position = new Vector2(200, 400);
+            AddGameObject(_player);
+
             _chopper = new ChopperSprite(LoadTexture(ChopperTexture), new System.Collections.Generic.List<(int, Vector2)>());
-            _chopper.Position = new Vector2(300, 100);
+            _chopper.Position = new Vector2(600, 100);
             AddGameObject(_chopper);
         }
 
@@ -34,11 +40,28 @@ namespace Chopper.States.Dev
                 {
                     NotifyEvent(new BaseGameStateEvent.GameQuit());
                 }
+
+                if (cmd is DevInputCommand.DevLeft)
+                {
+                    _player.MoveLeft();
+                }
+
+                if (cmd is DevInputCommand.DevRight)
+                {
+                    _player.MoveRight();
+                }
+
+                if (cmd is DevInputCommand.DevNotMoving)
+                {
+                    _player.StopMoving();
+                }
             });
         }
 
         public override void UpdateGameState(GameTime gameTime)
         {
+            _player.Update(gameTime);
+
             if (_explosion == null && gameTime.TotalGameTime > TimeSpan.FromSeconds(2))
             {
                 _explosion = new ExplosionEmitter(LoadTexture(CloudTexture), new Vector2(260, 60));
