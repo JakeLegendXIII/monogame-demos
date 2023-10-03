@@ -16,7 +16,7 @@ namespace Chopper.States.Splash
 
         public override void LoadContent()
         {
-            AddGameObject(new SplashImage(LoadTexture("splash")));
+            AddGameObject(new SplashImage(LoadTexture("Images/splash")));
         }
 
         public override void HandleInput(GameTime gameTime)

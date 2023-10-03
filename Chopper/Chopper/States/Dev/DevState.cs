@@ -12,8 +12,8 @@ namespace Chopper.States.Dev
     /// </summary>
     public class DevState : BaseGameState
     {
-        private const string CloudTexture = "explosion";
-        private const string ChopperTexture = "Chopper";
+        private const string CloudTexture = "Sprites/explosion";
+        private const string ChopperTexture = "Sprites/chopper";
 
         private ChopperSprite _chopper;
         private ExplosionEmitter _explosion;
