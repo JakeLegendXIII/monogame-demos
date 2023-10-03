@@ -19,10 +19,13 @@ namespace Chopper.States.GamePlay
             {
                 commands.Add(new GameplayInputCommand.PlayerMoveLeft());
             }
-
-            if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
+            else if (state.IsKeyDown(Keys.Right) || state.IsKeyDown(Keys.D))
             {
                 commands.Add(new GameplayInputCommand.PlayerMoveRight());
+            }
+            else
+            {
+                commands.Add(new GameplayInputCommand.PlayerStopsMoving());
             }
 
             if (state.IsKeyDown(Keys.Space))
@@ -51,20 +54,26 @@ namespace Chopper.States.GamePlay
             {
                 commands.Add(new GameplayInputCommand.PlayerMoveLeft());
             }
-
-            if (state.DPad.Right == ButtonState.Pressed)
+            else if (state.DPad.Right == ButtonState.Pressed)
             {
                 commands.Add(new GameplayInputCommand.PlayerMoveRight());
+            }
+            else
+            {
+                commands.Add(new GameplayInputCommand.PlayerStopsMoving());
             }
 
             if (state.ThumbSticks.Left.X < 0)
             {
                 commands.Add(new GameplayInputCommand.PlayerMoveLeft());
             }
-
-            if (state.ThumbSticks.Left.X > 0)
+            else if (state.ThumbSticks.Left.X > 0)
             {
                 commands.Add(new GameplayInputCommand.PlayerMoveRight());
+            }
+            else
+            {
+                commands.Add(new GameplayInputCommand.PlayerStopsMoving());
             }
 
             return commands;

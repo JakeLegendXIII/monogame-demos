@@ -17,7 +17,7 @@ namespace Chopper.States.GamePlay
     public class GameplayState : BaseGameState
     {
         private const string BackgroundTexture = "Sprites/Barren";
-        private const string PlayerFighter = "Sprites/fighter";
+        private const string PlayerFighter = "Sprites/Animations/FighterSpriteSheet";
         private const string BulletTexture = "Sprites/bullet";
         private const string ExhaustTexture = "Sprites/Cloud";
         private const string MissileTexture = "Sprites/Missile";
@@ -82,6 +82,8 @@ namespace Chopper.States.GamePlay
 
         public override void UpdateGameState(GameTime gameTime)
         {
+            _playerSprite.Update(gameTime);
+
             foreach (var bullet in _bulletList)
             {
                 bullet.MoveUp();
@@ -254,6 +256,11 @@ namespace Chopper.States.GamePlay
                 if (cmd is GameplayInputCommand.PlayerShoots && !_playerDead)
                 {
                     Shoot(gameTime);
+                }
+
+                if (cmd is GameplayInputCommand.PlayerStopsMoving && !_playerDead)
+                {
+                    _playerSprite.StopMoving();
                 }
             });
         }
