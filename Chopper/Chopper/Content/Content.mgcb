@@ -67,6 +67,18 @@
 /processorParam:Quality=Best
 /build:Sounds/missileSound.wav
 
+#begin Sprites/Animations/FighterSpriteSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Animations/FighterSpriteSheet.png
+
 #begin Sprites/Barren.png
 /importer:TextureImporter
 /processor:TextureProcessor
