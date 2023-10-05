@@ -69,6 +69,11 @@ namespace Chopper.Engine.States
             return _contentManager.Load<SoundEffect>(soundName);
         }
 
+        protected SpriteFont LoadFont(string fontName)
+        {
+            return _contentManager.Load<SpriteFont>(fontName);
+        }
+
         protected void NotifyEvent(BaseGameStateEvent gameEvent, object argument = null)
         {
             OnEventNotification?.Invoke(this, gameEvent);
@@ -96,7 +101,7 @@ namespace Chopper.Engine.States
             _gameObjects.Remove(gameObject);
         }
 
-        public void Render(SpriteBatch spriteBatch)
+        public virtual void Render(SpriteBatch spriteBatch)
         {
             foreach (var gameObject in _gameObjects.OrderBy(x => x.zIndex))
             {

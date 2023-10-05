@@ -11,6 +11,7 @@ using Chopper.Particles;
 using Microsoft.Xna.Framework.Audio;
 using Chopper.Engine.Objects;
 using System.Threading.Tasks;
+using Chopper.Objects.Text;
 
 namespace Chopper.States.GamePlay
 {
@@ -24,7 +25,19 @@ namespace Chopper.States.GamePlay
         private const string ChopperTexture = "Sprites/chopper";
         private const string ExplosionTexture = "Sprites/explosion";
 
-        private const int MaxExplosionAge = 100; // 10 seconds at 60 frames per second = 600
+        private const string TextFont = "Fonts/Lives";
+        private const string GameOverFont = "Fonts/GameOver";
+
+        private const string BulletSound = "Sounds/bulletSound";
+        private const string MissileSound = "Sounds/missileSound";
+
+        private const string Soundtrack1 = "Music/FutureAmbient_1";
+        private const string Soundtrack2 = "Music/FutureAmbient_2";
+
+        private const int StartingPlayerLives = 3;
+        private int _playerLives = StartingPlayerLives;
+
+        private const int MaxExplosionAge = 600; // 10 seconds
         private const int ExplosionActiveLength = 75; // emit particles for 1.2 seconds and let them fade out for 10 seconds
 
         private Texture2D _missileTexture;
@@ -32,9 +45,12 @@ namespace Chopper.States.GamePlay
         private Texture2D _bulletTexture;
         private Texture2D _explosionTexture;
         private Texture2D _chopperTexture;
+        private Texture2D _screenBoxTexture;
 
+        private LivesText _livesText;
         private PlayerSprite _playerSprite;
         private bool _playerDead;
+        private bool _gameOver = false;
 
         private bool _isShootingBullets;
         private bool _isShootingMissile;
@@ -46,35 +62,35 @@ namespace Chopper.States.GamePlay
         private List<ExplosionEmitter> _explosionList = new List<ExplosionEmitter>();
         private List<ChopperSprite> _enemyList = new List<ChopperSprite>();
 
-        private ChopperGenerator _chopperGenerator;                
+        private ChopperGenerator _chopperGenerator;
 
         public override void LoadContent()
         {
             // Toggle on and off the collider visual
             //_debug = true;
-            _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
             _missileTexture = LoadTexture(MissileTexture);
             _exhaustTexture = LoadTexture(ExhaustTexture);
             _bulletTexture = LoadTexture(BulletTexture);
             _explosionTexture = LoadTexture(ExplosionTexture);
             _chopperTexture = LoadTexture(ChopperTexture);
 
-            AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
-            AddGameObject(_playerSprite);
+            _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
+            _livesText = new LivesText(LoadFont(TextFont));
+            _livesText.NbLives = StartingPlayerLives;
+            _livesText.Position = new Vector2(10.0f, 690.0f);
 
-            var playerXPos = _viewportWidth / 2 - _playerSprite.Width / 2;
-            var playerYPos = _viewportHeight - _playerSprite.Height - 30;
-            _playerSprite.Position = new Vector2(playerXPos, playerYPos);
+            AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
+            AddGameObject(_livesText);
 
             // load sound effects and register in the sound manager
-            var bulletSound = LoadSound("Sounds/bulletSound");
-            var missileSound = LoadSound("Sounds/missileSound");
+            var bulletSound = LoadSound(BulletSound);
+            var missileSound = LoadSound(MissileSound);
             _soundManager.RegisterSound(new GameplayEvents.PlayerShootsBullets(), bulletSound);
             _soundManager.RegisterSound(new GameplayEvents.PlayerShootsMissile(), missileSound, 0.4f, -0.2f, 0.0f);
 
             // load soundtracks into sound manager
-            var track1 = LoadSound("Music/FutureAmbient_1").CreateInstance();
-            var track2 = LoadSound("Music/FutureAmbient_2").CreateInstance();
+            var track1 = LoadSound(Soundtrack1).CreateInstance();
+            var track2 = LoadSound(Soundtrack2).CreateInstance();
             _soundManager.SetSoundtrack(new List<SoundEffectInstance>() { track1, track2 });
 
             ResetGame();
@@ -108,6 +124,30 @@ namespace Chopper.States.GamePlay
             _bulletList = CleanObjects(_bulletList);
             _missileList = CleanObjects(_missileList);
             _enemyList = CleanObjects(_enemyList);
+        }
+
+        public override void Render(SpriteBatch spriteBatch)
+        {
+            base.Render(spriteBatch);
+
+            if (_gameOver)
+            {
+                // Draw black rectangle at 30% transparency
+                var screenBoxTexture = GetScreenBoxTexture(spriteBatch.GraphicsDevice);
+                var viewportRectangle = new Rectangle(0, 0, _viewportWidth, _viewportHeight);
+                spriteBatch.Draw(screenBoxTexture, viewportRectangle, Color.Black * 0.3f);
+            }
+        }
+
+        private Texture2D GetScreenBoxTexture(GraphicsDevice graphicsDevice)
+        {
+            if (_screenBoxTexture == null)
+            {
+                _screenBoxTexture = new Texture2D(graphicsDevice, 1, 1);
+                _screenBoxTexture.SetData(new Color[] { Color.White });
+            }
+
+            return _screenBoxTexture;
         }
 
         private void DetectCollisions()
@@ -144,13 +184,35 @@ namespace Chopper.States.GamePlay
         private async void KillPlayer()
         {
             _playerDead = true;
+            _playerLives -= 1;
+            _livesText.NbLives = _playerLives;
 
             AddExplosion(_playerSprite.Position);
             RemoveGameObject(_playerSprite);
 
             await Task.Delay(TimeSpan.FromSeconds(2));
-            ResetGame();
+
+            if (_playerLives > 0)
+            {
+                ResetGame();
+            }
+            else
+            {
+                GameOver();
+            }
         }
+
+        private void GameOver()
+        {
+            var font = LoadFont(GameOverFont);
+            var gameOverText = new GameOverText(font);
+            var textPositionOnScreen = new Vector2(460, 300);
+
+            gameOverText.Position = textPositionOnScreen;
+            AddGameObject(gameOverText);
+            _gameOver = true;
+        }
+
 
         private void ResetGame()
         {
