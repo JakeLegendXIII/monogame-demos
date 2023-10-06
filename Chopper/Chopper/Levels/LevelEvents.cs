@@ -1,5 +1,4 @@
-﻿
-using Chopper.Engine.States;
+﻿using Chopper.Engine.States;
 
 namespace Chopper.Levels
 {
