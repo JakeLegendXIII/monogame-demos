@@ -1,5 +1,4 @@
-﻿
-using Chopper.Engine.States;
+﻿using Chopper.Engine.States;
 using System;
 using System.Collections.Generic;
 using System.IO;
