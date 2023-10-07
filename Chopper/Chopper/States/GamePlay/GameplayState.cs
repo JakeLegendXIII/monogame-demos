@@ -12,11 +12,14 @@ using Microsoft.Xna.Framework.Audio;
 using Chopper.Engine.Objects;
 using System.Threading.Tasks;
 using Chopper.Objects.Text;
+using Chopper.Levels;
 
 namespace Chopper.States.GamePlay
 {
     public class GameplayState : BaseGameState
     {
+        private const float SCOLLING_SPEED = 2.0f;
+
         private const string BackgroundTexture = "Sprites/Barren";
         private const string PlayerFighter = "Sprites/Animations/FighterSpriteSheet";
         private const string BulletTexture = "Sprites/bullet";
@@ -64,6 +67,8 @@ namespace Chopper.States.GamePlay
 
         private ChopperGenerator _chopperGenerator;
 
+        private Level _level;
+
         public override void LoadContent()
         {
             // Toggle on and off the collider visual
@@ -93,12 +98,25 @@ namespace Chopper.States.GamePlay
             var track2 = LoadSound(Soundtrack2).CreateInstance();
             _soundManager.SetSoundtrack(new List<SoundEffectInstance>() { track1, track2 });
 
+            _chopperGenerator = new ChopperGenerator(_chopperTexture, AddChopper);
+
+            var levelReader = new LevelReader(_viewportWidth);
+            _level = new Level(levelReader);
+
+            _level.OnGenerateEnemies += _level_OnGenerateEnemies;
+            _level.OnGenerateTurret += _level_OnGenerateTurret;
+            _level.OnLevelStart += _level_OnLevelStart;
+            _level.OnLevelEnd += _level_OnLevelEnd;
+            _level.OnLevelNoRowEvent += _level_OnLevelNoRowEvent;
+
             ResetGame();
         }
 
         public override void UpdateGameState(GameTime gameTime)
         {
             _playerSprite.Update(gameTime);
+
+            _level.GenerateLevelEvents(gameTime);
 
             foreach (var bullet in _bulletList)
             {
@@ -246,9 +264,6 @@ namespace Chopper.States.GamePlay
             _explosionList = new List<ExplosionEmitter>();
             _enemyList = new List<ChopperSprite>();
 
-            _chopperGenerator = new ChopperGenerator(_chopperTexture, 4, AddChopper);
-            _chopperGenerator.GenerateChoppers();
-
             AddGameObject(_playerSprite);
 
             // position the player in the middle of the screen, at the bottom, leaving a slight gap at the bottom
@@ -257,6 +272,7 @@ namespace Chopper.States.GamePlay
             _playerSprite.Position = new Vector2(playerXPos, playerYPos);
 
             _playerDead = false;
+            _level.Reset();
         }
 
         private void RegulateShootingRate(GameTime gameTime)
@@ -450,6 +466,35 @@ namespace Chopper.States.GamePlay
                     RemoveGameObject(explosion);
                 }
             }
+        }
+
+        private void _level_OnLevelStart(object sender, LevelEvents.StartLevel e)
+        {
+
+        }
+
+        private void _level_OnLevelEnd(object sender, LevelEvents.EndLevel e)
+        {       
+        }
+
+        private void _level_OnLevelNoRowEvent(object sender, LevelEvents.NoRowEvent e)
+        {
+
+        }
+
+        private void _level_OnGenerateTurret(object sender, LevelEvents.GenerateTurret e)
+        {
+     
+        }
+
+        private void _turret_OnTurretShoots(object sender, GameplayEvents.TurretShoots e)
+        {
+
+        }
+
+        private void _level_OnGenerateEnemies(object sender, LevelEvents.GenerateEnemies e)
+        {
+            _chopperGenerator.GenerateChoppers(e.NumberOfEnemies);
         }
     }
 }

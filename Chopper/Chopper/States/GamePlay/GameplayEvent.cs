@@ -1,5 +1,6 @@
 ﻿using Chopper.Engine.Objects;
 using Chopper.Engine.States;
+using Microsoft.Xna.Framework;
 
 namespace Chopper.States.GamePlay
 {
@@ -24,6 +25,22 @@ namespace Chopper.States.GamePlay
             public EnemyLostLife(int currentLife)
             {
                 CurrentLife = currentLife;
+            }
+        }
+
+        public class TurretShoots : GameplayEvents
+        {
+            public Vector2 Direction { get; private set; }
+            public Vector2 Bullet1Position { get; private set; }
+            public Vector2 Bullet2Position { get; private set; }
+            public float Angle { get; private set; }
+
+            public TurretShoots(Vector2 bullet1Pos, Vector2 bullet2Pos, float angle, Vector2 direction)
+            {
+                Direction = direction;
+                Bullet1Position = bullet1Pos;
+                Bullet2Position = bullet2Pos;
+                Angle = angle;
             }
         }
     }

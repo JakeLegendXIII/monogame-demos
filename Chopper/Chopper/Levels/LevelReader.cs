@@ -22,7 +22,7 @@ namespace Chopper.Levels
         {
             var assembly = Assembly.GetExecutingAssembly();
             var assemblyName = assembly.FullName.Split(',')[0];
-            var fileName = $"{assemblyName}.Levels.Level{number}.txt";
+            var fileName = $"{assemblyName}.Levels.LevelData.Level{number}.txt";
 
             var stream = assembly.GetManifestResourceStream(fileName);
             var reader = new StreamReader(stream);
