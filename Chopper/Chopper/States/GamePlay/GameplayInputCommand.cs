@@ -12,7 +12,9 @@ namespace Chopper.States.GamePlay
         public class GameExit : GameplayInputCommand { }
         public class PlayerMoveLeft : GameplayInputCommand { }
         public class PlayerMoveRight : GameplayInputCommand { }
-        public class PlayerShoots : GameplayInputCommand { }
+        public class PlayerMoveUp : GameplayInputCommand { }
+        public class PlayerMoveDown : GameplayInputCommand { }
         public class PlayerStopsMoving : GameplayInputCommand { }
+        public class PlayerShoots : GameplayInputCommand { }
     }
 }
