@@ -7,7 +7,8 @@ namespace Chopper.Objects
 {
     public class PlayerSprite : BaseGameObject
     {
-        private const float PLAYER_SPEED = 10.0f;
+        private const float PLAYER_HORIZONTAL_SPEED = 10.0f;
+        private const float PLAYER_VERTICAL_SPEED = 8.0f;
 
         private const int BB1PosX = 29;
         private const int BB1PosY = 2;
@@ -65,7 +66,7 @@ namespace Chopper.Objects
             _currentAnimation = _turnLeftAnimation;
             _leftToCenterAnimation.Reset();
             _turnRightAnimation.Reset();
-            Position = new Vector2(Position.X - PLAYER_SPEED, Position.Y);
+            Position = new Vector2(Position.X - PLAYER_HORIZONTAL_SPEED, Position.Y);
         }
 
         public void MoveRight()
@@ -75,7 +76,17 @@ namespace Chopper.Objects
             _currentAnimation = _turnRightAnimation;
             _rightToCenterAnimation.Reset();
             _turnLeftAnimation.Reset();
-            Position = new Vector2(Position.X + PLAYER_SPEED, Position.Y);
+            Position = new Vector2(Position.X + PLAYER_HORIZONTAL_SPEED, Position.Y);
+        }
+
+        public void MoveUp()
+        {
+            Position = new Vector2(Position.X, Position.Y - PLAYER_VERTICAL_SPEED);
+        }
+
+        public void MoveDown()
+        {
+            Position = new Vector2(Position.X, Position.Y + PLAYER_VERTICAL_SPEED);
         }
 
         public void StopMoving()

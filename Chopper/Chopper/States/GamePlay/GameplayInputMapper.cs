@@ -80,9 +80,7 @@ namespace Chopper.States.GamePlay
             {
                 commands.Add(new GameplayInputCommand.PlayerStopsMoving());
             }
-
             
-
             if (state.ThumbSticks.Left.X < 0)
             {
                 commands.Add(new GameplayInputCommand.PlayerMoveLeft());
@@ -90,6 +88,14 @@ namespace Chopper.States.GamePlay
             else if (state.ThumbSticks.Left.X > 0)
             {
                 commands.Add(new GameplayInputCommand.PlayerMoveRight());
+            }
+            else if (state.ThumbSticks.Left.Y > 0)
+            {
+                commands.Add(new GameplayInputCommand.PlayerMoveUp());
+            }
+            else if (state.ThumbSticks.Left.Y < 0)
+            {
+                commands.Add(new GameplayInputCommand.PlayerMoveDown());
             }
             else
             {
