@@ -18,7 +18,7 @@ namespace Chopper.States.GamePlay
 {
     public class GameplayState : BaseGameState
     {
-        private const float SCOLLING_SPEED = 2.0f;
+        private const float SCROLLING_SPEED = 2.0f;
 
         private const string BackgroundTexture = "Sprites/Barren";
         private const string PlayerFighter = "Sprites/Animations/FighterSpriteSheet";
@@ -84,7 +84,7 @@ namespace Chopper.States.GamePlay
             _livesText.NbLives = StartingPlayerLives;
             _livesText.Position = new Vector2(10.0f, 690.0f);
 
-            AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
+            AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture), SCROLLING_SPEED));
             AddGameObject(_livesText);
 
             // load sound effects and register in the sound manager
@@ -435,17 +435,17 @@ namespace Chopper.States.GamePlay
 
         private void AddChopper(ChopperSprite chopper)
         {
-            chopper.OnObjectChanged += _chopperSprite_OnObjectChanged;
+            chopper.OnObjectChanged += _onObjectChanged;
             _enemyList.Add(chopper);
             AddGameObject(chopper);
         }
 
-        private void _chopperSprite_OnObjectChanged(object sender, BaseGameStateEvent e)
+        private void _onObjectChanged(object sender, BaseGameStateEvent e)
         {
-            var chopper = (ChopperSprite)sender;
+            var chopper = (BaseGameObject)sender;
             switch (e)
             {
-                case GameplayEvents.EnemyLostLife ge:
+                case GameplayEvents.ObjectLostLife ge:
                     if (ge.CurrentLife <= 0)
                     {
                         AddExplosion(new Vector2(chopper.Position.X - 40, chopper.Position.Y - 40));

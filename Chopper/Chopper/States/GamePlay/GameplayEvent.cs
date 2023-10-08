@@ -19,10 +19,10 @@ namespace Chopper.States.GamePlay
             }
         }
 
-        public class EnemyLostLife : GameplayEvents
+        public class ObjectLostLife : GameplayEvents
         {
             public int CurrentLife { get; private set; }
-            public EnemyLostLife(int currentLife)
+            public ObjectLostLife(int currentLife)
             {
                 CurrentLife = currentLife;
             }

@@ -6,12 +6,13 @@ namespace Chopper.Objects
 {
     public class TerrainBackground : BaseGameObject
     {
-        private float SCROLLING_SPEED = 2.0f;
+        private float _scrollingSpeed;
 
-        public TerrainBackground(Texture2D texture)
+        public TerrainBackground(Texture2D texture, float scrollingSpeed)
         {
             _texture = texture;
             _position = new Vector2(0, 0);
+            _scrollingSpeed = scrollingSpeed;
         }
 
         public override void Render(SpriteBatch spriteBatch)
@@ -32,7 +33,7 @@ namespace Chopper.Objects
                 }
             }
 
-            _position.Y = (int)(_position.Y + SCROLLING_SPEED) % _texture.Height;
+            _position.Y = (int)(_position.Y + _scrollingSpeed) % _texture.Height;
         }
     }
 }

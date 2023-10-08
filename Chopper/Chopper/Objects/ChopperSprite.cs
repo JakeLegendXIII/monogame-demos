@@ -101,7 +101,7 @@ namespace Chopper.Objects
             {
                 case GameplayEvents.ChopperHitBy m:
                     JustHit(m.HitBy);
-                    SendEvent(new GameplayEvents.EnemyLostLife(_life));
+                    SendEvent(new GameplayEvents.ObjectLostLife(_life));
                     break;
             }
         }
