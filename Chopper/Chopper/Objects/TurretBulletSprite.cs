@@ -30,7 +30,7 @@ namespace Chopper.Objects
 
         public void Update()
         {
-            Position = Position + _direction * BULLET_SPEED;
+            Position += _direction * BULLET_SPEED;
         }
 
         public override void Render(SpriteBatch spriteBatch)
