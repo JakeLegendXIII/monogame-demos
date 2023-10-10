@@ -13,6 +13,16 @@ namespace Chopper.Engine.Objects
 
         protected Vector2 _position = Vector2.One;
         protected List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
+        protected float _angle;
+        protected Vector2 _direction;
+
+        protected Vector2 CalculateDirection(float angleOffset = 0.0f)
+        {
+            _direction = new Vector2((float)Math.Cos(_angle - angleOffset), (float)Math.Sin(_angle - angleOffset));
+            _direction.Normalize();
+
+            return _direction;
+        }
 
         public int zIndex;
         public event EventHandler<BaseGameStateEvent> OnObjectChanged;
