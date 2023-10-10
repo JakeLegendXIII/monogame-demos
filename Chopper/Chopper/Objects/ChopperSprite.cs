@@ -99,7 +99,7 @@ namespace Chopper.Objects
         {
             switch (gameEvent)
             {
-                case GameplayEvents.ChopperHitBy m:
+                case GameplayEvents.ObjectHitBy m:
                     JustHit(m.HitBy);
                     SendEvent(new GameplayEvents.ObjectLostLife(_life));
                     break;

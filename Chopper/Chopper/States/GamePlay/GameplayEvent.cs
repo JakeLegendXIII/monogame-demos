@@ -8,12 +8,12 @@ namespace Chopper.States.GamePlay
     {
         public class PlayerShootsBullets : GameplayEvents { }
         public class PlayerShootsMissile : GameplayEvents { }
+        public class PlayerDies : GameplayEvents { }
 
-
-        public class ChopperHitBy : GameplayEvents
+        public class ObjectHitBy : GameplayEvents
         {
             public IGameObjectWithDamage HitBy { get; private set; }
-            public ChopperHitBy(IGameObjectWithDamage gameObject)
+            public ObjectHitBy(IGameObjectWithDamage gameObject)
             {
                 HitBy = gameObject;
             }

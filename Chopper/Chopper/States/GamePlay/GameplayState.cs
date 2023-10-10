@@ -176,7 +176,7 @@ namespace Chopper.States.GamePlay
 
             bulletCollisionDetector.DetectCollisions(_enemyList, (bullet, chopper) =>
             {
-                var hitEvent = new GameplayEvents.ChopperHitBy(bullet);
+                var hitEvent = new GameplayEvents.ObjectHitBy(bullet);
                 chopper.OnNotify(hitEvent);
                 _soundManager.OnNotify(hitEvent);
                 bullet.Destroy();
@@ -184,7 +184,7 @@ namespace Chopper.States.GamePlay
 
             missileCollisionDetector.DetectCollisions(_enemyList, (missile, chopper) =>
             {
-                var hitEvent = new GameplayEvents.ChopperHitBy(missile);
+                var hitEvent = new GameplayEvents.ObjectHitBy(missile);
                 chopper.OnNotify(hitEvent);
                 _soundManager.OnNotify(hitEvent);
                 missile.Destroy();
