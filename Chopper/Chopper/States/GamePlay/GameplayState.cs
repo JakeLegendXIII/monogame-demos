@@ -249,27 +249,28 @@ namespace Chopper.States.GamePlay
 
         private async void KillPlayer()
         {
-            if (_indestructible == false)
+            if (_indestructible)
             {
-                _playerDead = true;
-                _playerLives -= 1;
-                _livesText.NbLives = _playerLives;
-
-                AddExplosion(_playerSprite.Position);
-                RemoveGameObject(_playerSprite);
-
-                await Task.Delay(TimeSpan.FromSeconds(2));
-
-                if (_playerLives > 0)
-                {
-                    ResetGame();
-                }
-                else
-                {
-                    GameOver();
-                }
+                return;
             }
-       
+
+            _playerDead = true;
+            _playerLives -= 1;
+            _livesText.NbLives = _playerLives;
+
+            AddExplosion(_playerSprite.Position);
+            RemoveGameObject(_playerSprite);
+
+            await Task.Delay(TimeSpan.FromSeconds(2));
+
+            if (_playerLives > 0)
+            {
+                ResetGame();
+            }
+            else
+            {
+                GameOver();
+            }
         }
 
         private void GameOver()
