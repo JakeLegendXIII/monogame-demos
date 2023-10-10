@@ -74,7 +74,7 @@ namespace Chopper.States.GamePlay
 
         private ChopperGenerator _chopperGenerator;
 
-        private Level _level;
+        private Level _level;        
 
         public override void LoadContent()
         {
@@ -249,23 +249,27 @@ namespace Chopper.States.GamePlay
 
         private async void KillPlayer()
         {
-            _playerDead = true;
-            _playerLives -= 1;
-            _livesText.NbLives = _playerLives;
-
-            AddExplosion(_playerSprite.Position);
-            RemoveGameObject(_playerSprite);
-
-            await Task.Delay(TimeSpan.FromSeconds(2));
-
-            if (_playerLives > 0)
+            if (_indestructible == false)
             {
-                ResetGame();
+                _playerDead = true;
+                _playerLives -= 1;
+                _livesText.NbLives = _playerLives;
+
+                AddExplosion(_playerSprite.Position);
+                RemoveGameObject(_playerSprite);
+
+                await Task.Delay(TimeSpan.FromSeconds(2));
+
+                if (_playerLives > 0)
+                {
+                    ResetGame();
+                }
+                else
+                {
+                    GameOver();
+                }
             }
-            else
-            {
-                GameOver();
-            }
+       
         }
 
         private void GameOver()
