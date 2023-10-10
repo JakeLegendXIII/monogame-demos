@@ -16,7 +16,7 @@ namespace Chopper.Objects
         public BulletSprite(Texture2D texture)
         {
             _texture = texture;
-            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
+            AddBoundingBox(new Engine.Objects.Collisions.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
         }
 
         public int Damage => 10;

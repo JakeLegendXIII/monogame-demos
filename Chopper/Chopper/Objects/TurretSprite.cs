@@ -57,7 +57,7 @@ namespace Chopper.Objects
             _baseCenterPosition = new Vector2(_baseTextureWidth / 2f, _baseTextureHeight / 2f);
             _cannonCenterPosition = new Vector2(_cannonTexture.Width / 2f, CannonCenterPosY);
 
-            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(0, 0), _baseTexture.Width * Scale, _baseTexture.Height * Scale));
+            AddBoundingBox(new Engine.Objects.Collisions.BoundingBox(new Vector2(0, 0), _baseTexture.Width * Scale, _baseTexture.Height * Scale));
         }
 
         public void Update(GameTime gameTime, Vector2 currentPlayerCenter)

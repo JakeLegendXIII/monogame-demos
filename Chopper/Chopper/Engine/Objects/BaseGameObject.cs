@@ -1,4 +1,5 @@
-﻿using Chopper.Engine.States;
+﻿using Chopper.Engine.Objects.Collisions;
+using Chopper.Engine.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -12,7 +13,7 @@ namespace Chopper.Engine.Objects
         protected Texture2D _boundingBoxTexture;
 
         protected Vector2 _position = Vector2.One;
-        protected List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
+        protected List<Collisions.BoundingBox> _boundingBoxes = new List<Collisions.BoundingBox>();
         protected float _angle;
         protected Vector2 _direction;
 
@@ -47,7 +48,7 @@ namespace Chopper.Engine.Objects
             }
         }
 
-        public List<BoundingBox> BoundingBoxes
+        public List<Collisions.BoundingBox> BoundingBoxes
         {
             get
             {
@@ -89,7 +90,7 @@ namespace Chopper.Engine.Objects
             OnObjectChanged?.Invoke(this, e);
         }
 
-        public void AddBoundingBox(BoundingBox bb)
+        public void AddBoundingBox(Collisions.BoundingBox bb)
         {
             _boundingBoxes.Add(bb);
         }

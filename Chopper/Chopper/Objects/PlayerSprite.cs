@@ -37,12 +37,21 @@ namespace Chopper.Objects
         public override int Height => AnimationCellHeight;
         public override int Width => AnimationCellWidth;
 
+        public Vector2 CenterPosition
+        {
+            get
+            {
+                return Vector2.Add(_position, new Vector2(AnimationCellWidth / 2, AnimationCellHeight / 2));
+            }
+        }
+
+
         public PlayerSprite(Texture2D texture)
         {
             _texture = texture;
             
-            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BB1PosX, BB1PosY), BB1Width, BB1Height));
-            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BB2PosX, BB2PosY), BB2Width, BB2Height));
+            AddBoundingBox(new Engine.Objects.Collisions.BoundingBox(new Vector2(BB1PosX, BB1PosY), BB1Width, BB1Height));
+            AddBoundingBox(new Engine.Objects.Collisions.BoundingBox(new Vector2(BB2PosX, BB2PosY), BB2Width, BB2Height));
 
             _idleRectangle = new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight);
             _turnLeftAnimation.AddFrame(new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);

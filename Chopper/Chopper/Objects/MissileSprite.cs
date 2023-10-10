@@ -51,7 +51,7 @@ namespace Chopper.Objects
             var bbWidth = bbOriginalWidth * bbRatio;
             var bbHeight = bbOriginalHeight * bbRatio;
 
-            AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(bbPositionX, bbPositionY), bbWidth, bbHeight));
+            AddBoundingBox(new Engine.Objects.Collisions.BoundingBox(new Vector2(bbPositionX, bbPositionY), bbWidth, bbHeight));
         }
 
         public void Update(GameTime gameTime)

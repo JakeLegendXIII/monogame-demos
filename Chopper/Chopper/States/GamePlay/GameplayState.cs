@@ -13,6 +13,7 @@ using Chopper.Engine.Objects;
 using System.Threading.Tasks;
 using Chopper.Objects.Text;
 using Chopper.Levels;
+using Chopper.Engine.Objects.Collisions;
 
 namespace Chopper.States.GamePlay
 {
@@ -27,6 +28,9 @@ namespace Chopper.States.GamePlay
         private const string MissileTexture = "Sprites/Missile";
         private const string ChopperTexture = "Sprites/chopper";
         private const string ExplosionTexture = "Sprites/explosion";
+        private const string TurretTexture = "Sprites/Tower";
+        private const string TurretMG2Texture = "Sprites/MG2";
+        private const string TurretBulletTexture = "Sprites/Bullet_MG";
 
         private const string TextFont = "Fonts/Lives";
         private const string GameOverFont = "Fonts/GameOver";
@@ -51,6 +55,7 @@ namespace Chopper.States.GamePlay
         private Texture2D _screenBoxTexture;
 
         private LivesText _livesText;
+        private GameOverText _levelStartEndText;
         private PlayerSprite _playerSprite;
         private bool _playerDead;
         private bool _gameOver = false;
@@ -64,6 +69,8 @@ namespace Chopper.States.GamePlay
         private List<MissileSprite> _missileList = new List<MissileSprite>();
         private List<ExplosionEmitter> _explosionList = new List<ExplosionEmitter>();
         private List<ChopperSprite> _enemyList = new List<ChopperSprite>();
+        private List<TurretBulletSprite> _turretBulletList = new List<TurretBulletSprite>();
+        private List<TurretSprite> _turretList = new List<TurretSprite>();
 
         private ChopperGenerator _chopperGenerator;
 
@@ -81,6 +88,7 @@ namespace Chopper.States.GamePlay
 
             _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
             _livesText = new LivesText(LoadFont(TextFont));
+            _levelStartEndText = new GameOverText(LoadFont(GameOverFont));
             _livesText.NbLives = StartingPlayerLives;
             _livesText.Position = new Vector2(10.0f, 690.0f);
 
@@ -133,15 +141,27 @@ namespace Chopper.States.GamePlay
                 chopper.Update();
             }
 
+            foreach (var turret in _turretList)
+            {
+                turret.Update(gameTime, _playerSprite.CenterPosition);
+                turret.Active = turret.Position.Y > 0 && turret.Position.Y < _viewportHeight;
+            }
+
+            foreach (var bullet in _turretBulletList)
+            {
+                bullet.Update();
+            }
+
             UpdateExplosions(gameTime);
             RegulateShootingRate(gameTime);
             DetectCollisions();
-           
 
             // get rid of bullets and missiles that have gone out of view
             _bulletList = CleanObjects(_bulletList);
             _missileList = CleanObjects(_missileList);
             _enemyList = CleanObjects(_enemyList);
+            _turretBulletList = CleanObjects(_turretBulletList);
+            _turretList = CleanObjects(_turretList, turret => turret.Position.Y > _viewportHeight + 200);
         }
 
         public override void Render(SpriteBatch spriteBatch)
@@ -170,9 +190,10 @@ namespace Chopper.States.GamePlay
 
         private void DetectCollisions()
         {
-            var bulletCollisionDetector = new AABBCollisionDetector<BulletSprite, ChopperSprite>(_bulletList);
-            var missileCollisionDetector = new AABBCollisionDetector<MissileSprite, ChopperSprite>(_missileList);
+            var bulletCollisionDetector = new AABBCollisionDetector<BulletSprite, BaseGameObject>(_bulletList);
+            var missileCollisionDetector = new AABBCollisionDetector<MissileSprite, BaseGameObject>(_missileList);
             var playerCollisionDetector = new AABBCollisionDetector<ChopperSprite, PlayerSprite>(_enemyList);
+            var turretBulletCollisionDetector = new SegmentAABBCollisionDetector<PlayerSprite>(_playerSprite);
 
             bulletCollisionDetector.DetectCollisions(_enemyList, (bullet, chopper) =>
             {
@@ -190,8 +211,35 @@ namespace Chopper.States.GamePlay
                 missile.Destroy();
             });
 
+            bulletCollisionDetector.DetectCollisions(_turretList, (bullet, turret) =>
+            {
+                var hitEvent = new GameplayEvents.ObjectHitBy(bullet);
+                turret.OnNotify(hitEvent);
+                _soundManager.OnNotify(hitEvent);
+                bullet.Destroy();
+            });
+
+            missileCollisionDetector.DetectCollisions(_turretList, (missile, turret) =>
+            {
+                var hitEvent = new GameplayEvents.ObjectHitBy(missile);
+                turret.OnNotify(hitEvent);
+                _soundManager.OnNotify(hitEvent);
+                missile.Destroy();
+            });
+
             if (!_playerDead)
             {
+                var segments = new List<Segment>();
+                foreach (var bullet in _turretBulletList)
+                {
+                    segments.Add(bullet.CollisionSegment);
+                }
+
+                turretBulletCollisionDetector.DetectCollisions(segments, _ =>
+                {
+                    KillPlayer();
+                });
+
                 playerCollisionDetector.DetectCollisions(_playerSprite, (chopper, player) =>
                 {
                     KillPlayer();
@@ -259,7 +307,19 @@ namespace Chopper.States.GamePlay
                 RemoveGameObject(explosion);
             }
 
+            foreach (var bullet in _turretBulletList)
+            {
+                RemoveGameObject(bullet);
+            }
+
+            foreach (var turret in _turretList)
+            {
+                RemoveGameObject(turret);
+            }
+
             _bulletList = new List<BulletSprite>();
+            _turretBulletList = new List<TurretBulletSprite>();
+            _turretList = new List<TurretSprite>();
             _missileList = new List<MissileSprite>();
             _explosionList = new List<ExplosionEmitter>();
             _enemyList = new List<ChopperSprite>();
@@ -290,14 +350,14 @@ namespace Chopper.States.GamePlay
             }
         }
 
-        private List<T> CleanObjects<T>(List<T> objectList) where T : BaseGameObject
+        private List<T> CleanObjects<T>(List<T> objectList, Func<T, bool> predicate) where T : BaseGameObject
         {
             List<T> listOfItemsToKeep = new List<T>();
             foreach (T item in objectList)
             {
-                var offScreen = item.Position.Y < -50;
+                var performRemoval = predicate(item);
 
-                if (offScreen || item.Destroyed)
+                if (performRemoval || item.Destroyed)
                 {
                     RemoveGameObject(item);
                 }
@@ -309,6 +369,12 @@ namespace Chopper.States.GamePlay
 
             return listOfItemsToKeep;
         }
+
+        private List<T> CleanObjects<T>(List<T> objectList) where T : BaseGameObject
+        {
+            return CleanObjects(objectList, item => item.Position.Y < -50);
+        }
+
 
         public override void HandleInput(GameTime gameTime)
         {
@@ -331,6 +397,11 @@ namespace Chopper.States.GamePlay
                     KeepPlayerInBounds();
                 }
 
+                if (cmd is GameplayInputCommand.PlayerStopsMoving && !_playerDead)
+                {
+                    _playerSprite.StopMoving();
+                }
+
                 if (cmd is GameplayInputCommand.PlayerMoveUp && !_playerDead)
                 {
                     _playerSprite.MoveUp();
@@ -346,11 +417,6 @@ namespace Chopper.States.GamePlay
                 if (cmd is GameplayInputCommand.PlayerShoots && !_playerDead)
                 {
                     Shoot(gameTime);
-                }
-
-                if (cmd is GameplayInputCommand.PlayerStopsMoving && !_playerDead)
-                {
-                    _playerSprite.StopMoving();
                 }
             });
         }
@@ -482,26 +548,52 @@ namespace Chopper.States.GamePlay
 
         private void _level_OnLevelStart(object sender, LevelEvents.StartLevel e)
         {
-
+            _levelStartEndText.Text = "Good luck, Player 1!";
+            _levelStartEndText.Position = new Vector2(350, 300);
+            AddGameObject(_levelStartEndText);
         }
 
         private void _level_OnLevelEnd(object sender, LevelEvents.EndLevel e)
-        {       
+        {
+            _levelStartEndText.Text = "You escaped. Congrats!";
+            _levelStartEndText.Position = new Vector2(300, 300);
+            AddGameObject(_levelStartEndText);
         }
 
         private void _level_OnLevelNoRowEvent(object sender, LevelEvents.NoRowEvent e)
         {
-
+            RemoveGameObject(_levelStartEndText);
         }
 
         private void _level_OnGenerateTurret(object sender, LevelEvents.GenerateTurret e)
         {
-     
+            var turret = new TurretSprite(LoadTexture(TurretTexture), LoadTexture(TurretMG2Texture), SCROLLING_SPEED);
+
+            // position the turret offscreen at the top
+            turret.Position = new Vector2(e.XPosition, -100);
+
+            turret.OnTurretShoots += _turret_OnTurretShoots;
+            turret.OnObjectChanged += _onObjectChanged;
+            AddGameObject(turret);
+
+            _turretList.Add(turret);
         }
 
         private void _turret_OnTurretShoots(object sender, GameplayEvents.TurretShoots e)
         {
+            var bullet1 = new TurretBulletSprite(LoadTexture(TurretBulletTexture), e.Direction, e.Angle);
+            bullet1.Position = e.Bullet1Position;
+            bullet1.zIndex = -10;
 
+            var bullet2 = new TurretBulletSprite(LoadTexture(TurretBulletTexture), e.Direction, e.Angle);
+            bullet2.Position = e.Bullet2Position;
+            bullet2.zIndex = -10;
+
+            AddGameObject(bullet1);
+            AddGameObject(bullet2);
+
+            _turretBulletList.Add(bullet1);
+            _turretBulletList.Add(bullet2);
         }
 
         private void _level_OnGenerateEnemies(object sender, LevelEvents.GenerateEnemies e)
