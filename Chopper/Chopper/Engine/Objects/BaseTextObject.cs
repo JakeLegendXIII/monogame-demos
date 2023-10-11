@@ -8,6 +8,10 @@ namespace Chopper.Engine.Objects
     {
         protected SpriteFont _font;
         public string Text { get; set; }
+        public BaseTextObject(SpriteFont font) : base(null)
+        {
+            _font = font;
+        }
 
         public override void Render(SpriteBatch spriteBatch)
         {

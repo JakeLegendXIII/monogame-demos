@@ -6,7 +6,7 @@ using System;
 const int WIDTH = 1280;
 const int HEIGHT = 720;
 
-using (var game = new MainGame(WIDTH, HEIGHT, new SplashState()))
+using (var game = new MainGame(WIDTH, HEIGHT, new SplashState(), true))
 {
     game.IsFixedTimeStep = true;
     game.TargetElapsedTime = TimeSpan.FromMilliseconds(1000.0f / 60);

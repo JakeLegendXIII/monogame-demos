@@ -5,7 +5,7 @@ namespace Chopper.Objects.Text
 {
     public class GameOverText : BaseTextObject
     {
-        public GameOverText(SpriteFont font)
+        public GameOverText(SpriteFont font) : base(font)
         {
             _font = font;
             Text = "Game Over";           

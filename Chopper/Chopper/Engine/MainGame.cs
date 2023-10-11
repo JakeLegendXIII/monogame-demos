@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics;
 
 namespace Chopper.Engine
 {
@@ -27,7 +28,7 @@ namespace Chopper.Engine
 
         private BaseGameState _firstGameState;
 
-        public MainGame(int width, int height, BaseGameState firstGameState)
+        public MainGame(int width, int height, BaseGameState firstGameState, bool debugMode)
         {
             Content.RootDirectory = "Content";
             graphics = new GraphicsDeviceManager(this);
@@ -36,6 +37,9 @@ namespace Chopper.Engine
             _DesignedResolutionWidth = width;
             _DesignedResolutionHeight = height;
             _designedResolutionAspectRatio = width / (float)height;
+
+            var debug = new Debug(debugMode);
+            Debug.Instance = debug;
         }
 
         /// <summary>

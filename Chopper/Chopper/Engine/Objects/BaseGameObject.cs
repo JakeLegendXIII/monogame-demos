@@ -48,6 +48,13 @@ namespace Chopper.Engine.Objects
             }
         }
 
+        public BaseGameObject() { }
+
+        public BaseGameObject(Texture2D texture)
+        {
+            _texture = texture;            
+        }
+
         public List<Collisions.BoundingBox> BoundingBoxes
         {
             get
