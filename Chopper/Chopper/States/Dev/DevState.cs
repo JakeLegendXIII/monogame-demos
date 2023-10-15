@@ -1,4 +1,6 @@
-﻿using Chopper.Engine.Input;
+﻿using Chopper.Engine;
+using Chopper.Engine.Input;
+using Chopper.Engine.Objects;
 using Chopper.Engine.States;
 using Chopper.Objects;
 using Chopper.Particles;
@@ -15,11 +17,14 @@ namespace Chopper.States.Dev
         private const string CloudTexture = "Sprites/explosion";
         private const string ChopperTexture = "Sprites/chopper";
         private const string FighterSpriteSheet = "Sprites/Animations/FighterSpriteSheet";
+        private const string StatsFont = "Fonts/Stats";
         private PlayerSprite _player;
 
         private ChopperSprite _chopper;
         private ExplosionEmitter _explosion;
         private TimeSpan _explodeAt;
+
+        private StatsObject _statsText;
 
         public override void LoadContent()
         {
@@ -30,6 +35,14 @@ namespace Chopper.States.Dev
             _chopper = new ChopperSprite(LoadTexture(ChopperTexture), new System.Collections.Generic.List<(int, Vector2)>());
             _chopper.Position = new Vector2(600, 100);
             AddGameObject(_chopper);
+
+            _statsText = new StatsObject(LoadFont(StatsFont));
+            _statsText.Position = new Vector2(10, 10);
+
+            if (Debug.Instance.IsDebugMode)
+            {
+                AddGameObject(_statsText);
+            }
         }
 
         public override void HandleInput(GameTime gameTime)
@@ -87,6 +100,11 @@ namespace Chopper.States.Dev
             if (_explosion != null)
             {
                 _explosion.Update(gameTime);
+            }
+
+            if (Debug.Instance.IsDebugMode)
+            {
+                _statsText.Update(gameTime);
             }
         }
 

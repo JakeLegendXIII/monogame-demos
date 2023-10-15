@@ -13,7 +13,11 @@ using (var game = new MainGame(WIDTH, HEIGHT, new SplashState(), true))
     game.Run();
 }
 // used to run in non-game mode so you can test out things like particles
-//using var game = new MainGame(WIDTH, HEIGHT, new DevState());
-// game.Run();
+//using (var game = new MainGame(WIDTH, HEIGHT, new DevState(), true))
+//{
+//    game.IsFixedTimeStep = true;
+//    game.TargetElapsedTime = TimeSpan.FromMilliseconds(1000.0f / 60);
+//    game.Run();
+//}
 
 
