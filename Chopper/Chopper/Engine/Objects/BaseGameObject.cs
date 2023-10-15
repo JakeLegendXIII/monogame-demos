@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace Chopper.Engine.Objects
 {
@@ -14,15 +15,16 @@ namespace Chopper.Engine.Objects
 
         protected Vector2 _position = Vector2.One;
         protected List<Collisions.BoundingBox> _boundingBoxes = new List<Collisions.BoundingBox>();
-        protected float _angle;
-        protected Vector2 _direction;
+        public bool Active { get; protected set; }
+        public float Angle { get; set; }
+        public Vector2 Direction { get; set; }
 
         protected Vector2 CalculateDirection(float angleOffset = 0.0f)
         {
-            _direction = new Vector2((float)Math.Cos(_angle - angleOffset), (float)Math.Sin(_angle - angleOffset));
-            _direction.Normalize();
+            Direction = new Vector2((float)Math.Cos(Angle - angleOffset), (float)Math.Sin(Angle - angleOffset));
+            Direction.Normalize();
 
-            return _direction;
+            return Direction;
         }
 
         public int zIndex;
@@ -105,6 +107,23 @@ namespace Chopper.Engine.Objects
         public void Destroy()
         {
             Destroyed = true;
+        }
+
+        public virtual void Activate()
+        {
+            Active = true;
+        }
+
+        public virtual void Deactivate()
+        {
+            Active = false;
+        }
+
+        public virtual void Initialize()
+        {
+            Angle = 0.0f;
+            Direction = new Vector2(0, 0);
+            Position = Vector2.One;
         }
     }
 }
