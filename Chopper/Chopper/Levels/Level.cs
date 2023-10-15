@@ -11,6 +11,7 @@ namespace Chopper.Levels
         private List<List<BaseGameStateEvent>> _currentLevel;
         private int _currentLevelNumber;
         private int _currentLevelRow;
+        private int _numberOfLevels;
 
         private TimeSpan _startGameTime;
         private readonly TimeSpan TickTimeSpan = new TimeSpan(0, 0, 2);
@@ -26,6 +27,7 @@ namespace Chopper.Levels
             _levelReader = reader;
             _currentLevelNumber = 1;
             _currentLevelRow = 0;
+            _numberOfLevels = 1;
 
             _currentLevel = _levelReader.LoadLevel(_currentLevelNumber);
         }

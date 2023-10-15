@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Chopper.Objects.Text;
 using Chopper.Levels;
 using Chopper.Engine.Objects.Collisions;
+using Chopper.Engine;
 
 namespace Chopper.States.GamePlay
 {
@@ -34,6 +35,7 @@ namespace Chopper.States.GamePlay
 
         private const string TextFont = "Fonts/Lives";
         private const string GameOverFont = "Fonts/GameOver";
+        private const string StatsFont = "Fonts/Stats";
 
         private const string BulletSound = "Sounds/bulletSound";
         private const string MissileSound = "Sounds/missileSound";
@@ -54,6 +56,7 @@ namespace Chopper.States.GamePlay
         private Texture2D _chopperTexture;
         private Texture2D _screenBoxTexture;
 
+        private StatsObject _statsText;
         private LivesText _livesText;
         private GameOverText _levelStartEndText;
         private PlayerSprite _playerSprite;
@@ -94,6 +97,14 @@ namespace Chopper.States.GamePlay
 
             AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture), SCROLLING_SPEED));
             AddGameObject(_livesText);
+
+            _statsText = new StatsObject(LoadFont(StatsFont));
+            _statsText.Position = new Vector2(10, 10);
+
+            if (Debug.Instance.IsDebugMode)
+            {
+                AddGameObject(_statsText);
+            }
 
             // load sound effects and register in the sound manager
             var bulletSound = LoadSound(BulletSound);
@@ -162,6 +173,11 @@ namespace Chopper.States.GamePlay
             _enemyList = CleanObjects(_enemyList);
             _turretBulletList = CleanObjects(_turretBulletList);
             _turretList = CleanObjects(_turretList, turret => turret.Position.Y > _viewportHeight + 200);
+
+            if (Debug.Instance.IsDebugMode)
+            {
+                _statsText.Update(gameTime);
+            }
         }
 
         public override void Render(SpriteBatch spriteBatch)

@@ -27,6 +27,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Lives.spritefont
 
+#begin Fonts/Stats.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Stats.spritefont
+
 #begin Images/splash.png
 /importer:TextureImporter
 /processor:TextureProcessor
