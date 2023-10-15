@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Chopper.Engine.Objects
 {
@@ -52,6 +51,41 @@ namespace Chopper.Engine.Objects
             }
 
             return activatedObject;
+        }
+
+        public void DeactivateObject(T gameObject, Action<T> postDeactivateFn)
+        {
+            var activeObject = _activePool.Find(gameObject);
+            if (activeObject != null)
+            {
+                gameObject.Deactivate();
+
+                _activePool.Remove(gameObject);
+                _inactivePool.AddLast(gameObject);
+            }
+
+            postDeactivateFn(gameObject);
+        }
+
+        public void DeactivateObject(T gameObject)
+        {
+            DeactivateObject(gameObject, _ => { });
+        }
+
+        public void DeactivateAllObjects(Action<T> postDeactivateFn)
+        {
+            foreach(var gameObject in ActiveObjects)
+            {
+                DeactivateObject(gameObject, postDeactivateFn);
+            }
+        }
+
+        public void DeactivateAllObjects()
+        {
+            foreach(var gameObject in ActiveObjects)
+            {
+                DeactivateObject(gameObject);
+            }
         }
     }
 }
