@@ -18,19 +18,19 @@ namespace Chopper.Objects
             }
         }
 
-        public TurretBulletSprite(Texture2D texture, Vector2 direction, float angle)
+        public TurretBulletSprite(Texture2D texture) : base(texture)
         {
-            _texture = texture;
-            Direction = direction;
-            Direction.Normalize();
-
             _bulletCenterPosition = new Vector2(_texture.Width / 2, _texture.Height / 2);
-            Angle = angle;
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
         }
 
         public void Update()
         {
-            Position += Direction * BULLET_SPEED;
+            Position = Position + Direction * BULLET_SPEED;
         }
 
         public override void Render(SpriteBatch spriteBatch)

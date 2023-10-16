@@ -32,7 +32,7 @@ namespace Chopper.States.Dev
             _player.Position = new Vector2(200, 400);
             AddGameObject(_player);
 
-            _chopper = new ChopperSprite(LoadTexture(ChopperTexture), new System.Collections.Generic.List<(int, Vector2)>());
+            _chopper = new ChopperSprite(LoadTexture(ChopperTexture));
             _chopper.Position = new Vector2(600, 100);
             AddGameObject(_chopper);
 
@@ -77,7 +77,7 @@ namespace Chopper.States.Dev
 
             if (_explosion == null && gameTime.TotalGameTime > TimeSpan.FromSeconds(2))
             {
-                _explosion = new ExplosionEmitter(LoadTexture(CloudTexture), new Vector2(260, 60));
+                _explosion = new ExplosionEmitter(LoadTexture(CloudTexture));
                 AddGameObject(_explosion);
                 _explodeAt = gameTime.TotalGameTime;
             }

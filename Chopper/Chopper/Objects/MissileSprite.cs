@@ -9,30 +9,40 @@ namespace Chopper.Objects
     {
         private const float StartSpeed = 0.5f;
         private const float Acceleration = 0.15f;
-        private float _speed = StartSpeed;
 
-        // Keep track of scaled-down texture size
+        private float _speed;
+
+        // keep track of scaled down texture size
         private int _missileHeight;
-        readonly int _missileWidth;
+        private int _missileWidth;
 
-        // Missiles are attached to their own particle emitter
+        // missiles are attached to their own particle emitter
         private ExhaustEmitter _exhaustEmitter;
 
         public override Vector2 Position
         {
             set
             {
-                _position = value;
-                _exhaustEmitter.Position = new Vector2(_position.X + 18, _position.Y + _missileHeight - 10);
+                base.Position = value;
+
+                var emitterOffsetX = 18;
+                var emitterOffsetY = -10;
+
+                var emitterPosX = _position.X + emitterOffsetX;
+                var emitterPosY = _position.Y + _missileHeight + emitterOffsetY;
+
+                if (_exhaustEmitter != null)
+                {
+                    _exhaustEmitter.Position = new Vector2(emitterPosX, emitterPosY);
+                }
             }
         }
 
         public int Damage => 25;
 
-        public MissileSprite(Texture2D missleTexture, Texture2D exhaustTexture)
+        public MissileSprite(Texture2D missleTexture, Texture2D exhaustTexture) : base(missleTexture)
         {
-            _texture = missleTexture;
-            _exhaustEmitter = new ExhaustEmitter(exhaustTexture, _position);
+            _exhaustEmitter = new ExhaustEmitter(exhaustTexture);
 
             var ratio = (float)_texture.Height / (float)_texture.Width;
             _missileWidth = 50;
@@ -54,8 +64,36 @@ namespace Chopper.Objects
             AddBoundingBox(new Engine.Objects.Collisions.BoundingBox(new Vector2(bbPositionX, bbPositionY), bbWidth, bbHeight));
         }
 
+        public override void Initialize()
+        {
+            _speed = StartSpeed;
+            if (_exhaustEmitter != null)
+            {
+                _exhaustEmitter.DeactivaleAllParticules();
+            }
+
+            base.Initialize();
+        }
+
+        public override void Activate()
+        {
+            base.Activate();
+            _exhaustEmitter.Activate();
+        }
+
+        public override void Deactivate()
+        {
+            base.Deactivate();
+            _exhaustEmitter.Deactivate();
+        }
+
         public void Update(GameTime gameTime)
         {
+            if (!Active)
+            {
+                return;
+            }
+
             _exhaustEmitter.Update(gameTime);
 
             Position = new Vector2(Position.X, Position.Y - _speed);
@@ -64,6 +102,11 @@ namespace Chopper.Objects
 
         public override void Render(SpriteBatch spriteBatch)
         {
+            if (!Active)
+            {
+                return;
+            }
+
             // need to scale down the sprite. The original texture is very big
             var destRectangle = new Rectangle((int)Position.X, (int)Position.Y, _missileWidth, _missileHeight);
             spriteBatch.Draw(_texture, destRectangle, Color.White);

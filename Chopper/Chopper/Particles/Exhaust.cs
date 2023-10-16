@@ -41,8 +41,8 @@ namespace Chopper.Particles
         private static Vector2 Direction = new Vector2(0.0f, 1.0f); // pointing downward
         private const float Spread = 1.5f;
 
-        public ExhaustEmitter(Texture2D texture, Vector2 position) :
-            base(texture, position, new ExhaustParticleState(), new ConeEmitterType(Direction, Spread), NbParticles, MaxParticles)
+        public ExhaustEmitter(Texture2D texture) :
+            base(texture, new ExhaustParticleState(), new ConeEmitterType(Direction, Spread), NbParticles, MaxParticles)
         { }
     }
 }

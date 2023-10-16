@@ -33,50 +33,47 @@ namespace Chopper.Objects
         private const int ChopperBladePosX = ChopperWidth / 2;
         private const int ChopperBladePosY = 34;
 
-        // initial direction and speed of chopper
-        private float _angle = 0.0f;
-        private Vector2 _direction = new Vector2(0, 0);
-
-        // track life total and age of chopper
-        private int _age = 0;
-        private int _life = 40;
-
-        // chopper will flash red when hit
-        private int _hitAt = 0;
-
         // bounding box. Note that since this chopper is rotated 180 degrees around its 0,0 origin, 
         // this causes the bounding box to be further to the left and higher than the original texture coordinates
-        private int BBPosX = -16;
-        private int BBPosY = -63;
-        private int BBWidth = 34;
-        private int BBHeight = 98;
+        private const int BBPosX = -16;
+        private const int BBPosY = -63;
+        private const int BBWidth = 34;
+        private const int BBHeight = 98;
 
-        private List<(int, Vector2)> _path;
+        // track life total and age of chopper
+        private int _age;
+        private int _life;
 
-        public ChopperSprite(Texture2D texture, List<(int, Vector2)> path)
+        // chopper will flash red when hit
+        private int _hitAt;
+
+        public List<(int, Vector2)> Path { get; set; }
+
+        public ChopperSprite(Texture2D texture) : base(texture)
         {
-            _texture = texture;
-            _path = path;
             AddBoundingBox(new Engine.Objects.Collisions.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
+        }
+
+        public override void Initialize()
+        {
+            _age = 0;
+            _life = 40;
+            _hitAt = 100;
+
+            base.Initialize();
         }
 
         public void Update()
         {
-            // Choppers follow a path where the direction changes at a certain frame, which is tracked by the chopper's age
-            foreach (var p in _path)
+            if (!Active)
             {
-                int pAge = p.Item1;
-                Vector2 pDirection = p.Item2;
-
-                if (_age > pAge)
-                {
-                    _direction = pDirection;
-                }
+                return;
             }
 
-            Position = Position + (_direction * Speed);
-
             _age++;
+            SetDirection();
+
+            Position += (Direction * Speed);
         }
 
         public override void Render(SpriteBatch spriteBatch)
@@ -90,9 +87,9 @@ namespace Chopper.Objects
             // if the chopper was just hit and is flashing, Color should alternate between OrangeRed and White
             var color = GetColor();
             spriteBatch.Draw(_texture, chopperDestRect, chopperRect, color, MathHelper.Pi, new Vector2(ChopperBladePosX, ChopperBladePosY), SpriteEffects.None, 0f);
-            spriteBatch.Draw(_texture, bladesDestRect, bladesRect, Color.White, _angle, new Vector2(BladesCenterX, BladesCenterY), SpriteEffects.None, 0f);
+            spriteBatch.Draw(_texture, bladesDestRect, bladesRect, Color.White, Angle, new Vector2(BladesCenterX, BladesCenterY), SpriteEffects.None, 0f);
 
-            _angle += BladeSpeed;
+            Angle += BladeSpeed;
         }
 
         public override void OnNotify(BaseGameStateEvent gameEvent)
@@ -111,6 +108,24 @@ namespace Chopper.Objects
             _hitAt = 0;
             _life -= o.Damage;
         }
+        private void SetDirection()
+        {
+            // Choppers follow a path where the direction changes at a certain frame, which is tracked by the chopper's age
+            if (Path != null)
+            {
+                foreach (var p in Path)
+                {
+                    int pAge = p.Item1;
+                    Vector2 pDirection = p.Item2;
+
+                    if (_age > pAge)
+                    {
+                        Direction = pDirection;
+                    }
+                }
+            }
+        }
+
 
         private Color GetColor()
         {

@@ -13,8 +13,6 @@ namespace Chopper.Objects
         private Texture2D _baseTexture;
         private Texture2D _cannonTexture;
 
-        private float _moveSpeed;
-
         // with an angle of zero, the turret points up, so track offset for calculations when tracking player
         private const float AngleOffset = MathHelper.Pi / 2;
         private const float Scale = 0.3f;
@@ -34,22 +32,15 @@ namespace Chopper.Objects
         private int _bulletsRemaining;
         private bool _attackMode;
 
-        public bool Active { get; set; }
+        public float MoveSpeed { get; set; }
+        public bool CanAttack { get; set; }
 
         public event EventHandler<GameplayEvents.TurretShoots> OnTurretShoots;
 
-        public TurretSprite(Texture2D baseTexture, Texture2D cannonTexture, float moveSpeed)
+        public TurretSprite(Texture2D baseTexture, Texture2D cannonTexture) : base(null)
         {
-            _isShootingBullets = false;
-            _moveSpeed = moveSpeed;
             _baseTexture = baseTexture;
             _cannonTexture = cannonTexture;
-            Angle = MathHelper.Pi;  // point down by default
-            _bulletsRemaining = BulletsPerShot;
-            _attackMode = false;
-            Active = false;
-
-            Direction = CalculateDirection(AngleOffset);
 
             _baseTextureWidth = _baseTexture.Width * Scale;
             _baseTextureHeight = _baseTexture.Height * Scale;
@@ -57,16 +48,29 @@ namespace Chopper.Objects
             _baseCenterPosition = new Vector2(_baseTextureWidth / 2f, _baseTextureHeight / 2f);
             _cannonCenterPosition = new Vector2(_cannonTexture.Width / 2f, CannonCenterPosY);
 
-            AddBoundingBox(new Engine.Objects.Collisions.BoundingBox(new Vector2(0, 0), _baseTexture.Width * Scale, _baseTexture.Height * Scale));
+            AddBoundingBox(new Chopper.Engine.Objects.Collisions.BoundingBox(new Vector2(0, 0), _baseTexture.Width * Scale, _baseTexture.Height * Scale));
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            Active = false;
+            CanAttack = false;
+            _isShootingBullets = false;
+            _attackMode = false;
+            Direction = CalculateDirection(AngleOffset);
+            Angle = MathHelper.Pi;  // point down by default
+            _bulletsRemaining = BulletsPerShot;
         }
 
         public void Update(GameTime gameTime, Vector2 currentPlayerCenter)
         {
             // move turret down
-            Position = Vector2.Add(_position, new Vector2(0, _moveSpeed));
+            Position = Vector2.Add(_position, new Vector2(0, MoveSpeed));
 
             // if turret is not active, it cannot spin or shoot
-            if (!Active)
+            if (!CanAttack)
             {
                 return;
             }
