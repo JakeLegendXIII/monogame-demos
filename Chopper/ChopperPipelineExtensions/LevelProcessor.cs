@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework.Content.Pipeline;
 
 namespace ChopperPipelineExtensions
 {
-    internal class LevelProcessor
+    public class LevelProcessor : ContentProcessor<string, Level>
     {
+        public override Level Process(string input, ContentProcessorContext context)
+        {
+            return new Level(input);
+        }
     }
 }
