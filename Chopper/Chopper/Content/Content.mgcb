@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\ChopperPipelineExtensions\bin\Release\net6.0\ChopperPipelineExtensions.dll
 
 #---------------------------------- Content ---------------------------------#
 
