@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework.Content;
 
 namespace ChopperPipelineExtensions
 {
-    internal class LevelReader
+    public class LevelReader : ContentTypeReader<Level>
     {
+        protected override Level Read(ContentReader input, Level existingInstance)
+        {
+            return new Level(input.ReadString());
+        }
     }
 }
