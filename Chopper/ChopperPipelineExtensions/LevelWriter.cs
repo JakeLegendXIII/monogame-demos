@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 
 namespace ChopperPipelineExtensions
 {
+    [ContentTypeWriter]
     public class LevelWriter : ContentTypeWriter<Level>
     {
         public override string GetRuntimeReader(TargetPlatform targetPlatform)

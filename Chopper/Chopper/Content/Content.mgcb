@@ -47,6 +47,11 @@
 /processorParam:TextureFormat=Color
 /build:Images/splash.png
 
+#begin Levels/Level1.txt
+/importer:LevelImporter
+/processor:LevelProcessor
+/build:Levels/Level1.txt
+
 #begin Music/FutureAmbient_1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

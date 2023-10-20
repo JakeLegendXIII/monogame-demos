@@ -2,6 +2,7 @@
 
 namespace ChopperPipelineExtensions
 {
+    [ContentProcessor(DisplayName = "LevelProcessor")]
     public class LevelProcessor : ContentProcessor<string, Level>
     {
         public override Level Process(string input, ContentProcessorContext context)
