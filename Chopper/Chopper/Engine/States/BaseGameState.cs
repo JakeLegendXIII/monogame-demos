@@ -17,7 +17,7 @@ namespace Chopper.Engine.States
         protected bool _debug = false;
         protected bool _indestructible = true;
 
-        private ContentManager _contentManager;
+        public ContentManager _contentManager;
         protected int _viewportHeight;
         protected int _viewportWidth;
         protected SoundManager _soundManager = new SoundManager();

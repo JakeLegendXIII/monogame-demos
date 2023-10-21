@@ -15,6 +15,7 @@ using Chopper.Objects.Text;
 using Chopper.Levels;
 using Chopper.Engine.Objects.Collisions;
 using Chopper.Engine;
+using ChopperPipelineExtensions;
 
 namespace Chopper.States.GamePlay
 {
@@ -77,7 +78,7 @@ namespace Chopper.States.GamePlay
 
         private ChopperGenerator _chopperGenerator;
 
-        private Level _level;        
+        private Chopper.Levels.Level _level;        
 
         public override void LoadContent()
         {
@@ -122,8 +123,8 @@ namespace Chopper.States.GamePlay
 
             _chopperGenerator = new ChopperGenerator(AddChopper);
 
-            var levelReader = new LevelReader(_viewportWidth);
-            _level = new Level(levelReader);
+            var levelReader = new Chopper.Levels.LevelReader(_contentManager, _viewportWidth);
+            _level = new Chopper.Levels.Level(levelReader);
 
             _level.OnGenerateEnemies += _level_OnGenerateEnemies;
             _level.OnGenerateTurret += _level_OnGenerateTurret;
@@ -589,26 +590,26 @@ namespace Chopper.States.GamePlay
             }
         }
 
-        private void _level_OnLevelStart(object sender, LevelEvents.StartLevel e)
+        private void _level_OnLevelStart(object sender, LevelEvent.StartLevel e)
         {
             _levelStartEndText.Text = "Good luck, Player 1!";
             _levelStartEndText.Position = new Vector2(350, 300);
             AddGameObject(_levelStartEndText);
         }
 
-        private void _level_OnLevelEnd(object sender, LevelEvents.EndLevel e)
+        private void _level_OnLevelEnd(object sender, LevelEvent.EndLevel e)
         {
             _levelStartEndText.Text = "You escaped. Congrats!";
             _levelStartEndText.Position = new Vector2(300, 300);
             AddGameObject(_levelStartEndText);
         }
 
-        private void _level_OnLevelNoRowEvent(object sender, LevelEvents.NoRowEvent e)
+        private void _level_OnLevelNoRowEvent(object sender, LevelEvent.NoRowEvent e)
         {
             RemoveGameObject(_levelStartEndText);
         }
 
-        private void _level_OnGenerateTurret(object sender, LevelEvents.GenerateTurret e)
+        private void _level_OnGenerateTurret(object sender, LevelEvent.GenerateTurret e)
         {
             var turret = _turretList.GetOrCreate(() => new TurretSprite(LoadTexture(TurretTexture), LoadTexture(TurretMG2Texture)));
 
@@ -645,9 +646,9 @@ namespace Chopper.States.GamePlay
             AddGameObject(bullet2);
         }
 
-        private void _level_OnGenerateEnemies(object sender, LevelEvents.GenerateEnemies e)
+        private void _level_OnGenerateEnemies(object sender, LevelEvent.GenerateEnemies e)
         {
-            _chopperGenerator.GenerateChoppers(e.NumberOfEnemies);
+            _chopperGenerator.GenerateChoppers(e.NbEnemies);
         }
     }
 }
