@@ -10,7 +10,4 @@
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Engine2DPipelineExtensions\Engine2DPipelineExtensions.csproj" />
-  </ItemGroup>
 </Project>
