@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Engine2DPipelineExtensions
 {
-    internal class JsonProcessor
+    public class JsonProcessor
     {
     }
 }
