@@ -31,7 +31,7 @@ namespace Engine2DPipelineExtensions
                 input = MinifyJson(input);
             }
 
-            JsonContentProcessorResult result = new JsonContentProcessorResult();
+            TOutput result = new();
             result.Json = input;
             result.RuntimeIdentifier = RuntimeType;
 
