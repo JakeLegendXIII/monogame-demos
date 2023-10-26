@@ -1,0 +1,30 @@
+{
+  "AnimationSpeed": 3,
+  "IsLooping": false,
+  "Frames": [
+    {
+      "X": 348,
+      "Y": 0,
+      "CellWidth": 116,
+      "CellHeight": 152
+    },
+    {
+      "X": 464,
+      "Y": 0,
+      "CellWidth": 116,
+      "CellHeight": 152
+    },
+    {
+      "X": 580,
+      "Y": 0,
+      "CellWidth": 116,
+      "CellHeight": 152
+    },
+    {
+      "X": 696,
+      "Y": 0,
+      "CellWidth": 116,
+      "CellHeight": 152
+    }
+  ]
+}

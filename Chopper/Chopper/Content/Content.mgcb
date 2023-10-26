@@ -107,6 +107,20 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Animations/FighterSpriteSheet.png
 
+#begin Sprites/Animations/turn_left.json
+/importer:JsonImporter
+/processor:JsonProcessor
+/processorParam:Minify=True
+/processorParam:RuntimeType=Engine2DPipelineExtensions.JsonContentTypeReader, Engine2DPipelineExtensions
+/build:Sprites/Animations/turn_left.json
+
+#begin Sprites/Animations/turn_right.json
+/importer:JsonImporter
+/processor:JsonProcessor
+/processorParam:Minify=True
+/processorParam:RuntimeType=Engine2DPipelineExtensions.JsonContentTypeReader, Engine2DPipelineExtensions
+/build:Sprites/Animations/turn_right.json
+
 #begin Sprites/Barren.png
 /importer:TextureImporter
 /processor:TextureProcessor

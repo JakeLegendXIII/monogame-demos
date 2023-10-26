@@ -3,13 +3,13 @@ using System.Text.Json;
 
 namespace Engine2DPipelineExtensions
 {
-    public class JsonContentTypeReader<T> : ContentTypeReader<T>
+    public class JsonContentTypeReader<AnimationData> : ContentTypeReader<AnimationData>
     {
-        protected override T Read(ContentReader input, T existingInstance)
+        protected override AnimationData Read(ContentReader input, AnimationData existingInstance)
         {
             string json = input.ReadString();
 
-            T result = JsonSerializer.Deserialize<T>(json);
+            AnimationData result = JsonSerializer.Deserialize<AnimationData>(json);
 
             return result;
         }
