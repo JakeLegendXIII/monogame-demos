@@ -1,15 +1,16 @@
 ﻿using Microsoft.Xna.Framework.Content;
-using System.Text.Json;
+// using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace Engine2DPipelineExtensions
 {
-    public class JsonContentTypeReader<AnimationData> : ContentTypeReader<AnimationData>
+    public class JsonContentTypeReader<T> : ContentTypeReader<T>
     {
-        protected override AnimationData Read(ContentReader input, AnimationData existingInstance)
+        protected override T Read(ContentReader input, T existingInstance)
         {
             string json = input.ReadString();
 
-            AnimationData result = JsonSerializer.Deserialize<AnimationData>(json);
+            T result = JsonConvert.DeserializeObject<T>(json);
 
             return result;
         }

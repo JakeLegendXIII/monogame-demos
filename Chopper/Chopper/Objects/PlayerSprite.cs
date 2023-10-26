@@ -60,21 +60,6 @@ namespace Chopper.Objects
             _turnRightAnimation = new Animation(turnRightAnimation);
             _leftToCenterAnimation = _turnLeftAnimation.ReverseAnimation;
             _rightToCenterAnimation = _turnRightAnimation.ReverseAnimation;
-
-
-            //_idleRectangle = new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight);
-            //_turnLeftAnimation.AddFrame(new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-            //_turnLeftAnimation.AddFrame(new Rectangle(232, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-            //_turnLeftAnimation.AddFrame(new Rectangle(116, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-            //_turnLeftAnimation.AddFrame(new Rectangle(0, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-
-            //_turnRightAnimation.AddFrame(new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-            //_turnRightAnimation.AddFrame(new Rectangle(464, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-            //_turnRightAnimation.AddFrame(new Rectangle(580, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-            //_turnRightAnimation.AddFrame(new Rectangle(696, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-
-            //_leftToCenterAnimation = _turnLeftAnimation.ReverseAnimation;
-            //_rightToCenterAnimation = _turnRightAnimation.ReverseAnimation;
         }
 
         public void MoveLeft()

@@ -92,7 +92,6 @@ namespace Chopper.States.GamePlay
             _explosionTexture = LoadTexture(ExplosionTexture);
             _chopperTexture = LoadTexture(ChopperTexture);
 
-            // _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
             var turnLeftAnimation = LoadAnimation(PlayerAnimationTurnLeft);
             var turnRightAnimation = LoadAnimation(PlayerAnimationTurnRight);
             _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter), turnLeftAnimation, turnRightAnimation);
