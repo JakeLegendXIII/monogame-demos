@@ -11,6 +11,7 @@
 #-------------------------------- References --------------------------------#
 
 /reference:..\..\ChopperPipelineExtensions\bin\Release\net6.0\ChopperPipelineExtensions.dll
+/reference:..\..\Engine2DPipelineExtensions\bin\Release\net6.0\Engine2DPipelineExtensions.dll
 
 #---------------------------------- Content ---------------------------------#
 
