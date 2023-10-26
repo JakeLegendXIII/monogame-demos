@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework.Content.Pipeline;
-using System;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using TInput = System.String;
-using TOutput = Engine2DPipelineExtensions.JsonContentProcessorResult;
+using TOutput = Engine2DPipelineExtensions.JsonProcessorResult;
 
 namespace Engine2DPipelineExtensions
 {
