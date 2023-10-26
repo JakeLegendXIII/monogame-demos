@@ -28,9 +28,9 @@ namespace Chopper.States.Dev
 
         public override void LoadContent()
         {
-            _player = new PlayerSprite(LoadTexture(FighterSpriteSheet));
-            _player.Position = new Vector2(200, 400);
-            AddGameObject(_player);
+            //_player = new PlayerSprite(LoadTexture(FighterSpriteSheet));
+            //_player.Position = new Vector2(200, 400);
+            //AddGameObject(_player);
 
             _chopper = new ChopperSprite(LoadTexture(ChopperTexture));
             _chopper.Position = new Vector2(600, 100);

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Engine2DPipelineExtensions;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -73,6 +74,17 @@ namespace Chopper.Engine.Objects.Animations
         public Animation(bool looping)
         {
             _isLoop = looping;
+        }
+
+        public Animation(AnimationData data)
+        {
+            _isLoop = data.IsLooping;
+
+            foreach (var frame in data.Frames)
+            {
+                AddFrame(new Rectangle(frame.X, frame.Y, frame.CellWidth, frame.CellHeight),
+                         data.AnimationSpeed);
+            }
         }
 
         public void AddFrame(Rectangle sourceRectangle, int lifespan)

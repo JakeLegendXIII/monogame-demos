@@ -25,6 +25,8 @@ namespace Chopper.States.GamePlay
 
         private const string BackgroundTexture = "Sprites/Barren";
         private const string PlayerFighter = "Sprites/Animations/FighterSpriteSheet";
+        private const string PlayerAnimationTurnLeft = "Sprites/Animations/turn_left";
+        private const string PlayerAnimationTurnRight = "Sprites/Animations/turn_right";
         private const string BulletTexture = "Sprites/bullet";
         private const string ExhaustTexture = "Sprites/Cloud";
         private const string MissileTexture = "Sprites/Missile";
@@ -90,7 +92,11 @@ namespace Chopper.States.GamePlay
             _explosionTexture = LoadTexture(ExplosionTexture);
             _chopperTexture = LoadTexture(ChopperTexture);
 
-            _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
+            // _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
+            var turnLeftAnimation = LoadAnimation(PlayerAnimationTurnLeft);
+            var turnRightAnimation = LoadAnimation(PlayerAnimationTurnRight);
+            _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter), turnLeftAnimation, turnRightAnimation);
+
             _livesText = new LivesText(LoadFont(TextFont));
             _levelStartEndText = new GameOverText(LoadFont(GameOverFont));
             _livesText.NbLives = StartingPlayerLives;

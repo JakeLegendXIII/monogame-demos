@@ -111,14 +111,14 @@
 /importer:JsonImporter
 /processor:JsonProcessor
 /processorParam:Minify=True
-/processorParam:RuntimeType=Engine2DPipelineExtensions.JsonContentTypeReader, Engine2DPipelineExtensions
+/processorParam:RuntimeType=Chopper.Objects.Readers.AnimationReader, Chopper
 /build:Sprites/Animations/turn_left.json
 
 #begin Sprites/Animations/turn_right.json
 /importer:JsonImporter
 /processor:JsonProcessor
 /processorParam:Minify=True
-/processorParam:RuntimeType=Engine2DPipelineExtensions.JsonContentTypeReader, Engine2DPipelineExtensions
+/processorParam:RuntimeType=Chopper.Objects.Readers.AnimationReader, Chopper
 /build:Sprites/Animations/turn_right.json
 
 #begin Sprites/Barren.png

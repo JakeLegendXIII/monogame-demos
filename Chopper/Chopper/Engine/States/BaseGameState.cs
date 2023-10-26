@@ -1,6 +1,7 @@
 ﻿using Chopper.Engine.Input;
 using Chopper.Engine.Objects;
 using Chopper.Engine.Sound;
+using Engine2DPipelineExtensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -8,7 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Authentication.ExtendedProtection;
 
 namespace Chopper.Engine.States
 {
@@ -108,6 +108,11 @@ namespace Chopper.Engine.States
 
                 gameObject.Render(spriteBatch);
             }
+        }
+
+        protected AnimationData LoadAnimation(string animationName)
+        {
+            return _contentManager.Load<AnimationData>(animationName);
         }
 
     }

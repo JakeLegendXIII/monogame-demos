@@ -1,5 +1,6 @@
 ﻿using Chopper.Engine.Objects;
 using Chopper.Engine.Objects.Animations;
+using Engine2DPipelineExtensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -20,10 +21,10 @@ namespace Chopper.Objects
         private const int BB2Width = 111;
         private const int BB2Height = 37;
 
-        private Animation _turnLeftAnimation = new Animation(false);
-        private Animation _turnRightAnimation = new Animation(false);
-        private Animation _leftToCenterAnimation = new Animation(false);
-        private Animation _rightToCenterAnimation = new Animation(false);
+        private Animation _turnLeftAnimation;
+        private Animation _turnRightAnimation;
+        private Animation _leftToCenterAnimation;
+        private Animation _rightToCenterAnimation;
         private const int AnimationSpeed = 3;
         private const int AnimationCellWidth = 116;
         private const int AnimationCellHeight = 152;
@@ -46,7 +47,7 @@ namespace Chopper.Objects
         }
 
 
-        public PlayerSprite(Texture2D texture)
+        public PlayerSprite(Texture2D texture, AnimationData turnLeftAnimation, AnimationData turnRightAnimation)
         {
             _texture = texture;
             
@@ -54,18 +55,26 @@ namespace Chopper.Objects
             AddBoundingBox(new Engine.Objects.Collisions.BoundingBox(new Vector2(BB2PosX, BB2PosY), BB2Width, BB2Height));
 
             _idleRectangle = new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight);
-            _turnLeftAnimation.AddFrame(new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-            _turnLeftAnimation.AddFrame(new Rectangle(232, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-            _turnLeftAnimation.AddFrame(new Rectangle(116, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-            _turnLeftAnimation.AddFrame(new Rectangle(0, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
 
-            _turnRightAnimation.AddFrame(new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-            _turnRightAnimation.AddFrame(new Rectangle(464, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-            _turnRightAnimation.AddFrame(new Rectangle(580, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-            _turnRightAnimation.AddFrame(new Rectangle(696, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
-
+            _turnLeftAnimation = new Animation(turnLeftAnimation);
+            _turnRightAnimation = new Animation(turnRightAnimation);
             _leftToCenterAnimation = _turnLeftAnimation.ReverseAnimation;
             _rightToCenterAnimation = _turnRightAnimation.ReverseAnimation;
+
+
+            //_idleRectangle = new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight);
+            //_turnLeftAnimation.AddFrame(new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
+            //_turnLeftAnimation.AddFrame(new Rectangle(232, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
+            //_turnLeftAnimation.AddFrame(new Rectangle(116, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
+            //_turnLeftAnimation.AddFrame(new Rectangle(0, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
+
+            //_turnRightAnimation.AddFrame(new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
+            //_turnRightAnimation.AddFrame(new Rectangle(464, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
+            //_turnRightAnimation.AddFrame(new Rectangle(580, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
+            //_turnRightAnimation.AddFrame(new Rectangle(696, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
+
+            //_leftToCenterAnimation = _turnLeftAnimation.ReverseAnimation;
+            //_rightToCenterAnimation = _turnRightAnimation.ReverseAnimation;
         }
 
         public void MoveLeft()
