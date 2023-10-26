@@ -6,10 +6,10 @@ namespace Engine2DPipelineExtensions
     {
         public int AnimationSpeed { get; set; }
         public bool IsLooping { get; set; }
-        public List<AnimationDataFrame> Frames { get; set; }
+        public List<AnimationFrameData> Frames { get; set; }
     }
 
-    public class AnimationDataFrame
+    public class AnimationFrameData
     {
         public int X;
         public int Y;
