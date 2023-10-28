@@ -16,6 +16,7 @@ using Chopper.Levels;
 using Chopper.Engine.Objects.Collisions;
 using Chopper.Engine;
 using ChopperPipelineExtensions;
+using Chopper.Content;
 
 namespace Chopper.States.GamePlay
 {
@@ -597,14 +598,14 @@ namespace Chopper.States.GamePlay
 
         private void _level_OnLevelStart(object sender, LevelEvent.StartLevel e)
         {
-            _levelStartEndText.Text = "Good luck, Player 1!";
+            _levelStartEndText.Text = Strings.GoodLuckPlayer1;
             _levelStartEndText.Position = new Vector2(350, 300);
             AddGameObject(_levelStartEndText);
         }
 
         private void _level_OnLevelEnd(object sender, LevelEvent.EndLevel e)
         {
-            _levelStartEndText.Text = "You escaped. Congrats!";
+            _levelStartEndText.Text = Strings.YouEscaped;
             _levelStartEndText.Position = new Vector2(300, 300);
             AddGameObject(_levelStartEndText);
         }
