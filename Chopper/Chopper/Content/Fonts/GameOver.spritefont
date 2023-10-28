@@ -6,7 +6,7 @@ of the font in your game, and to change the characters which are available to dr
 with.
 -->
 <XnaContent xmlns:Graphics="Microsoft.Xna.Framework.Content.Pipeline.Graphics">
-  <Asset Type="Graphics:FontDescription">
+  <Asset Type="Graphics:LocalizedFontDescription">
 
     <!--
     Modify this string to change the font that will be imported.
@@ -56,5 +56,10 @@ with.
         <End>&#126;</End>
       </CharacterRegion>
     </CharacterRegions>
+    <ResourceFiles>
+      <Resx>Strings.resx</Resx>
+      <Resx>Strings.fr.resx</Resx>
+      <Resx>Strings.ja.resx</Resx>
+    </ResourceFiles>
   </Asset>
 </XnaContent>
