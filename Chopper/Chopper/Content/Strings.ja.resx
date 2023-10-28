@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GoodLuckPlayer1" xml:space="preserve">
-    <value>頑張れ、プレイヤー 1!</value>
+    <value>幸運、プレーヤー1！</value>
   </data>
   <data name="Lives" xml:space="preserve">
-    <value>生きる</value>
+    <value>残りの命</value>
   </data>
   <data name="YouEscaped" xml:space="preserve">
     <value>あなたは逃げました。おめでとうございます！</value>
