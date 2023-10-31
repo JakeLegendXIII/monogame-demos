@@ -20,17 +20,19 @@ namespace Chopper.Engine.States
         public ContentManager _contentManager;
         protected int _viewportHeight;
         protected int _viewportWidth;
+        protected GraphicsDevice _graphicsDevice;
         protected SoundManager _soundManager = new SoundManager();
 
         private readonly List<BaseGameObject> _gameObjects = new List<BaseGameObject>();
 
         protected InputManager InputManager { get; set; }
 
-        public void Initialize(ContentManager contentManager, int viewportWidth, int viewportHeight)
+        public void Initialize(ContentManager contentManager, int viewportWidth, int viewportHeight, GraphicsDevice graphicsDevice)
         {
             _contentManager = contentManager;
             _viewportHeight = viewportHeight;
             _viewportWidth = viewportWidth;
+            _graphicsDevice = graphicsDevice;
 
             SetInputManager();
         }

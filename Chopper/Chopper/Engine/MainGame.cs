@@ -121,7 +121,7 @@ namespace Chopper.Engine
 
             _currentGameState = gameState;
 
-            _currentGameState.Initialize(Content, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            _currentGameState.Initialize(Content, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height, GraphicsDevice);
 
             _currentGameState.LoadContent();
 
