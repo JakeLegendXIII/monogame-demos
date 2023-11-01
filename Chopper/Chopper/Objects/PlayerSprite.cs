@@ -8,7 +8,13 @@ namespace Chopper.Objects
 {
     public class PlayerSprite : BaseGameObject
     {
-        private const float PLAYER_HORIZONTAL_SPEED = 10.0f;
+		// Camera speed is -10
+		private Vector2 _playerNormalUpSpeed = new Vector2(0, -8.0f);
+		private Vector2 _playerBoostUpSpeed = new Vector2(0, -15.0f);
+		private Vector2 _playerBoostDownSpeed = new Vector2(0, -6.0f);
+		private const float PlayerHorizontalSpeed = 10.0f;
+
+		private const float PLAYER_HORIZONTAL_SPEED = 10.0f;
         private const float PLAYER_VERTICAL_SPEED = 8.0f;
 
         private const int BB1PosX = 29;
@@ -46,8 +52,9 @@ namespace Chopper.Objects
             }
         }
 
+		public Vector2 CurrentUpSpeed { get; private set; }
 
-        public PlayerSprite(Texture2D texture, AnimationData turnLeftAnimation, AnimationData turnRightAnimation)
+		public PlayerSprite(Texture2D texture, AnimationData turnLeftAnimation, AnimationData turnRightAnimation)
         {
             _texture = texture;
             
@@ -130,5 +137,10 @@ namespace Chopper.Objects
 
             spriteBatch.Draw(_texture, destinationRectangle, sourceRectangle, Color.White);
         }
-    }
+
+		public void StopVerticalMoving()
+		{
+			CurrentUpSpeed = _playerNormalUpSpeed;
+		}
+	}
 }

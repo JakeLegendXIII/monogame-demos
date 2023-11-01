@@ -54,12 +54,12 @@ namespace Chopper.States.Dev
                     NotifyEvent(new BaseGameStateEvent.GameQuit());
                 }
 
-                if (cmd is DevInputCommand.DevLeft)
+                if (cmd is DevInputCommand.DevCamLeft)
                 {
                     _player.MoveLeft();
                 }
 
-                if (cmd is DevInputCommand.DevRight)
+                if (cmd is DevInputCommand.DevCamRight)
                 {
                     _player.MoveRight();
                 }
