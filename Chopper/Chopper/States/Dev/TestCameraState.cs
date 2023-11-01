@@ -31,6 +31,14 @@ namespace Chopper.States.Dev
 
 		public override void Render(SpriteBatch spriteBatch)
 		{
+			// parallax parameter affects how movement of camera is applied.
+			// with Zero, the position of the camera doesn't change
+			// with One, it moves as desired (ie 10 units per update, as written below)
+			// with Two, it moves twice as fast
+			//var transformMatrix = _camera.GetViewMatrix(Vector2.Zero);
+			//var transformMatrix = _camera.GetViewMatrix(Vector2.One); // default
+			//var transformMatrix = _camera.GetViewMatrix(Vector2.One * 2);
+
 			var transformMatrix = _camera.GetViewMatrix();
 
 			spriteBatch.Begin(transformMatrix: transformMatrix);

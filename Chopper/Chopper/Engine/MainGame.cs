@@ -172,11 +172,7 @@ namespace Chopper.Engine
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
-
             _currentGameState.Render(spriteBatch);
-
-            spriteBatch.End();
 
             // Now render the scaled content
             graphics.GraphicsDevice.SetRenderTarget(null);
