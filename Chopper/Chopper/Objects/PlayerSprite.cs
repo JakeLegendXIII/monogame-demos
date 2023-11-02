@@ -91,12 +91,12 @@ namespace Chopper.Objects
 
         public void MoveUp()
         {
-            Position = new Vector2(Position.X, Position.Y - PLAYER_VERTICAL_SPEED);
+            CurrentUpSpeed = _playerBoostUpSpeed;
         }
 
         public void MoveDown()
         {
-            Position = new Vector2(Position.X, Position.Y + PLAYER_VERTICAL_SPEED);
+            CurrentUpSpeed = _playerBoostDownSpeed;
         }
 
         public void StopMoving()
@@ -116,6 +116,8 @@ namespace Chopper.Objects
 
         public void Update(GameTime gametime)
         {
+            Position += CurrentUpSpeed;
+
             if (_currentAnimation != null)
             {
                 _currentAnimation.Update(gametime);

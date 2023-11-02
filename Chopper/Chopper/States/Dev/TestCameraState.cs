@@ -24,8 +24,10 @@ namespace Chopper.States.Dev
 		{
 			var viewportAdapter = new DefaultViewportAdapter(_graphicsDevice);
 			_camera = new OrthographicCamera(viewportAdapter);
+
 			_playerSprite = new PlayerSprite(LoadTexture(PlayerFighter), 
 				LoadAnimation(PlayerAnimationTurnLeft), LoadAnimation(PlayerAnimationTurnRight));
+
 			_playerSprite.Position = new Vector2(0, 0);
 		}
 
