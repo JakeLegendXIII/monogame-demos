@@ -101,8 +101,9 @@ namespace Chopper.States.GamePlay
             _levelStartEndText = new GameOverText(LoadFont(GameOverFont));
             _livesText.NbLives = StartingPlayerLives;
             _livesText.Position = new Vector2(10.0f, 690.0f);
+			AddGameObject(_livesText);
 
-            var background = new TerrainBackground(LoadTexture(BackgroundTexture), SCROLLING_SPEED);
+			var background = new TerrainBackground(LoadTexture(BackgroundTexture), SCROLLING_SPEED);
             background.zIndex = -100;
             AddGameObject(background);
 

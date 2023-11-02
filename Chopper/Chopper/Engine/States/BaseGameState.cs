@@ -101,6 +101,8 @@ namespace Chopper.Engine.States
 
         public virtual void Render(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
+
             foreach (var gameObject in _gameObjects.Where(a => a != null).OrderBy(a => a.zIndex))
             {
                 if (_debug)
@@ -110,6 +112,8 @@ namespace Chopper.Engine.States
 
                 gameObject.Render(spriteBatch);
             }
+
+            spriteBatch.End();
         }
 
         protected AnimationData LoadAnimation(string animationName)
