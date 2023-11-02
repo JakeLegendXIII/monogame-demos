@@ -91,12 +91,18 @@ namespace Chopper.Objects
 
         public void MoveUp()
         {
-            CurrentUpSpeed = _playerBoostUpSpeed;
+			Position = new Vector2(Position.X, Position.Y - PLAYER_VERTICAL_SPEED);
+
+			// Only works with camera currently not setup
+            // CurrentUpSpeed = _playerBoostUpSpeed;
         }
 
         public void MoveDown()
         {
-            CurrentUpSpeed = _playerBoostDownSpeed;
+			Position = new Vector2(Position.X, Position.Y + PLAYER_VERTICAL_SPEED);
+
+			// Only works with camera currently not setup
+			// CurrentUpSpeed = _playerBoostDownSpeed;
         }
 
         public void StopMoving()
@@ -114,11 +120,17 @@ namespace Chopper.Objects
             }
         }
 
-        public void Update(GameTime gametime)
-        {
-            Position += CurrentUpSpeed;
+		public void StopVerticalMoving()
+		{
+			CurrentUpSpeed = _playerNormalUpSpeed;
+		}
 
-            if (_currentAnimation != null)
+		public void Update(GameTime gametime)
+        {
+			// Only works with camera currently not setup
+			// Position += CurrentUpSpeed;
+
+			if (_currentAnimation != null)
             {
                 _currentAnimation.Update(gametime);
             }
@@ -140,9 +152,5 @@ namespace Chopper.Objects
             spriteBatch.Draw(_texture, destinationRectangle, sourceRectangle, Color.White);
         }
 
-		public void StopVerticalMoving()
-		{
-			CurrentUpSpeed = _playerNormalUpSpeed;
-		}
 	}
 }
