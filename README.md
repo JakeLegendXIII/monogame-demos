@@ -4,6 +4,6 @@ Chopper - vertical shooter and 2D engine prototype.
 
 ChopperPipelineExtensions - extend content pipeline to support level design files for Chopper
 
-Engine2DPipelineExtensions - extend content pipeline to support data for Animation. Will be using Json over XML and build additional importer and such.
+Engine2DPipelineExtensions - extend content pipeline to support data for Animation. Using Json over XML and built additional JSON Pipeline Extension as well.
 
 MiniMan 2D Platformer
