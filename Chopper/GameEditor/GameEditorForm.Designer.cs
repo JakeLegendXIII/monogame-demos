@@ -47,7 +47,7 @@
 			ClientSize = new Size(800, 450);
 			Controls.Add(gameControl1);
 			Name = "GameEditorForm";
-			Text = "Form1";
+			Text = "GameEditor";
 			ResumeLayout(false);
 		}
 

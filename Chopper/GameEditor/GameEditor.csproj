@@ -12,4 +12,15 @@
     <PackageReference Include="MonoGame.Forms.DX" Version="3.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Content\Levels\" />
+    <Folder Include="Content\Atlas\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Content\Sprites\Tower.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
