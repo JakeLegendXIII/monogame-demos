@@ -9,12 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MonoGame.Extended" Version="3.8.0" />
     <PackageReference Include="MonoGame.Forms.DX" Version="3.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Content\Levels\" />
     <Folder Include="Content\Atlas\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ChopperPipelineExtensions\ChopperPipelineExtensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
