@@ -40,8 +40,10 @@ namespace GameEditor
 		{
 			var tower = Editor.Content.Load<Texture2D>(@"Sprites\Tower");
 			Editor.spriteBatch.Begin();
-			Editor.spriteBatch.Draw(tower, new Microsoft.Xna.Framework.Rectangle(0, 0, tower.Width, tower.Height),
-				Microsoft.Xna.Framework.Color.White);
+			//Editor.spriteBatch.Draw(tower, new Microsoft.Xna.Framework.Rectangle(0, 0, tower.Width, tower.Height),
+			//	Microsoft.Xna.Framework.Color.White);
+			Editor.spriteBatch.Draw(_backgroundRectangle, new Microsoft.Xna.Framework.Rectangle(0, 0, ClientSize.Width, ClientSize.Height),
+								Microsoft.Xna.Framework.Color.White);
 			Editor.spriteBatch.End();
 		}
 

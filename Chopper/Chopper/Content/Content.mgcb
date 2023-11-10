@@ -15,6 +15,20 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Data/buildings.json
+/importer:JsonImporter
+/processor:JsonProcessor
+/processorParam:Minify=True
+/processorParam:RuntimeType=Chopper.Objects.Readers.BuildingsReader, Chopper
+/build:Data/buildings.json
+
+#begin Data/decor.json
+/importer:JsonImporter
+/processor:JsonProcessor
+/processorParam:Minify=True
+/processorParam:RuntimeType=Chopper.Objects.Readers.BuildingsReader, Chopper
+/build:Data/decor.json
+
 #begin Fonts/GameOver.spritefont
 /importer:FontDescriptionImporter
 /processor:LocalizedFontProcessor
@@ -133,6 +147,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Barren.png
 
+#begin Sprites/buildings.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/buildings.png
+
 #begin Sprites/Bullet_MG.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -181,6 +207,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Cloud.png
 
+#begin Sprites/decor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/decor.png
+
 #begin Sprites/Empty.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -216,6 +254,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Fighter.png
+
+#begin Sprites/ground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/ground.png
 
 #begin Sprites/MG2.png
 /importer:TextureImporter

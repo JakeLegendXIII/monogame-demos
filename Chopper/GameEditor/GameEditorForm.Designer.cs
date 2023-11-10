@@ -33,10 +33,11 @@
 			// 
 			// gameControl1
 			// 
+			gameControl1.BackgroundImageLayout = ImageLayout.Center;
 			gameControl1.Location = new Point(81, 12);
 			gameControl1.MouseHoverUpdatesOnly = false;
 			gameControl1.Name = "gameControl1";
-			gameControl1.Size = new Size(908, 646);
+			gameControl1.Size = new Size(974, 724);
 			gameControl1.TabIndex = 0;
 			gameControl1.Text = "gameControl1";
 			// 
