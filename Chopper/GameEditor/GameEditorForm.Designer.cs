@@ -34,10 +34,10 @@
 			// gameControl1
 			// 
 			gameControl1.BackgroundImageLayout = ImageLayout.Center;
-			gameControl1.Location = new Point(81, 12);
+			gameControl1.Location = new Point(12, 12);
 			gameControl1.MouseHoverUpdatesOnly = false;
 			gameControl1.Name = "gameControl1";
-			gameControl1.Size = new Size(974, 724);
+			gameControl1.Size = new Size(1280, 720);
 			gameControl1.TabIndex = 0;
 			gameControl1.Text = "gameControl1";
 			// 
@@ -45,7 +45,7 @@
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(1137, 779);
+			ClientSize = new Size(1370, 822);
 			Controls.Add(gameControl1);
 			Name = "GameEditorForm";
 			Text = "GameEditor";

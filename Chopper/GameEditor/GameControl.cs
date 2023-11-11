@@ -15,6 +15,9 @@ namespace GameEditor
 	{
 		public const int TILE_SIZE = 128;
 
+		private int _mouseX;
+		private int _mouseY;
+
 		private Texture2D _backgroundRectangle;
 		private OrthographicCamera _camera;
 		private bool _cameraDrag;
@@ -30,10 +33,10 @@ namespace GameEditor
 			ResetCameraPostion();
 
 			//OnInitialized(this, EventArgs.Empty);
-		}		
+		}
 
 		protected override void Update(GameTime gameTime)
-		{			
+		{
 		}
 
 		protected override void Draw()
@@ -53,6 +56,39 @@ namespace GameEditor
 			 0,
 			 Level.LEVEL_LENGTH * TILE_SIZE - ClientSize.Height
 		 );
+		}
+
+		protected override void OnMouseUp(MouseEventArgs e)
+		{
+			base.OnMouseUp(e);
+
+			if (e.Button == MouseButtons.Middle)
+			{
+				_cameraDrag = false;
+			}
+		}
+
+		protected override void OnMouseMove(MouseEventArgs e)
+		{
+			base.OnMouseMove(e);
+
+			if (_cameraDrag)
+			{
+				_camera.Move(new Vector2(_mouseX - e.X, _mouseY - e.Y));
+			}
+
+			_mouseX = e.X;
+			_mouseY = e.Y;
+		}
+
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			base.OnMouseDown(e);
+
+			if (e.Button == MouseButtons.Middle)
+			{
+				_cameraDrag = true;
+			}
 		}
 	}
 }
