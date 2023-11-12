@@ -13,14 +13,25 @@ namespace GameEditor
 {
 	public class GameControl : MonoGameControl
 	{
+		public const string GROUND = "ground";
+		public const string BUILDINGS = "buildings";
+		public const string OBJECTS = "objects";
+		public const string EVENTS = "events";
+
 		public const int TILE_SIZE = 128;
 
 		private int _mouseX;
 		private int _mouseY;
 
-		private Texture2D _backgroundRectangle;
 		private OrthographicCamera _camera;
+		private Texture2D _groundTexture;
+		private Texture2D _buildingTexture;
+		private Texture2D _backgroundRectangle;
+		private Texture2D _eventRectangle;
 		private bool _cameraDrag;
+
+
+		public Dictionary<string, TextureAtlas> Atlas { get; private set; }
 
 		public event EventHandler<EventArgs> OnInitialized;
 
@@ -32,8 +43,18 @@ namespace GameEditor
 			_camera = new OrthographicCamera(viewportAdapter);
 			ResetCameraPostion();
 
+			// Load Atlas
+			Atlas = new Dictionary<string, TextureAtlas>();
+			var groundTiles = GetGroundTiles();
+			var buildingTiles = GetBuildingTiles();
+			var objectTiles = GetObjectTiles();
+
+			var groundAtlas = new TextureAtlas(GROUND, _groundTexture, groundTiles);
+
+			Atlas.Add(GROUND, groundAtlas);
+
 			//OnInitialized(this, EventArgs.Empty);
-		}
+		}	
 
 		protected override void Update(GameTime gameTime)
 		{
@@ -89,6 +110,31 @@ namespace GameEditor
 			{
 				_cameraDrag = true;
 			}
+		}
+
+		private object GetObjectTiles()
+		{
+			throw new NotImplementedException();
+		}
+
+		private object GetBuildingTiles()
+		{
+			throw new NotImplementedException();
+		}
+
+		private Dictionary<string, Microsoft.Xna.Framework.Rectangle> GetGroundTiles()
+		{
+			return new Dictionary<string, Microsoft.Xna.Framework.Rectangle>
+			{
+				{ "sand", new Microsoft.Xna.Framework.Rectangle(0, 0, 128, 128) },
+				{ "beach_tm_02_grass", new Microsoft.Xna.Framework.Rectangle(128, 0, 128, 128) },
+				{ "beach_tm_02", new Microsoft.Xna.Framework.Rectangle(256, 0, 128, 128) },
+				{ "beach_tm_01_grass", new Microsoft.Xna.Framework.Rectangle(384, 0, 128, 128) },
+				{ "beach_tm_01", new Microsoft.Xna.Framework.Rectangle(512, 0, 128, 128) },
+				{ "beach_tl_grass", new Microsoft.Xna.Framework.Rectangle(640, 0, 128, 128) },
+				{ "beach_tl", new Microsoft.Xna.Framework.Rectangle(768, 0, 128, 128) },
+				{ "beach_rm_05_grass", new Microsoft.Xna.Framework.Rectangle(896, 0, 128, 128) },
+			};
 		}
 	}
 }
