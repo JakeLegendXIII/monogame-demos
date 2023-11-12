@@ -46,14 +46,14 @@ namespace GameEditor
 			// Load Atlas
 			Atlas = new Dictionary<string, TextureAtlas>();
 			var groundTiles = GetGroundTiles();
-			var buildingTiles = GetBuildingTiles();
-			var objectTiles = GetObjectTiles();
+			//var buildingTiles = GetBuildingTiles();
+			//var objectTiles = GetObjectTiles();
 
 			var groundAtlas = new TextureAtlas(GROUND, _groundTexture, groundTiles);
 
 			Atlas.Add(GROUND, groundAtlas);
 
-			//OnInitialized(this, EventArgs.Empty);
+			OnInitialized(this, EventArgs.Empty);
 		}	
 
 		protected override void Update(GameTime gameTime)
