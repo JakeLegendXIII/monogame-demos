@@ -31,10 +31,10 @@
 			gameControl1 = new GameControl();
 			objectTabControl = new TabControl();
 			groundTabPage = new TabPage();
+			groundListView = new ListView();
 			buildingsTabPage = new TabPage();
 			objectsTabPage = new TabPage();
 			eventsTabPage = new TabPage();
-			groundListView = new ListView();
 			objectTabControl.SuspendLayout();
 			groundTabPage.SuspendLayout();
 			SuspendLayout();
@@ -73,6 +73,18 @@
 			groundTabPage.Text = "ground";
 			groundTabPage.UseVisualStyleBackColor = true;
 			// 
+			// groundListView
+			// 
+			groundListView.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+			groundListView.Location = new Point(4, 2);
+			groundListView.Margin = new Padding(2);
+			groundListView.Name = "groundListView";
+			groundListView.Size = new Size(310, 772);
+			groundListView.Sorting = SortOrder.Ascending;
+			groundListView.TabIndex = 0;
+			groundListView.UseCompatibleStateImageBehavior = false;
+			groundListView.View = View.List;
+			// 
 			// buildingsTabPage
 			// 
 			buildingsTabPage.Location = new Point(4, 24);
@@ -99,14 +111,6 @@
 			eventsTabPage.TabIndex = 3;
 			eventsTabPage.Text = "events";
 			eventsTabPage.UseVisualStyleBackColor = true;
-			// 
-			// groundListView
-			// 
-			groundListView.Location = new Point(0, 0);
-			groundListView.Name = "groundListView";
-			groundListView.Size = new Size(310, 772);
-			groundListView.TabIndex = 0;
-			groundListView.UseCompatibleStateImageBehavior = false;
 			// 
 			// GameEditorForm
 			// 
