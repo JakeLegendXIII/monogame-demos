@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using TRexRunner.Entities;
 using TRexRunner.Graphics;
 
 namespace TRexRunner
@@ -23,6 +24,8 @@ namespace TRexRunner
 
 		private Texture2D _spriteSheet;
 
+		private Trex _trex;
+
 		public MainGame()
 		{
 			_graphics = new GraphicsDeviceManager(this);
@@ -31,9 +34,7 @@ namespace TRexRunner
 		}
 
 		protected override void Initialize()
-		{
-			// TODO: Add your initialization logic here
-
+		{			
 			base.Initialize();
 		}
 
@@ -46,6 +47,8 @@ namespace TRexRunner
 			_sfxHit = Content.Load<SoundEffect>(SFX_HIT);
 			_sfxScoreReached = Content.Load<SoundEffect>(SFX_SCORE_REACHED);
 			_sfxButtonPress = Content.Load<SoundEffect>(SFX_BUTTON_PRESS);
+
+			_trex = new Trex(_spriteSheet, new Vector2(50, 50));
 		}
 
 		protected override void Update(GameTime gameTime)
@@ -60,13 +63,11 @@ namespace TRexRunner
 
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
+			GraphicsDevice.Clear(Color.White);
 
 			_spriteBatch.Begin();
 
-			Sprite trexSprite = new Sprite(_spriteSheet, 848, 0, 44, 52);
-
-			trexSprite.Draw(_spriteBatch, new Vector2(25, 25));
+			_trex.Draw(_spriteBatch, gameTime);
 
 			_spriteBatch.End();
 
