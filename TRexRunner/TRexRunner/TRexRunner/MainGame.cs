@@ -14,6 +14,10 @@ namespace TRexRunner
 		private const string SFX_HIT = "Audio/hit";
 		private const string SFX_SCORE_REACHED = "Audio/score-reached";
 		private const string SFX_BUTTON_PRESS = "Audio/button-press";
+		public const int WINDOW_WIDTH = 600;
+		public const int WINDOW_HEIGHT = 150;
+		public const int TREX_START_POS_Y = WINDOW_HEIGHT - 16;
+		public const int TREX_START_POS_X = 1;
 
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
@@ -24,7 +28,7 @@ namespace TRexRunner
 
 		private Texture2D _spriteSheet;
 
-		private Trex _trex;
+		private Trex _trex;		
 
 		public MainGame()
 		{
@@ -36,6 +40,10 @@ namespace TRexRunner
 		protected override void Initialize()
 		{			
 			base.Initialize();
+
+			_graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
+			_graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
+			_graphics.ApplyChanges();
 		}
 
 		protected override void LoadContent()
@@ -48,7 +56,7 @@ namespace TRexRunner
 			_sfxScoreReached = Content.Load<SoundEffect>(SFX_SCORE_REACHED);
 			_sfxButtonPress = Content.Load<SoundEffect>(SFX_BUTTON_PRESS);
 
-			_trex = new Trex(_spriteSheet, new Vector2(50, 50));
+			_trex = new Trex(_spriteSheet, new Vector2(TREX_START_POS_X, TREX_START_POS_Y - Trex.TREX_DEFAULT_HEIGHT));			
 		}
 
 		protected override void Update(GameTime gameTime)
