@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using TRexRunner.Graphics;
 
 namespace TRexRunner
 {
@@ -63,7 +64,9 @@ namespace TRexRunner
 
 			_spriteBatch.Begin();
 
-			_spriteBatch.Draw(_spriteSheet, new Vector2(0, 0), Color.White);
+			Sprite trexSprite = new Sprite(_spriteSheet, 848, 0, 44, 52);
+
+			trexSprite.Draw(_spriteBatch, new Vector2(25, 25));
 
 			_spriteBatch.End();
 
