@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using TRexRunner.Graphics;
@@ -23,6 +24,8 @@ namespace TRexRunner.Entities
 		private Sprite _idleBlinkSprite;
 		private SpriteAnimation _blinkAnimation;
 
+		private SoundEffect _jumpSound;
+
 		public Vector2 Position { get; set; }
 		public TrexState State { get; set; }
 		public bool IsAlive { get; private set; }
@@ -31,12 +34,14 @@ namespace TRexRunner.Entities
 
 		private Random _random;
 
-		public Trex(Texture2D spriteSheet, Vector2 position)
+		public Trex(Texture2D spriteSheet, Vector2 position, SoundEffect jumpSound)
 		{
 
 			Position = position;
 			_idleBackgroundSprite = new Sprite(spriteSheet, TREX_IDLE_BACKGROUND_POS_X, TREX_IDLE_BACKGROUND_POS_Y, TREX_DEFAULT_WIDTH, TREX_DEFAULT_HEIGHT);
 			State = TrexState.Idle;
+
+			_jumpSound = jumpSound;
 
 			_random = new Random();
 
@@ -46,6 +51,8 @@ namespace TRexRunner.Entities
 			_blinkAnimation = new SpriteAnimation();
 			CreateBlinkAnimation();
 			_blinkAnimation.Play();
+
+			
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -81,6 +88,23 @@ namespace TRexRunner.Entities
 			_blinkAnimation.AddFrame(_idleSprite, 0);
 			_blinkAnimation.AddFrame(_idleBlinkSprite, (float)blinkTimeStamp);
 			_blinkAnimation.AddFrame(_idleSprite, (float)blinkTimeStamp + BLINK_ANIMATION_EYE_CLOSE_TIME);
+		}
+
+		public bool BeginJump()
+		{
+			if (State == TrexState.Jumping || State == TrexState.Falling)
+			{
+				return false;
+			}
+
+			_jumpSound.Play();
+
+			return true;
+		}
+
+		internal bool ContinueJump()
+		{
+			return true;
 		}
 	}
 }

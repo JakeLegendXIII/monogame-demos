@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TRexRunner.Entities;
 using TRexRunner.Graphics;
+using TRexRunner.System;
 
 namespace TRexRunner
 {
@@ -28,7 +29,9 @@ namespace TRexRunner
 
 		private Texture2D _spriteSheet;
 
-		private Trex _trex;		
+		private Trex _trex;
+
+		private InputController _inputController;
 
 		public MainGame()
 		{
@@ -56,7 +59,9 @@ namespace TRexRunner
 			_sfxScoreReached = Content.Load<SoundEffect>(SFX_SCORE_REACHED);
 			_sfxButtonPress = Content.Load<SoundEffect>(SFX_BUTTON_PRESS);
 
-			_trex = new Trex(_spriteSheet, new Vector2(TREX_START_POS_X, TREX_START_POS_Y - Trex.TREX_DEFAULT_HEIGHT));			
+			_trex = new Trex(_spriteSheet, new Vector2(TREX_START_POS_X, TREX_START_POS_Y - Trex.TREX_DEFAULT_HEIGHT), _sfxButtonPress);			
+
+			_inputController = new InputController(_trex);
 		}
 
 		protected override void Update(GameTime gameTime)
@@ -67,6 +72,8 @@ namespace TRexRunner
 			// TODO: Add your update logic here
 
 			base.Update(gameTime);
+
+			_inputController.ProcessControls(gameTime);
 
 			_trex.Update(gameTime);
 		}
