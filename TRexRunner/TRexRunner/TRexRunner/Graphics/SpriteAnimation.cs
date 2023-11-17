@@ -17,6 +17,7 @@ namespace TRexRunner.Graphics
 
 		public bool IsPlaying { get; private set; }
 		public float PlaybackProgress { get; private set; }
+		public bool ShouldLoop { get; set; } = true;
 
 		public SpriteAnimationFrame CurrentFrame 
 		{ 
@@ -43,8 +44,15 @@ namespace TRexRunner.Graphics
 
 				if (PlaybackProgress > Duration)
 				{
-					PlaybackProgress -= Duration;
-				}
+					if (ShouldLoop)
+					{
+						PlaybackProgress -= Duration;
+					}
+					else
+					{
+						Stop();
+					}
+				}				
 			}
 		}
 
@@ -80,6 +88,13 @@ namespace TRexRunner.Graphics
 			}
 			
 			return _frames[index];
+		}
+
+		public void Clear()
+		{
+
+			Stop();
+			_frames.Clear();
 		}
 	}
 }
