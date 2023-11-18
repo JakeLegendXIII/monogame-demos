@@ -8,6 +8,9 @@ namespace TRexRunner.Entities
 {
 	public class Trex : IGameEntity
 	{
+		private const float GRAVITY = 1600f;
+		private const float JUMP_START_VELOCITY = -480f;
+
 		private const int TREX_IDLE_BACKGROUND_POS_X = 40;
 		private const int TREX_IDLE_BACKGROUND_POS_Y = 0;
 
@@ -33,6 +36,9 @@ namespace TRexRunner.Entities
 		public int DrawOrder { get; set; }
 
 		private Random _random;
+		private float _startPosY;
+		private float _dropVelocity;
+		private float _verticalVelocity;
 
 		public Trex(Texture2D spriteSheet, Vector2 position, SoundEffect jumpSound)
 		{
@@ -52,7 +58,7 @@ namespace TRexRunner.Entities
 			CreateBlinkAnimation();
 			_blinkAnimation.Play();
 
-			
+			_startPosY = position.Y;
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -61,6 +67,10 @@ namespace TRexRunner.Entities
 			{
 				_idleBackgroundSprite.Draw(spriteBatch, Position);
 				_blinkAnimation.Draw(spriteBatch, Position);
+			}
+			else if (State == TrexState.Jumping || State == TrexState.Falling)
+			{
+				_idleSprite.Draw(spriteBatch, Position);
 			}
 		}
 
@@ -76,8 +86,27 @@ namespace TRexRunner.Entities
 
 				_blinkAnimation.Update(gameTime);
 			}
-		}
+			else if (State == TrexState.Jumping || State == TrexState.Falling)
+			{
+				Position = new Vector2(Position.X, Position.Y + _verticalVelocity * (float)gameTime.ElapsedGameTime.TotalSeconds + _dropVelocity * (float)gameTime.ElapsedGameTime.TotalSeconds);
+				_verticalVelocity += GRAVITY * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+				if (_verticalVelocity >= 0)
+				{
+					State = TrexState.Falling;
+				}					
+
+				if (Position.Y >= _startPosY)
+				{
+
+					Position = new Vector2(Position.X, _startPosY);
+					_verticalVelocity = 0;
+					State = TrexState.Idle;
+
+					//OnJumpComplete();
+				}
+			}
+		}
 		private void CreateBlinkAnimation()
 		{
 			_blinkAnimation.Clear();
@@ -100,6 +129,8 @@ namespace TRexRunner.Entities
 			_jumpSound.Play();
 
 			State = TrexState.Jumping;
+
+			_verticalVelocity = JUMP_START_VELOCITY;
 
 			return true;
 		}
