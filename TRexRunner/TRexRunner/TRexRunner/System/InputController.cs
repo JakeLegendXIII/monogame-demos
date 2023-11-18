@@ -18,7 +18,10 @@ namespace TRexRunner.System
 		{
 			KeyboardState keyboardState = Keyboard.GetState();
 
-			if (!_previousKeyboardState.IsKeyDown(Keys.Up) && keyboardState.IsKeyDown(Keys.Up))
+			bool isJumpKeyPressed = keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.Space);
+			bool wasJumpKeyPressed = _previousKeyboardState.IsKeyDown(Keys.Up) || _previousKeyboardState.IsKeyDown(Keys.Space);
+
+			if (!wasJumpKeyPressed && isJumpKeyPressed)
 			{
 				if (_trex.State != TrexState.Jumping)
 				{
@@ -29,15 +32,26 @@ namespace TRexRunner.System
 					_trex.ContinueJump();
 				}				
 			}
-			else if (_trex.State == TrexState.Jumping && !keyboardState.IsKeyDown(Keys.Up))
+			else if (_trex.State == TrexState.Jumping && !isJumpKeyPressed)
 			{
 				_trex.CancelJump();
 			}
 			else if (keyboardState.IsKeyDown(Keys.Down))
 			{
-				_trex.Duck();
+				if (_trex.State == TrexState.Jumping || _trex.State == TrexState.Falling)
+				{
+					_trex.Drop();
+				}
+				else
+				{
+					_trex.Duck();
+				}				
 			}
-			
+			else if (_trex.State == TrexState.Ducking && !keyboardState.IsKeyDown(Keys.Down))
+			{
+				_trex.GetUp();
+			}
+
 			_previousKeyboardState = keyboardState;
 		}
 	}

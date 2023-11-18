@@ -64,9 +64,6 @@ namespace TRexRunner.Graphics
 			{
 				frame.Sprite.Draw(spriteBatch, position);
 			}
-
-			// Cool but uses new C# features
-			// CurrentFrame?.Sprite.Draw(spriteBatch, position);
 		}
 
 		public void Play()
