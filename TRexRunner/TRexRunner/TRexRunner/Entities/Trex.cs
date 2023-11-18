@@ -23,11 +23,17 @@ namespace TRexRunner.Entities
 		private const float BLINK_ANIMATION_RANDOM_MIN = 2f;
 		private const float BLINK_ANIMATION_RANDOM_MAX = 10f;
 		private const float BLINK_ANIMATION_EYE_CLOSE_TIME = 0.5f;
+
+		private const int TREX_RUNNING_SPRITE_ONE_POS_X = TREX_DEFAULT_POS_X + TREX_DEFAULT_WIDTH * 2;
+		private const int TREX_RUNNING_SPRITE_ONE_POS_Y = 0;
+		private const float RUN_ANIMATION_FRAME_LENGTH = 0.1f;
+
 		private Sprite _idleBackgroundSprite;
 
 		private Sprite _idleSprite;
 		private Sprite _idleBlinkSprite;
 		private SpriteAnimation _blinkAnimation;
+		private SpriteAnimation _runAnimation;
 
 		private SoundEffect _jumpSound;
 
@@ -41,6 +47,7 @@ namespace TRexRunner.Entities
 		private float _startPosY;
 		private float _dropVelocity;
 		private float _verticalVelocity;
+
 
 		public Trex(Texture2D spriteSheet, Vector2 position, SoundEffect jumpSound)
 		{
@@ -61,6 +68,12 @@ namespace TRexRunner.Entities
 			_blinkAnimation.Play();
 
 			_startPosY = position.Y;
+
+			_runAnimation = new SpriteAnimation();
+			_runAnimation.AddFrame(new Sprite(spriteSheet, TREX_RUNNING_SPRITE_ONE_POS_X, TREX_RUNNING_SPRITE_ONE_POS_Y, TREX_DEFAULT_WIDTH, TREX_DEFAULT_HEIGHT), 0);
+			_runAnimation.AddFrame(new Sprite(spriteSheet, TREX_RUNNING_SPRITE_ONE_POS_X + TREX_DEFAULT_WIDTH, TREX_RUNNING_SPRITE_ONE_POS_Y, TREX_DEFAULT_WIDTH, TREX_DEFAULT_HEIGHT), RUN_ANIMATION_FRAME_LENGTH);
+			_runAnimation.AddFrame(_runAnimation[0].Sprite, RUN_ANIMATION_FRAME_LENGTH * 2);
+			_runAnimation.Play();
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -73,6 +86,10 @@ namespace TRexRunner.Entities
 			else if (State == TrexState.Jumping || State == TrexState.Falling)
 			{
 				_idleSprite.Draw(spriteBatch, Position);
+			}
+			else if (State == TrexState.Running)
+			{
+				_runAnimation.Draw(spriteBatch, Position);
 			}
 		}
 
@@ -103,10 +120,14 @@ namespace TRexRunner.Entities
 
 					Position = new Vector2(Position.X, _startPosY);
 					_verticalVelocity = 0;
-					State = TrexState.Idle;
+					State = TrexState.Running;
 
 					//OnJumpComplete();
 				}
+			}
+			else if (State == TrexState.Running)
+			{
+				_runAnimation.Update(gameTime);
 			}
 		}
 		private void CreateBlinkAnimation()
