@@ -10,6 +10,8 @@ namespace TRexRunner.Entities
 	{
 		private const float GRAVITY = 1600f;
 		private const float JUMP_START_VELOCITY = -480f;
+		private const float JUMP_CANCEL_VELOCITY = -100f;
+		private const float MIN_JUMP_HEIGHT = 40f;
 
 		private const int TREX_IDLE_BACKGROUND_POS_X = 40;
 		private const int TREX_IDLE_BACKGROUND_POS_Y = 0;
@@ -137,13 +139,13 @@ namespace TRexRunner.Entities
 
 		public bool CancelJump()
 		{
-			if (State != TrexState.Jumping)
+			if (State != TrexState.Jumping || (Position.Y - _startPosY) < MIN_JUMP_HEIGHT)
 			{
 				return false;
 			}
 
 			State = TrexState.Falling;
-			_verticalVelocity = 0;
+			_verticalVelocity = _verticalVelocity < JUMP_CANCEL_VELOCITY ? JUMP_CANCEL_VELOCITY : 0;
 
 			return true;
 		}

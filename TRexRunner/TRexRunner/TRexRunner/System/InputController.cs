@@ -29,7 +29,7 @@ namespace TRexRunner.System
 					_trex.ContinueJump();
 				}				
 			}
-			else if (_previousKeyboardState.IsKeyDown(Keys.Up) && !keyboardState.IsKeyDown(Keys.Up))
+			else if (_trex.State == TrexState.Jumping && !keyboardState.IsKeyDown(Keys.Up))
 			{
 				_trex.CancelJump();
 			}
