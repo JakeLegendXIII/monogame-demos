@@ -99,6 +99,8 @@ namespace TRexRunner.Entities
 
 			_jumpSound.Play();
 
+			State = TrexState.Jumping;
+
 			return true;
 		}
 
