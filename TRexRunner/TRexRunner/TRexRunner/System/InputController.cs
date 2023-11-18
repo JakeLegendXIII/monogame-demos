@@ -27,8 +27,11 @@ namespace TRexRunner.System
 				else
 				{
 					_trex.ContinueJump();
-				}
-				
+				}				
+			}
+			else if (_previousKeyboardState.IsKeyDown(Keys.Up) && !keyboardState.IsKeyDown(Keys.Up))
+			{
+				_trex.CancelJump();
 			}
 			
 			_previousKeyboardState = keyboardState;

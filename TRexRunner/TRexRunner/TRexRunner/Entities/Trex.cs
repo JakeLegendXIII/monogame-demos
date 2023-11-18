@@ -135,6 +135,19 @@ namespace TRexRunner.Entities
 			return true;
 		}
 
+		public bool CancelJump()
+		{
+			if (State != TrexState.Jumping)
+			{
+				return false;
+			}
+
+			State = TrexState.Falling;
+			_verticalVelocity = 0;
+
+			return true;
+		}
+
 		internal bool ContinueJump()
 		{
 			return true;
