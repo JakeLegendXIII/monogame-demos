@@ -28,12 +28,17 @@ namespace TRexRunner.Entities
 		private const int TREX_RUNNING_SPRITE_ONE_POS_Y = 0;
 		private const float RUN_ANIMATION_FRAME_LENGTH = 0.1f;
 
+		private const int TREX_DUCKING_SPRITE_WIDTH = 59;
+		private const int TREX_DUCKING_SPRITE_ONE_POS_X = TREX_DEFAULT_POS_X + TREX_DEFAULT_WIDTH * 6;
+		private const int TREX_DUCKING_SPRITE_ONE_POS_Y = 0;
+
 		private Sprite _idleBackgroundSprite;
 
 		private Sprite _idleSprite;
 		private Sprite _idleBlinkSprite;
 		private SpriteAnimation _blinkAnimation;
 		private SpriteAnimation _runAnimation;
+		private SpriteAnimation _duckAnimation;
 
 		private SoundEffect _jumpSound;
 
@@ -74,6 +79,12 @@ namespace TRexRunner.Entities
 			_runAnimation.AddFrame(new Sprite(spriteSheet, TREX_RUNNING_SPRITE_ONE_POS_X + TREX_DEFAULT_WIDTH, TREX_RUNNING_SPRITE_ONE_POS_Y, TREX_DEFAULT_WIDTH, TREX_DEFAULT_HEIGHT), RUN_ANIMATION_FRAME_LENGTH);
 			_runAnimation.AddFrame(_runAnimation[0].Sprite, RUN_ANIMATION_FRAME_LENGTH * 2);
 			_runAnimation.Play();
+
+			_duckAnimation = new SpriteAnimation();
+			_duckAnimation.AddFrame(new Sprite(spriteSheet, TREX_DUCKING_SPRITE_ONE_POS_X, TREX_DUCKING_SPRITE_ONE_POS_Y, TREX_DUCKING_SPRITE_WIDTH, TREX_DEFAULT_HEIGHT), 0);
+			_duckAnimation.AddFrame(new Sprite(spriteSheet, TREX_DUCKING_SPRITE_ONE_POS_X + TREX_DUCKING_SPRITE_WIDTH, TREX_DUCKING_SPRITE_ONE_POS_Y, TREX_DUCKING_SPRITE_WIDTH, TREX_DEFAULT_HEIGHT), RUN_ANIMATION_FRAME_LENGTH);
+			_duckAnimation.AddFrame(_duckAnimation[0].Sprite, RUN_ANIMATION_FRAME_LENGTH * 2);
+			_duckAnimation.Play();
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -90,6 +101,10 @@ namespace TRexRunner.Entities
 			else if (State == TrexState.Running)
 			{
 				_runAnimation.Draw(spriteBatch, Position);
+			}
+			else if (State == TrexState.Ducking)
+			{
+				_duckAnimation.Draw(spriteBatch, Position);
 			}
 		}
 
@@ -128,6 +143,10 @@ namespace TRexRunner.Entities
 			else if (State == TrexState.Running)
 			{
 				_runAnimation.Update(gameTime);
+			}
+			else if (State == TrexState.Ducking)
+			{
+				_duckAnimation.Update(gameTime);
 			}
 		}
 		private void CreateBlinkAnimation()
@@ -169,6 +188,17 @@ namespace TRexRunner.Entities
 			_verticalVelocity = _verticalVelocity < JUMP_CANCEL_VELOCITY ? JUMP_CANCEL_VELOCITY : 0;
 
 			return true;
+		}
+
+		public bool Duck()
+		{
+			if (State == TrexState.Jumping || State == TrexState.Falling)
+				return false;
+
+			State = TrexState.Ducking;
+
+			return true;
+
 		}
 
 		internal bool ContinueJump()

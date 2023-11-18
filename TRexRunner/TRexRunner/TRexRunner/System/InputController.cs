@@ -33,6 +33,10 @@ namespace TRexRunner.System
 			{
 				_trex.CancelJump();
 			}
+			else if (keyboardState.IsKeyDown(Keys.Down))
+			{
+				_trex.Duck();
+			}
 			
 			_previousKeyboardState = keyboardState;
 		}
