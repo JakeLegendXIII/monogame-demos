@@ -47,7 +47,7 @@ namespace TRexRunner.Entities
 		public Vector2 Position { get; set; }
 		public TrexState State { get; set; }
 		public bool IsAlive { get; private set; }
-		public float Speed { get; set; }
+		public float Speed { get; private set; } = 120f;
 		public int DrawOrder { get; set; }
 
 		private Random _random;

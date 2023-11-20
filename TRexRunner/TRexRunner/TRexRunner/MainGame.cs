@@ -33,6 +33,7 @@ namespace TRexRunner
 
 		private InputController _inputController;
 		private EntityManager _entityManager;
+		private GroundManager _groundManager;
 
 		public MainGame()
 		{
@@ -65,7 +66,12 @@ namespace TRexRunner
 
 			_inputController = new InputController(_trex);
 
+			_groundManager = new GroundManager(_spriteSheet, _entityManager, _trex);
+
 			_entityManager.AddEntity(_trex);
+			_entityManager.AddEntity(_groundManager);
+
+			_groundManager.Initialize();
 		}
 
 		protected override void Update(GameTime gameTime)
