@@ -33,7 +33,7 @@ namespace TRexRunner.Entities
 		private const int TREX_DUCKING_SPRITE_ONE_POS_Y = 0;
 
 		private const float DROP_VELOCITY = 600f;
-
+		private const float START_SPEED = 240f;
 		private Sprite _idleBackgroundSprite;
 
 		private Sprite _idleSprite;
@@ -155,6 +155,15 @@ namespace TRexRunner.Entities
 
 			_dropVelocity = 0;
 		}
+
+		public void Initialize()
+		{
+
+			IsAlive = true;
+			State = TrexState.Running;
+			Speed = START_SPEED;
+		}
+
 		private void CreateBlinkAnimation()
 		{
 			_blinkAnimation.Clear();

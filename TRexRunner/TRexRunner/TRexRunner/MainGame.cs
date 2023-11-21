@@ -77,6 +77,7 @@ namespace TRexRunner
 
 			_trex = new Trex(_spriteSheet, new Vector2(TREX_START_POS_X, TREX_START_POS_Y - Trex.TREX_DEFAULT_HEIGHT), _sfxButtonPress);			
 			_trex.DrawOrder = 10;
+			_trex.JumpComplete += trex_JumpComplete;
 
 			_inputController = new InputController(_trex);
 
@@ -150,6 +151,16 @@ namespace TRexRunner
 			_trex.BeginJump();
 
 			return true;
+		}
+
+		private void trex_JumpComplete(object sender, EventArgs e)
+		{
+			if (State == GameState.Transtion)
+			{
+				State = GameState.Playing;
+
+				_trex.Initialize();
+			}
 		}
 	}
 }
