@@ -34,6 +34,7 @@ namespace TRexRunner
 		private float _fadeIntexturePositionX;
 
 		private Trex _trex;
+		private ScoreBoard _scoreBoard;
 
 		private InputController _inputController;
 		private EntityManager _entityManager;
@@ -79,12 +80,16 @@ namespace TRexRunner
 			_trex.DrawOrder = 10;
 			_trex.JumpComplete += trex_JumpComplete;
 
+			_scoreBoard = new ScoreBoard(_spriteSheet, new Vector2(WINDOW_WIDTH - 100, 10));
+			_scoreBoard.Score = 498;
+
 			_inputController = new InputController(_trex);
 
 			_groundManager = new GroundManager(_spriteSheet, _entityManager, _trex);
 
 			_entityManager.AddEntity(_trex);
 			_entityManager.AddEntity(_groundManager);
+			_entityManager.AddEntity(_scoreBoard);
 
 			_groundManager.Initialize();
 		}
