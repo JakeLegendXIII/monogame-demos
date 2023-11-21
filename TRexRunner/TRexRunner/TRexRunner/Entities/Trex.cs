@@ -44,16 +44,18 @@ namespace TRexRunner.Entities
 
 		private SoundEffect _jumpSound;
 
+		private Random _random;
+		private float _startPosY;
+		private float _dropVelocity;
+		private float _verticalVelocity;
+
+		public event EventHandler JumpComplete;
+
 		public Vector2 Position { get; set; }
 		public TrexState State { get; set; }
 		public bool IsAlive { get; private set; }
 		public float Speed { get; private set; }
 		public int DrawOrder { get; set; }
-
-		private Random _random;
-		private float _startPosY;
-		private float _dropVelocity;
-		private float _verticalVelocity;
 
 
 		public Trex(Texture2D spriteSheet, Vector2 position, SoundEffect jumpSound)
@@ -139,7 +141,7 @@ namespace TRexRunner.Entities
 					_verticalVelocity = 0;
 					State = TrexState.Running;
 
-					//OnJumpComplete();
+					OnJumpComplete();
 				}
 			}
 			else if (State == TrexState.Running)
@@ -230,6 +232,11 @@ namespace TRexRunner.Entities
 		internal bool ContinueJump()
 		{
 			return true;
+		}
+
+		protected virtual void OnJumpComplete()
+		{
+			JumpComplete?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }
