@@ -17,7 +17,8 @@ namespace TRexRunner.Entities
 
 		public double Score { get; set; }
 		public int DisplayScore => (int)Math.Floor(Score);
-		public int Highcore { get; set; }
+		public int HighScore { get; set; }
+		public bool HasHighScore => HighScore > 0;
 
 		public int DrawOrder => 100;
 
@@ -30,25 +31,35 @@ namespace TRexRunner.Entities
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
-		{
-			int[] digits = SplitDigits(DisplayScore);
-			float posX = Position.X;
-
-			foreach(var digit in digits)
+		{						
+			if (HasHighScore)
 			{
-				Rectangle textureCoordinates = GetDigitTextureCoords(digit);
+				DrawScore(spriteBatch, HighScore, Position.X);
+			}
 
-				Vector2 screenPos = new Vector2(posX, Position.Y);
-				
-				spriteBatch.Draw(_texture, screenPos, textureCoordinates, Color.White);
-
-				posX += TEXTURE_SPRITE_WIDTH;
-			}			
-		}
+			DrawScore(spriteBatch, DisplayScore, Position.X + 70);
+		}		
 
 		public void Update(GameTime gameTime)
 		{
 			
+		}
+
+		private void DrawScore(SpriteBatch spriteBatch, int score, float startPosX)
+		{
+			int[] digits = SplitDigits(score);
+			float posX = startPosX;
+
+			foreach (var digit in digits)
+			{
+				Rectangle textureCoordinates = GetDigitTextureCoords(digit);
+
+				Vector2 screenPos = new Vector2(posX, Position.Y);
+
+				spriteBatch.Draw(_texture, screenPos, textureCoordinates, Color.White);
+
+				posX += TEXTURE_SPRITE_WIDTH;
+			}
 		}
 
 		private int[] SplitDigits(int input)

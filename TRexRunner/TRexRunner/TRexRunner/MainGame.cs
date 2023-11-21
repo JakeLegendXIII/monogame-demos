@@ -80,8 +80,9 @@ namespace TRexRunner
 			_trex.DrawOrder = 10;
 			_trex.JumpComplete += trex_JumpComplete;
 
-			_scoreBoard = new ScoreBoard(_spriteSheet, new Vector2(WINDOW_WIDTH - 100, 10));
+			_scoreBoard = new ScoreBoard(_spriteSheet, new Vector2(WINDOW_WIDTH - 130, 10));
 			_scoreBoard.Score = 498;
+			_scoreBoard.HighScore = 12345;
 
 			_inputController = new InputController(_trex);
 
