@@ -20,7 +20,10 @@ namespace TRexRunner.Entities
 		private const int TEXTURE_COORDS_HI_HEIGHT = 13;
 		private const int HI_TEXT_MARGIN = 28;
 
+		private const float SCORE_INCREMENT_MULTIPLIER = 0.025f;
+
 		private Texture2D _texture;
+		private Trex _trex;
 
 		public double Score { get; set; }
 		public int DisplayScore => (int)Math.Floor(Score);
@@ -31,10 +34,11 @@ namespace TRexRunner.Entities
 
 		public Vector2 Position { get; set; }
 
-		public ScoreBoard(Texture2D texture, Vector2 position)
+		public ScoreBoard(Texture2D texture, Vector2 position, Trex  trex)
 		{
 			_texture = texture;
 			Position = position;
+			_trex = trex;
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -52,7 +56,7 @@ namespace TRexRunner.Entities
 
 		public void Update(GameTime gameTime)
 		{
-			
+			Score += _trex.Speed * SCORE_INCREMENT_MULTIPLIER * gameTime.ElapsedGameTime.TotalSeconds;
 		}
 
 		private void DrawScore(SpriteBatch spriteBatch, int score, float startPosX)
