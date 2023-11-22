@@ -21,6 +21,8 @@ namespace TRexRunner
 		public const int TREX_START_POS_Y = WINDOW_HEIGHT - 16;
 		public const int TREX_START_POS_X = 1;
 		private const float FADE_IN_ANIMATION_SPEED = 820f;
+		private const int SCORE_BOARD_POS_X = WINDOW_WIDTH - 130;
+		private const int SCORE_BOARD_POS_Y = 10;
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
 
@@ -80,7 +82,7 @@ namespace TRexRunner
 			_trex.DrawOrder = 10;
 			_trex.JumpComplete += trex_JumpComplete;
 
-			_scoreBoard = new ScoreBoard(_spriteSheet, new Vector2(WINDOW_WIDTH - 130, 10));
+			_scoreBoard = new ScoreBoard(_spriteSheet, new Vector2(SCORE_BOARD_POS_X, SCORE_BOARD_POS_Y));
 			_scoreBoard.Score = 498;
 			_scoreBoard.HighScore = 12345;
 

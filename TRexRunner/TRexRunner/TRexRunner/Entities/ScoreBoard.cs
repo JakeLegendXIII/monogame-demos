@@ -12,6 +12,13 @@ namespace TRexRunner.Entities
 		private const int TEXTURE_SPRITE_HEIGHT = 13;
 
 		private const byte NUMBER_OF_DIGITS = 5;
+		private const int SCORE_MARGIN = 70;
+
+		private const int TEXTURE_COORDS_HI_X = 755;
+		private const int TEXTURE_COORDS_HI_Y = 0;
+		private const int TEXTURE_COORDS_HI_WIDTH = 20;
+		private const int TEXTURE_COORDS_HI_HEIGHT = 13;
+		private const int HI_TEXT_MARGIN = 28;
 
 		private Texture2D _texture;
 
@@ -31,13 +38,16 @@ namespace TRexRunner.Entities
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
-		{						
+		{
+			
 			if (HasHighScore)
 			{
+				spriteBatch.Draw(_texture, new Vector2(Position.X - HI_TEXT_MARGIN, Position.Y), new Rectangle(TEXTURE_COORDS_HI_X, TEXTURE_COORDS_HI_Y, TEXTURE_COORDS_HI_WIDTH, TEXTURE_COORDS_HI_HEIGHT), Color.White);
+
 				DrawScore(spriteBatch, HighScore, Position.X);
 			}
 
-			DrawScore(spriteBatch, DisplayScore, Position.X + 70);
+			DrawScore(spriteBatch, DisplayScore, Position.X + SCORE_MARGIN);
 		}		
 
 		public void Update(GameTime gameTime)
