@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using TRexRunner.Graphics;
 
 namespace TRexRunner.Entities
 {
