@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace TRexRunner.Entities
 {
@@ -19,7 +20,7 @@ namespace TRexRunner.Entities
 
 		public int DrawOrder => 0;
 
-		private Random _random;
+		private Random _random;		
 
 		public ObstacleManager(EntityManager entityManager, Trex trex, ScoreBoard scoreBoard)
 		{

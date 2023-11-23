@@ -72,5 +72,10 @@ namespace TRexRunner.Entities
 			_entitiesToAdd.Clear();
 			_entitiesToRemove.Clear();
 		}
+
+		public IEnumerable<T> GetEntitiesOfType<T>() where T : IGameEntity
+		{
+			return _entities.OfType<T>();
+		}
 	}
 }
