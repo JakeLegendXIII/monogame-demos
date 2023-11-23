@@ -63,22 +63,23 @@ namespace TRexRunner.Entities
 			int posX = 0;
 			int posY = 0;
 
-			if (!IsLarge) // Create small cactus group
-			{
-				spriteWidth = SMALL_CACTUS_SPRITE_WIDTH;
-				spriteHeight = SMALL_CACTUS_SPRITE_HEIGHT;
-
-				posX = SMALL_CACTUS_TEXTURE_POS_X;
-				posY = SMALL_CACTUS_TEXTURE_POS_Y;
-
-			}
-			else // Create large cactus group
+			if (IsLarge) // Create large cactus group
 			{
 				spriteWidth = LARGE_CACTUS_SPRITE_WIDTH;
 				spriteHeight = LARGE_CACTUS_SPRITE_HEIGHT;
 
 				posX = LARGE_CACTUS_TEXTURE_POS_X;
 				posY = LARGE_CACTUS_TEXTURE_POS_Y;
+				
+
+			}
+			else // Create small cactus group
+			{
+				spriteWidth = SMALL_CACTUS_SPRITE_WIDTH;
+				spriteHeight = SMALL_CACTUS_SPRITE_HEIGHT;
+
+				posX = SMALL_CACTUS_TEXTURE_POS_X;
+				posY = SMALL_CACTUS_TEXTURE_POS_Y;
 			}
 
 			int offsetX = 0;

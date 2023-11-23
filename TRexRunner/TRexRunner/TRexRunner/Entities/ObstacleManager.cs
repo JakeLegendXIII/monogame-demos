@@ -12,6 +12,9 @@ namespace TRexRunner.Entities
 		private const int MIN_OBSTACLE_DISTANCE = 6;
 		private const int MAX_OBSTACLE_DISTANCE = 28;
 
+		private const int LARGE_CACTUS_POS_Y = 80;
+		private const int SMALL_CACTUS_POS_Y = 94;
+
 		private double _lastSpawnScore = -1;
 		private double _currentTargetDistance;
 
@@ -75,7 +78,11 @@ namespace TRexRunner.Entities
 
 			CactusGroup.GroupSize randomGroupSize = (CactusGroup.GroupSize)_random.Next((int)CactusGroup.GroupSize.Small, (int)CactusGroup.GroupSize.Large + 1);
 
-			obstacle = new CactusGroup(_spriteSheet, false, randomGroupSize, _trex, new Vector2(MainGame.WINDOW_WIDTH, 100));
+			bool isLarge = _random.NextDouble() > 0.5;
+
+			float posY = isLarge ? LARGE_CACTUS_POS_Y : SMALL_CACTUS_POS_Y;
+
+			obstacle = new CactusGroup(_spriteSheet, isLarge, randomGroupSize, _trex, new Vector2(MainGame.WINDOW_WIDTH, posY));
 
 			_entityManager.AddEntity(obstacle);
 		}
