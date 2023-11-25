@@ -130,23 +130,30 @@ namespace TRexRunner.Entities
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-			if (State == TrexState.Idle)
+			if (IsAlive)
 			{
-				_idleBackgroundSprite.Draw(spriteBatch, Position);
-				_blinkAnimation.Draw(spriteBatch, Position);
+				if (State == TrexState.Idle)
+				{
+					_idleBackgroundSprite.Draw(spriteBatch, Position);
+					_blinkAnimation.Draw(spriteBatch, Position);
+				}
+				else if (State == TrexState.Jumping || State == TrexState.Falling)
+				{
+					_idleSprite.Draw(spriteBatch, Position);
+				}
+				else if (State == TrexState.Running)
+				{
+					_runAnimation.Draw(spriteBatch, Position);
+				}
+				else if (State == TrexState.Ducking)
+				{
+					_duckAnimation.Draw(spriteBatch, Position);
+				}
 			}
-			else if (State == TrexState.Jumping || State == TrexState.Falling)
+			else
 			{
-				_idleSprite.Draw(spriteBatch, Position);
-			}
-			else if (State == TrexState.Running)
-			{
-				_runAnimation.Draw(spriteBatch, Position);
-			}
-			else if (State == TrexState.Ducking)
-			{
-				_duckAnimation.Draw(spriteBatch, Position);
-			}
+				_deadSprite.Draw(spriteBatch, Position);
+			}			
 		}
 
 		public void Update(GameTime gameTime)
@@ -297,9 +304,8 @@ namespace TRexRunner.Entities
 		}
 
 		protected virtual void OnDied()
-		{
-			EventHandler handler = Died;
-			handler?.Invoke(this, EventArgs.Empty);
+		{			
+			Died?.Invoke(this, EventArgs.Empty);
 		}
 
 		public bool Die()

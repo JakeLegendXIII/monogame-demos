@@ -24,6 +24,18 @@ namespace TRexRunner.Entities
 		public void Update(GameTime gameTime)
 		{
 			Position = new Vector2(Position.X - _trex.Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Position.Y);
+			CheckCollisions();
+		}
+
+		private void CheckCollisions()
+		{
+			Rectangle obstacleCollisionBox = CollisionBox;
+			Rectangle trexCollisionBox = _trex.CollisionBox;
+
+			if (obstacleCollisionBox.Intersects(trexCollisionBox))
+			{
+				_trex.Die();
+			}
 		}
 	}
 }

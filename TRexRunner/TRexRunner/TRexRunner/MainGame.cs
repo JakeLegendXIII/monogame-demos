@@ -42,6 +42,7 @@ namespace TRexRunner
 		private EntityManager _entityManager;
 		private GroundManager _groundManager;
 		private ObstacleManager _obstacleManager;
+		private GameOverScreen _gameOverScreen;
 
 		private KeyboardState _previousKeyboardState;
 
@@ -82,6 +83,7 @@ namespace TRexRunner
 			_trex = new Trex(_spriteSheet, new Vector2(TREX_START_POS_X, TREX_START_POS_Y - Trex.TREX_DEFAULT_HEIGHT), _sfxButtonPress);			
 			_trex.DrawOrder = 10;
 			_trex.JumpComplete += trex_JumpComplete;
+			_trex.Died += trex_Died;
 
 			_scoreBoard = new ScoreBoard(_spriteSheet, new Vector2(SCORE_BOARD_POS_X, SCORE_BOARD_POS_Y), _trex);
 			//_scoreBoard.Score = 498;
@@ -93,10 +95,14 @@ namespace TRexRunner
 
 			_obstacleManager = new ObstacleManager(_entityManager, _trex, _scoreBoard, _spriteSheet);
 
+			_gameOverScreen = new GameOverScreen(_spriteSheet);
+			_gameOverScreen.Position = new Vector2(WINDOW_WIDTH / 2 - GameOverScreen.GAME_OVER_SPRITE_WIDTH / 2, WINDOW_HEIGHT / 2 - 30);
+
 			_entityManager.AddEntity(_trex);
 			_entityManager.AddEntity(_groundManager);
 			_entityManager.AddEntity(_scoreBoard);
 			_entityManager.AddEntity(_obstacleManager);
+			_entityManager.AddEntity(_gameOverScreen);
 
 			_groundManager.Initialize();
 		}
@@ -174,6 +180,13 @@ namespace TRexRunner
 
 				_obstacleManager.IsEnabled = true;
 			}
+		}
+
+		private void trex_Died(object sender, EventArgs e)
+		{
+			State = GameState.GameOver;
+			_obstacleManager.IsEnabled = false;
+			_gameOverScreen.IsEnabled = true;
 		}
 	}
 }
