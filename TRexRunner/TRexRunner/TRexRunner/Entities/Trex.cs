@@ -190,6 +190,16 @@ namespace TRexRunner.Entities
 				_duckAnimation.Update(gameTime);
 			}
 
+			if (State != TrexState.Idle)
+			{
+				Speed += ACCELERATION_PPS_PER_SECOND * (float)gameTime.ElapsedGameTime.TotalSeconds;
+			}				
+
+			if (Speed > MAX_SPEED)
+			{
+				Speed = MAX_SPEED;
+			}				
+
 			_dropVelocity = 0;
 		}
 
