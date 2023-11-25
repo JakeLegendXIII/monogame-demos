@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TRexRunner.Entities
 {
-	public abstract class Obstacle : IGameEntity
+	public abstract class Obstacle : IGameEntity, ICollidable
 	{
 		private Trex _trex;
 

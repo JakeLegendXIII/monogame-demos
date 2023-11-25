@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using TRexRunner.Graphics;
 
 namespace TRexRunner.Entities
@@ -18,6 +19,7 @@ namespace TRexRunner.Entities
 
 		private Sprite _textSprite;
 		private Sprite _buttonSprite;
+		private MainGame _mainGame;
 
 		public int DrawOrder => 100;
 
@@ -28,10 +30,13 @@ namespace TRexRunner.Entities
 		private Vector2 _buttonPosition => Position + new Vector2(GAME_OVER_SPRITE_WIDTH / 2 - BUTTON_SPRITE_WIDTH,
 			GAME_OVER_SPRITE_HEIGHT + 20);
 
-		public GameOverScreen(Texture2D spriteSheet)
+		private Rectangle ButtonBounds => new Rectangle(_buttonPosition.ToPoint(), new Point(BUTTON_SPRITE_WIDTH, BUTTON_SPRITE_HEIGHT));
+
+		public GameOverScreen(Texture2D spriteSheet, MainGame mainGame)
 		{
 			_textSprite = new Sprite(spriteSheet, GAME_OVER_TEXTURE_POS_X, GAME_OVER_TEXTURE_POS_Y, GAME_OVER_SPRITE_WIDTH, GAME_OVER_SPRITE_HEIGHT);
 			_buttonSprite = new Sprite(spriteSheet, BUTTON_TEXTURE_POS_X, BUTTON_TEXTURE_POS_Y, BUTTON_SPRITE_WIDTH, BUTTON_SPRITE_HEIGHT);
+			_mainGame = mainGame;
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -46,6 +51,12 @@ namespace TRexRunner.Entities
 		{
 			if (!IsEnabled) return;
 
+			MouseState mouseState = Mouse.GetState();
+
+			if (ButtonBounds.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
+			{
+				_mainGame.Reset();
+			}
 		}
 	}
 }

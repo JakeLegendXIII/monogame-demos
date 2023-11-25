@@ -95,7 +95,7 @@ namespace TRexRunner
 
 			_obstacleManager = new ObstacleManager(_entityManager, _trex, _scoreBoard, _spriteSheet);
 
-			_gameOverScreen = new GameOverScreen(_spriteSheet);
+			_gameOverScreen = new GameOverScreen(_spriteSheet, this);
 			_gameOverScreen.Position = new Vector2(WINDOW_WIDTH / 2 - GameOverScreen.GAME_OVER_SPRITE_WIDTH / 2, WINDOW_HEIGHT / 2 - 30);
 
 			_entityManager.AddEntity(_trex);
@@ -187,6 +187,28 @@ namespace TRexRunner
 			State = GameState.GameOver;
 			_obstacleManager.IsEnabled = false;
 			_gameOverScreen.IsEnabled = true;
+		}
+
+		public bool Reset()
+		{
+			if (State != GameState.GameOver)
+			{
+				return false;
+			}
+			State = GameState.Playing;
+			_trex.Initialize();
+
+			_obstacleManager.Reset();
+			_obstacleManager.IsEnabled = true;
+
+			_gameOverScreen.IsEnabled = false;
+			_scoreBoard.Score = 0;
+
+			_groundManager.Initialize();
+
+			_inputController.BlockInputTemporarily();
+
+			return true;
 		}
 	}
 }

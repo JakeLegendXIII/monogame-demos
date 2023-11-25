@@ -6,7 +6,7 @@ using TRexRunner.Graphics;
 
 namespace TRexRunner.Entities
 {
-	public class Trex : IGameEntity
+	public class Trex : IGameEntity, ICollidable
 	{
 		private const float GRAVITY = 1600f;
 		private const float JUMP_START_VELOCITY = -480f;
@@ -83,7 +83,6 @@ namespace TRexRunner.Entities
 				{
 					box.Y += DUCK_COLLISION_REDUCTION;
 					box.Height -= DUCK_COLLISION_REDUCTION;
-
 				}
 
 				return box;
