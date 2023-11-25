@@ -35,7 +35,10 @@ namespace TRexRunner.Entities
 		private const int TREX_DEAD_SPRITE_POS_Y = 0;
 
 		private const float DROP_VELOCITY = 600f;
-		private const float START_SPEED = 240f;
+		public const float START_SPEED = 280f;
+		public const float MAX_SPEED = 900f;
+
+		private const float ACCELERATION_PPS_PER_SECOND = 3f;
 		private const int COLLISION_BOX_INSET = 3;
 		private const int DUCK_COLLISION_REDUCTION = 20;
 

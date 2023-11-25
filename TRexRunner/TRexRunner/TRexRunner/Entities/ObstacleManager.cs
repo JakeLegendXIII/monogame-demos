@@ -12,6 +12,8 @@ namespace TRexRunner.Entities
 		private const int MIN_OBSTACLE_DISTANCE = 6;
 		private const int MAX_OBSTACLE_DISTANCE = 28;
 
+		private const int OBSTACLE_DISTANCE_SPEED_TOLERANCE = 5;
+
 		private const int LARGE_CACTUS_POS_Y = 80;
 		private const int SMALL_CACTUS_POS_Y = 94;
 
@@ -53,11 +55,11 @@ namespace TRexRunner.Entities
 			{
 				_currentTargetDistance = _random.NextDouble() * (MAX_OBSTACLE_DISTANCE + MIN_OBSTACLE_DISTANCE) + MIN_SPAWN_DISTANCE;
 
+				_currentTargetDistance += (_trex.Speed - Trex.START_SPEED) / (Trex.MAX_SPEED - Trex.START_SPEED) * OBSTACLE_DISTANCE_SPEED_TOLERANCE;
 
 				_lastSpawnScore = _scoreBoard.Score;
 				
 				SpawnRandomObstacle();
-
 			}
 
 			foreach(Obstacle obstacle in _entityManager.GetEntitiesOfType<Obstacle>())
