@@ -17,6 +17,8 @@ namespace TRexRunner.Entities
 		private const int LARGE_CACTUS_POS_Y = 80;
 		private const int SMALL_CACTUS_POS_Y = 94;
 
+		private const int OBSTACLBE_DRAW_ORDER = 12;
+		private const int OBSTACLE_DESPAWN_POS_X = -200;
 		private double _lastSpawnScore = -1;
 		private double _currentTargetDistance;
 
@@ -64,7 +66,7 @@ namespace TRexRunner.Entities
 
 			foreach(Obstacle obstacle in _entityManager.GetEntitiesOfType<Obstacle>())
 			{
-				if (obstacle.Position.X < -200)
+				if (obstacle.Position.X < OBSTACLE_DESPAWN_POS_X)
 				{
 					_entityManager.RemoveEntity(obstacle);
 				}
@@ -85,6 +87,7 @@ namespace TRexRunner.Entities
 			float posY = isLarge ? LARGE_CACTUS_POS_Y : SMALL_CACTUS_POS_Y;
 
 			obstacle = new CactusGroup(_spriteSheet, isLarge, randomGroupSize, _trex, new Vector2(MainGame.WINDOW_WIDTH, posY));
+			obstacle.DrawOrder = OBSTACLBE_DRAW_ORDER;
 
 			_entityManager.AddEntity(obstacle);
 		}
