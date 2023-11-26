@@ -6,11 +6,11 @@ namespace TRexRunner.Entities
 {
 	public class Cloud : SkyObject
 	{
-		private const int TEXTURE_COORDS_X = 67;
+		private const int TEXTURE_COORDS_X = 86;
 		private const int TEXTURE_COORDS_Y = 0;
 
-		private const int TEXTURE_WIDTH = 46;
-		private const int TEXTURE_HEIGHT = 17;
+		private const int TEXTURE_WIDTH = 47;
+		private const int TEXTURE_HEIGHT = 19;
 
 		private Sprite _sprite;
 

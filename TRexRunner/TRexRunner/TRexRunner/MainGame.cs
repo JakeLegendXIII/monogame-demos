@@ -43,6 +43,7 @@ namespace TRexRunner
 		private GroundManager _groundManager;
 		private ObstacleManager _obstacleManager;
 		private GameOverScreen _gameOverScreen;
+		private SkyManager _skyManager;
 
 		private KeyboardState _previousKeyboardState;
 
@@ -95,6 +96,8 @@ namespace TRexRunner
 
 			_obstacleManager = new ObstacleManager(_entityManager, _trex, _scoreBoard, _spriteSheet);
 
+			_skyManager = new SkyManager(_trex, _spriteSheet, _entityManager, _scoreBoard);
+
 			_gameOverScreen = new GameOverScreen(_spriteSheet, this);
 			_gameOverScreen.Position = new Vector2(WINDOW_WIDTH / 2 - GameOverScreen.GAME_OVER_SPRITE_WIDTH / 2, WINDOW_HEIGHT / 2 - 30);
 
@@ -103,6 +106,7 @@ namespace TRexRunner
 			_entityManager.AddEntity(_scoreBoard);
 			_entityManager.AddEntity(_obstacleManager);
 			_entityManager.AddEntity(_gameOverScreen);
+			_entityManager.AddEntity(_skyManager);
 
 			_groundManager.Initialize();
 		}

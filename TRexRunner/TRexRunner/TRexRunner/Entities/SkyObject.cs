@@ -21,7 +21,10 @@ namespace TRexRunner.Entities
 
 		public virtual void Update(GameTime gameTime)
 		{
-			Position = new Vector2(Position.X - Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Position.Y);
+			if (_trex.IsAlive)
+			{
+				Position = new Vector2(Position.X - Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Position.Y);
+			}			
 		}
 	}
 }
