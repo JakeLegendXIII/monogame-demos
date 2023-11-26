@@ -80,6 +80,13 @@ namespace TRexRunner.Entities
 
 		public void Initialize()
 		{
+			_groundTiles.Clear();
+
+			foreach(var gt in _entityManager.Entities.OfType<GroundTile>())
+			{
+				_entityManager.RemoveEntity(gt);
+			}
+
 			GroundTile groundTile = CreateRegularTile(0);
 
 			_groundTiles.Add(groundTile);
