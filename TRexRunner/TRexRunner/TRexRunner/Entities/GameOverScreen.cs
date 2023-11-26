@@ -60,7 +60,7 @@ namespace TRexRunner.Entities
 			bool wasKeyPressed = _previousKeyboardState.IsKeyDown(Keys.Space) || _previousKeyboardState.IsKeyDown(Keys.Up) || _previousKeyboardState.IsKeyDown(Keys.Enter);
 
 			if ((ButtonBounds.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
-				|| (isKeyPressed && !wasKeyPressed))
+				|| (!isKeyPressed && wasKeyPressed))
 			{
 				_mainGame.Reset();
 			}

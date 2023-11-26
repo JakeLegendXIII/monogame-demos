@@ -7,12 +7,16 @@ namespace TRexRunner.Entities
 {
 	public class ObstacleManager : IGameEntity
 	{
+		private static readonly int[] FLYING_DINO_Y_POSITIONS = new int[] { 90, 62, 24 };
+
 		private const float MIN_SPAWN_DISTANCE = 10f;
 
 		private const int MIN_OBSTACLE_DISTANCE = 6;
 		private const int MAX_OBSTACLE_DISTANCE = 28;
 
 		private const int OBSTACLE_DISTANCE_SPEED_TOLERANCE = 5;
+
+		private const int FLYING_DINO_SPAWN_SCORE_MIN = 100;
 
 		private const int LARGE_CACTUS_POS_Y = 80;
 		private const int SMALL_CACTUS_POS_Y = 94;
@@ -78,13 +82,33 @@ namespace TRexRunner.Entities
 		{						
 			Obstacle obstacle = null;
 
-			CactusGroup.GroupSize randomGroupSize = (CactusGroup.GroupSize)_random.Next((int)CactusGroup.GroupSize.Small, (int)CactusGroup.GroupSize.Large + 1);
 
-			bool isLarge = _random.NextDouble() > 0.5;
+			int cactusGroupSpawnRate = 75;
+			int flyingDinoSpawnRate = _scoreBoard.Score >= FLYING_DINO_SPAWN_SCORE_MIN ? 25 : 0;
 
-			float posY = isLarge ? LARGE_CACTUS_POS_Y : SMALL_CACTUS_POS_Y;
+			int rng = _random.Next(0, cactusGroupSpawnRate + flyingDinoSpawnRate + 1);
 
-			obstacle = new CactusGroup(_spriteSheet, isLarge, randomGroupSize, _trex, new Vector2(MainGame.WINDOW_WIDTH, posY));
+			if (rng <= cactusGroupSpawnRate)
+			{
+				// CACTUS
+				CactusGroup.GroupSize randomGroupSize = (CactusGroup.GroupSize)_random.Next((int)CactusGroup.GroupSize.Small, (int)CactusGroup.GroupSize.Large + 1);
+
+				bool isLarge = _random.NextDouble() > 0.5;
+
+				float posY = isLarge ? LARGE_CACTUS_POS_Y : SMALL_CACTUS_POS_Y;
+
+				obstacle = new CactusGroup(_spriteSheet, isLarge, randomGroupSize, _trex, new Vector2(MainGame.WINDOW_WIDTH, posY));
+			}
+			else
+			{
+				// DINO
+				int verticalPosIndex = _random.Next(0, FLYING_DINO_Y_POSITIONS.Length);
+				float posY = FLYING_DINO_Y_POSITIONS[verticalPosIndex];
+
+				obstacle = new FlyingDino(_trex, new Vector2(MainGame.WINDOW_WIDTH, posY), _spriteSheet);
+			}
+
+		
 			obstacle.DrawOrder = OBSTACLBE_DRAW_ORDER;
 
 			_entityManager.AddEntity(obstacle);

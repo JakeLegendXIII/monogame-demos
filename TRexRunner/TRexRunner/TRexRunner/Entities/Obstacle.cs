@@ -7,7 +7,7 @@ namespace TRexRunner.Entities
 	{
 		private Trex _trex;
 
-		public Vector2 Position { get; private set; }
+		public Vector2 Position { get; set; }
 
 		public int DrawOrder { get; set; }
 
@@ -21,7 +21,7 @@ namespace TRexRunner.Entities
 
 		public abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime);
 
-		public void Update(GameTime gameTime)
+		public virtual void Update(GameTime gameTime)
 		{
 			Position = new Vector2(Position.X - _trex.Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, Position.Y);
 			CheckCollisions();
