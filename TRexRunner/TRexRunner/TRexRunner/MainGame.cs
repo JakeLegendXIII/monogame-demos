@@ -187,6 +187,7 @@ namespace TRexRunner
 			State = GameState.GameOver;
 			_obstacleManager.IsEnabled = false;
 			_gameOverScreen.IsEnabled = true;
+			_sfxHit.Play();
 		}
 
 		public bool Reset()

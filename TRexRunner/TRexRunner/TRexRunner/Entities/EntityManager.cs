@@ -21,6 +21,10 @@ namespace TRexRunner.Entities
 		{
 			foreach (var entity in _entities)
 			{
+				if (_entitiesToRemove.Contains(entity))
+				{
+					continue;
+				}
 				entity.Update(gameTime);
 			}
 

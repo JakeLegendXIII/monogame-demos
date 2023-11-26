@@ -75,9 +75,7 @@ namespace TRexRunner.Entities
 		}
 
 		private void SpawnRandomObstacle()
-		{
-			// TODO: Create instance of obstacle and add to entity manager
-			
+		{						
 			Obstacle obstacle = null;
 
 			CactusGroup.GroupSize randomGroupSize = (CactusGroup.GroupSize)_random.Next((int)CactusGroup.GroupSize.Small, (int)CactusGroup.GroupSize.Large + 1);
