@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
@@ -22,8 +23,15 @@ namespace TRexRunner.Entities
 
 		private const float SCORE_INCREMENT_MULTIPLIER = 0.025f;
 
+		private const float FLASH_ANIMATION_FRAME_LENGTH = 0.333f;
+		private const int FLASH_ANIMATION_FLASH_COUNT = 4;
+
+		private bool _isFlashing;
+		private float _flashTimer;
+
 		private Texture2D _texture;
 		private Trex _trex;
+		private SoundEffect _scoreSfx;
 
 		public double Score { get; set; }
 		public int DisplayScore => (int)Math.Floor(Score);
@@ -34,11 +42,12 @@ namespace TRexRunner.Entities
 
 		public Vector2 Position { get; set; }
 
-		public ScoreBoard(Texture2D texture, Vector2 position, Trex  trex)
+		public ScoreBoard(Texture2D texture, Vector2 position, Trex  trex, SoundEffect scoreSfx)
 		{
 			_texture = texture;
 			Position = position;
 			_trex = trex;
+			_scoreSfx = scoreSfx;
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
@@ -51,13 +60,35 @@ namespace TRexRunner.Entities
 				DrawScore(spriteBatch, HighScore, Position.X);
 			}
 
-			DrawScore(spriteBatch, DisplayScore, Position.X + SCORE_MARGIN);
+			if (!_isFlashing || ((int)(_flashTimer / FLASH_ANIMATION_FRAME_LENGTH) % 2 != 0))
+			{
+				DrawScore(spriteBatch, DisplayScore, Position.X + SCORE_MARGIN);
+			}			
 		}		
 
 		public void Update(GameTime gameTime)
 		{
+			int oldScore = DisplayScore;
+
 			Score += _trex.Speed * SCORE_INCREMENT_MULTIPLIER * gameTime.ElapsedGameTime.TotalSeconds;
-		}
+
+            if (!_isFlashing && (DisplayScore / 100 != oldScore / 100))
+            {
+                _isFlashing = true;
+				_flashTimer = 0;
+				_scoreSfx.Play(0.5f, 0, 0);
+            }
+
+            if (_isFlashing)
+            {
+				_flashTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (_flashTimer >= FLASH_ANIMATION_FRAME_LENGTH * FLASH_ANIMATION_FLASH_COUNT)
+                {
+					_isFlashing = false;
+                }
+            }
+        }
 
 		private void DrawScore(SpriteBatch spriteBatch, int score, float startPosX)
 		{
