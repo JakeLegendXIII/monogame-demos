@@ -21,6 +21,8 @@ namespace TRexRunner.Entities
 		private Sprite _buttonSprite;
 		private MainGame _mainGame;
 
+		private KeyboardState _previousKeyboardState;
+
 		public int DrawOrder => 100;
 
 		public Vector2 Position { get; set; }
@@ -52,11 +54,18 @@ namespace TRexRunner.Entities
 			if (!IsEnabled) return;
 
 			MouseState mouseState = Mouse.GetState();
+			KeyboardState keyboardState = Keyboard.GetState();
 
-			if (ButtonBounds.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
+			bool isKeyPressed = keyboardState.IsKeyDown(Keys.Space) || keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.Enter);
+			bool wasKeyPressed = _previousKeyboardState.IsKeyDown(Keys.Space) || _previousKeyboardState.IsKeyDown(Keys.Up) || _previousKeyboardState.IsKeyDown(Keys.Enter);
+
+			if ((ButtonBounds.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed)
+				|| (isKeyPressed && !wasKeyPressed))
 			{
 				_mainGame.Reset();
 			}
+
+			_previousKeyboardState = keyboardState;
 		}
 	}
 }
