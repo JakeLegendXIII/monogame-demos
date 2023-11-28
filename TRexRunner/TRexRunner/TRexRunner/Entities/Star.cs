@@ -20,12 +20,26 @@ namespace TRexRunner.Entities
 		public Star(Trex trex, Vector2 position, Texture2D spriteSheet) : base(trex, position)
 		{
 			_animation = SpriteAnimation.CreateSimpleAnimation(spriteSheet, new Point(STAR_SOURCE_X, STAR_SOURCE_Y), STAR_WIDTH, STAR_HEIGHT,
-				new Point(0, STAR_HEIGHT), 3, ANIMATION_FRAME_LENGTH);			
+				new Point(0, STAR_HEIGHT), 3, ANIMATION_FRAME_LENGTH);
+
+			_animation.ShouldLoop = true;
+			_animation.Play();
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
 			_animation.Draw(spriteBatch, Position);
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+
+			if (_trex.IsAlive)
+			{
+				_animation.Update(gameTime);
+			}
+			
 		}
 	}
 }

@@ -9,6 +9,8 @@ namespace TRexRunner.Entities
 {
 	public class SkyManager : IGameEntity
 	{
+		private const int CLOUD_DRAW_ORDER = -1;
+		private const int STAR_DRAW_ORDER = -2;
 
 		private const int CLOUD_MIN_POS_Y = 20;
 		private const int CLOUD_MAX_POS_Y = 70;
@@ -68,8 +70,9 @@ namespace TRexRunner.Entities
 			{
 				_targetStarDistance = _random.Next(STAR_MIN_DISTANCE, STAR_MAX_DISTANCE + 1);
 				int posY = _random.Next(STAR_MIN_POS_X, STAR_MAX_POS_Y + 1);
-
+				
 				Star star = new Star(_trex, new Vector2(MainGame.WINDOW_WIDTH, posY), _spriteSheet);
+				star.DrawOrder = STAR_DRAW_ORDER;
 
 				_entityManager.AddEntity(star);
 			}
@@ -85,6 +88,7 @@ namespace TRexRunner.Entities
 				int posY = _random.Next(CLOUD_MIN_POS_Y, CLOUD_MAX_POS_Y + 1);
 
 				Cloud cloud = new Cloud(_trex, new Vector2(MainGame.WINDOW_WIDTH, posY), _spriteSheet);
+				cloud.DrawOrder = CLOUD_DRAW_ORDER;
 
 				_entityManager.AddEntity(cloud);
 			}
