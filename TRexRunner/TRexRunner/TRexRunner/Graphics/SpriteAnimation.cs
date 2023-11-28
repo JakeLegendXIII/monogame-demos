@@ -93,5 +93,28 @@ namespace TRexRunner.Graphics
 			Stop();
 			_frames.Clear();
 		}
+
+		public static SpriteAnimation CreateSimpleAnimation(Texture2D texture, Point startPos, int width, int height, Point offset, int frameCount, float frameLength)
+		{
+			if (texture == null)
+			{
+				throw new ArgumentNullException(nameof(texture), "The texture must not be null.");
+			}
+
+			SpriteAnimation anim = new SpriteAnimation();
+
+			for(var i = 0; i < frameCount; i++)
+			{
+				Sprite sprite = new Sprite(texture, startPos.X + i * offset.X, startPos.Y + i * offset.Y, width, height);
+				anim.AddFrame(sprite, frameLength * i);
+
+				if (i == frameCount - 1)
+				{
+					anim.AddFrame(sprite, frameLength * (i + 1));
+				}
+			}
+
+			return anim;
+		}
 	}
 }
