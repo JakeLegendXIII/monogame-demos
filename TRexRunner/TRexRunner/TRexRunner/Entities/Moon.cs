@@ -29,12 +29,32 @@ namespace TRexRunner.Entities
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-			
+			UpdateSprite();
+
+			if (_dayNightCycle.IsNight)
+			{
+				_sprite.Draw(spriteBatch, Position);
+			}
 		}
 
 		public void UpdateSprite()
 		{
-			
+			int spriteIndex = _dayNightCycle.NightCount % SPRITE_COUNT;
+
+			int spriteWidth = MOON_WIDTH;
+			int spriteHeight = MOON_HEIGHT;
+
+			if (spriteIndex == 3)
+				spriteWidth *= 2;
+
+			if (spriteIndex >= 3)
+				spriteIndex++;
+
+			_sprite.Height = spriteHeight;
+			_sprite.Width = spriteWidth;
+
+			_sprite.X = RIGHTMOST_SPRITE_COORDS_X - spriteIndex * MOON_WIDTH;
+			_sprite.Y = RIGHTMOST_SPRITE_COORDS_Y;
 		}
 	}
 }
