@@ -14,11 +14,14 @@ namespace TRexRunner.Entities
 		private const float ANIMATION_FRAME_LENGTH = 0.4f;
 
 		private SpriteAnimation _animation;
+		private IDayNightCycle _dayNightCycle;
 
 		public override float Speed => _trex.Speed * 0.2f;
 
-		public Star(Trex trex, Vector2 position, Texture2D spriteSheet) : base(trex, position)
+		public Star(IDayNightCycle dayNightCycle, Trex trex, Vector2 position, Texture2D spriteSheet) : base(trex, position)
 		{
+			_dayNightCycle = dayNightCycle;
+
 			_animation = SpriteAnimation.CreateSimpleAnimation(spriteSheet, new Point(STAR_SOURCE_X, STAR_SOURCE_Y), STAR_WIDTH, STAR_HEIGHT,
 				new Point(0, STAR_HEIGHT), 3, ANIMATION_FRAME_LENGTH);
 
@@ -28,7 +31,10 @@ namespace TRexRunner.Entities
 
 		public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-			_animation.Draw(spriteBatch, Position);
+            if (_dayNightCycle.IsNight)
+            {
+				_animation.Draw(spriteBatch, Position);
+			}            
 		}
 
 		public override void Update(GameTime gameTime)
