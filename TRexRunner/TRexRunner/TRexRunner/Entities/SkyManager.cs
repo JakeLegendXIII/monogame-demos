@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace TRexRunner.Entities
 {
-	public class SkyManager : IGameEntity
+	public class SkyManager : IGameEntity, IDayNightCycle
 	{
 		private const int CLOUD_DRAW_ORDER = -1;
 		private const int STAR_DRAW_ORDER = -2;
@@ -23,7 +23,18 @@ namespace TRexRunner.Entities
 		private const int STAR_MIN_DISTANCE = 120;
 		private const int STAR_MAX_DISTANCE = 380;
 
-		public int DrawOrder => 0;
+		private const int MOON_POS_Y = 20;
+
+		private const int NIGHT_TIME_SCORE = 700;
+		private const int NIGHT_TIME_DURATION_SCORE = 250;
+
+		private const float TRANSITION_DURATION = 2f;
+
+		private float _normalizedScreenColor = 1f;
+		private int _previousScore;
+		private int _nightTimeStartScore;
+		private bool _isTransitioningToNight = false;
+		private bool _isTransitioningToDay = false;
 
 		private EntityManager _entityManager;
 		private readonly ScoreBoard _scoreBoard;
@@ -34,7 +45,28 @@ namespace TRexRunner.Entities
 		private int _targetStarDistance = -1;
 		private Random _random;
 		private Texture2D _spriteSheet;
+		private Texture2D _invertedSpriteSheet;
+		private Moon _moon;
 		private Trex _trex;
+
+		private Color[] _textureData;
+		private Color[] _invertedTextureData;
+
+		public Color ClearColor => new Color(_normalizedScreenColor, _normalizedScreenColor, _normalizedScreenColor);
+
+		public int DrawOrder => int.MaxValue;
+
+		public int NightCount { get; private set; }
+
+		public bool IsNight => _normalizedScreenColor < 0.5f;
+
+		private float OverlayVisibility
+		{
+			get
+			{
+				return MathHelper.Clamp((0.25f - MathHelper.Distance(0.5f, _normalizedScreenColor)) / 0.25f, 0, 1);
+			}
+		}
 
 		public SkyManager(Trex trex, Texture2D spriteSheet, EntityManager entityManager, ScoreBoard scoreBoard)
 		{
@@ -70,8 +102,8 @@ namespace TRexRunner.Entities
 			{
 				_targetStarDistance = _random.Next(STAR_MIN_DISTANCE, STAR_MAX_DISTANCE + 1);
 				int posY = _random.Next(STAR_MIN_POS_X, STAR_MAX_POS_Y + 1);
-				
-				Star star = new Star(_trex, new Vector2(MainGame.WINDOW_WIDTH, posY), _spriteSheet);
+
+				Star star = new Star(this, _trex, new Vector2(MainGame.WINDOW_WIDTH, posY), _spriteSheet);
 				star.DrawOrder = STAR_DRAW_ORDER;
 
 				_entityManager.AddEntity(star);
