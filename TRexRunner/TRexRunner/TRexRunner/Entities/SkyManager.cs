@@ -9,6 +9,8 @@ namespace TRexRunner.Entities
 {
 	public class SkyManager : IGameEntity, IDayNightCycle
 	{
+		private const float EPSILON = 0.01f;
+
 		private const int CLOUD_DRAW_ORDER = -1;
 		private const int STAR_DRAW_ORDER = -2;
 
@@ -49,6 +51,8 @@ namespace TRexRunner.Entities
 		private Moon _moon;
 		private Trex _trex;
 
+		private Texture2D _overlay;
+
 		private Color[] _textureData;
 		private Color[] _invertedTextureData;
 
@@ -75,11 +79,16 @@ namespace TRexRunner.Entities
 			_entityManager = entityManager;
 			_scoreBoard = scoreBoard;
 			_random = new Random();
+
+			_overlay = new Texture2D(spriteSheet.GraphicsDevice, 1, 1);
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
 		{
-
+			if (OverlayVisibility > EPSILON)
+			{
+				spriteBatch.Draw(_overlay, new Rectangle(0, 0, MainGame.WINDOW_WIDTH, MainGame.WINDOW_HEIGHT), Color.White * OverlayVisibility);
+			}
 		}
 
 		public void Update(GameTime gameTime)
