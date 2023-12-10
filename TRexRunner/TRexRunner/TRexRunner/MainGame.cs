@@ -4,6 +4,10 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using TrexRunner;
 using TRexRunner.Entities;
 using TRexRunner.Graphics;
 using TRexRunner.System;
@@ -23,6 +27,7 @@ namespace TRexRunner
 		private const float FADE_IN_ANIMATION_SPEED = 820f;
 		private const int SCORE_BOARD_POS_X = WINDOW_WIDTH - 130;
 		private const int SCORE_BOARD_POS_Y = 10;
+		private const string SAVE_FILE_NAME = "Save.dat";
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
 
@@ -34,6 +39,7 @@ namespace TRexRunner
 		private Texture2D _fadeIntexture;
 
 		private float _fadeIntexturePositionX;
+		private DateTime _highscoreDate;
 
 		private Trex _trex;
 		private ScoreBoard _scoreBoard;
@@ -109,6 +115,8 @@ namespace TRexRunner
 			_entityManager.AddEntity(_skyManager);
 
 			_groundManager.Initialize();
+
+			LoadSaveState();
 		}
 
 		protected override void Update(GameTime gameTime)
@@ -137,6 +145,11 @@ namespace TRexRunner
 				{
 					StartGame();
 				}
+			}
+
+			if (currentKeyboardState.IsKeyDown(Keys.F8) && !_previousKeyboardState.IsKeyDown(Keys.F8))
+			{
+				ResetSaveState();
 			}
 
 			_entityManager.Update(gameTime);
@@ -192,6 +205,15 @@ namespace TRexRunner
 			_obstacleManager.IsEnabled = false;
 			_gameOverScreen.IsEnabled = true;
 			_sfxHit.Play();
+
+			if (_scoreBoard.DisplayScore > _scoreBoard.HighScore)
+			{
+				Debug.WriteLine("New highscore set: " + _scoreBoard.DisplayScore);
+				_scoreBoard.HighScore = _scoreBoard.DisplayScore;
+				_highscoreDate = DateTime.Now;
+
+				SaveGame();
+			}
 		}
 
 		public bool Reset()
@@ -214,6 +236,63 @@ namespace TRexRunner
 			_inputController.BlockInputTemporarily();
 
 			return true;
+		}
+
+		public void SaveGame()
+		{
+			SaveState saveState = new SaveState
+			{
+				Highscore = _scoreBoard.HighScore,
+				HighscoreDate = _highscoreDate
+			};
+
+			try
+			{
+				using (FileStream fileStream = new FileStream(SAVE_FILE_NAME, FileMode.Create))
+				{
+					BinaryFormatter binaryFormatter = new BinaryFormatter();
+					binaryFormatter.Serialize(fileStream, saveState);
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("An error occurred while saving the game: " + ex.Message);
+			}
+
+		}
+
+		private void LoadSaveState()
+		{
+			try
+			{
+				using (FileStream fileStream = new FileStream(SAVE_FILE_NAME, FileMode.OpenOrCreate))
+				{
+					BinaryFormatter binaryFormatter = new BinaryFormatter();
+
+					if (binaryFormatter.Deserialize(fileStream) is SaveState saveState)
+					{
+						if (_scoreBoard != null)
+							_scoreBoard.HighScore = saveState.Highscore;
+
+						_highscoreDate = saveState.HighscoreDate;
+
+					}
+
+				}
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine("An error occurred while loading the game: " + ex.Message);
+			}
+		}
+
+		private void ResetSaveState()
+		{
+			_scoreBoard.HighScore = 0;
+			_highscoreDate = default(DateTime);
+
+			SaveGame();
+
 		}
 	}
 }
