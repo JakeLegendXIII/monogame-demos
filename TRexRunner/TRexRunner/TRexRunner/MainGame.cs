@@ -17,6 +17,14 @@ namespace TRexRunner
 {
 	public class MainGame : Game
 	{
+		public enum DisplayMode
+		{
+			Default,
+			Zoomed
+		}
+
+		public const string GAME_TITLE = "T-Rex Runner";
+
 		private const string SPRITE_SHEET = "Sprites/TrexSpritesheet";
 		private const string SFX_HIT = "Audio/hit";
 		private const string SFX_SCORE_REACHED = "Audio/score-reached";
@@ -29,6 +37,7 @@ namespace TRexRunner
 		private const int SCORE_BOARD_POS_X = WINDOW_WIDTH - 130;
 		private const int SCORE_BOARD_POS_Y = 10;
 		private const string SAVE_FILE_NAME = "Save.dat";
+		public const int DISPLAY_ZOOM_FACTOR = 2;
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
 
@@ -55,7 +64,12 @@ namespace TRexRunner
 
 		private KeyboardState _previousKeyboardState;
 
+		private Matrix _transformMatrix = Matrix.Identity;
 		public GameState State { get; private set; }
+
+		public DisplayMode WindowDisplayMode { get; set; } = DisplayMode.Default;
+
+		public float ZoomFactor => WindowDisplayMode == DisplayMode.Default ? 1 : DISPLAY_ZOOM_FACTOR;
 
 		public MainGame()
 		{
@@ -70,6 +84,8 @@ namespace TRexRunner
 		protected override void Initialize()
 		{			
 			base.Initialize();
+
+			Window.Title = GAME_TITLE;
 
 			_graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
 			_graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
@@ -152,6 +168,11 @@ namespace TRexRunner
 			if (currentKeyboardState.IsKeyDown(Keys.F8) && !_previousKeyboardState.IsKeyDown(Keys.F8))
 			{
 				ResetSaveState();
+			}
+
+			if (currentKeyboardState.IsKeyDown(Keys.F12) && !_previousKeyboardState.IsKeyDown(Keys.F12))
+			{
+				ToggleDisplayMode();
 			}
 
 			_entityManager.Update(gameTime);
@@ -294,6 +315,27 @@ namespace TRexRunner
 			_highscoreDate = default(DateTime);
 
 			SaveGame();
+
+		}
+
+		private void ToggleDisplayMode()
+		{
+			if (WindowDisplayMode == DisplayMode.Default)
+			{
+				WindowDisplayMode = DisplayMode.Zoomed;
+				_graphics.PreferredBackBufferHeight = WINDOW_HEIGHT * DISPLAY_ZOOM_FACTOR;
+				_graphics.PreferredBackBufferWidth = WINDOW_WIDTH * DISPLAY_ZOOM_FACTOR;
+				_transformMatrix = Matrix.Identity * Matrix.CreateScale(DISPLAY_ZOOM_FACTOR, DISPLAY_ZOOM_FACTOR, 1);
+			}
+			else
+			{
+				WindowDisplayMode = DisplayMode.Default;
+				_graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
+				_graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
+				_transformMatrix = Matrix.Identity;
+			}
+
+			_graphics.ApplyChanges();
 
 		}
 	}
