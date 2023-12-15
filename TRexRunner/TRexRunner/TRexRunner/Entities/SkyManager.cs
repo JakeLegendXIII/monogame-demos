@@ -28,7 +28,7 @@ namespace TRexRunner.Entities
 
 		private const int MOON_POS_Y = 20;
 
-		private const int NIGHT_TIME_SCORE = 700;
+		private const int NIGHT_TIME_SCORE = 50;
 		private const int NIGHT_TIME_DURATION_SCORE = 250;
 
 		private const float TRANSITION_DURATION = 2f;
@@ -103,14 +103,119 @@ namespace TRexRunner.Entities
 
 		public void Update(GameTime gameTime)
 		{
-			HandleCloudSpawning();
+			if (_moon == null)
+			{
+				_moon = new Moon(this, _spriteSheet, _trex, new Vector2(MainGame.WINDOW_WIDTH, MOON_POS_Y));
+				_moon.DrawOrder = MOON_DRAW_ORDER;
+				_entityManager.AddEntity(_moon);
+			}
 
+			HandleCloudSpawning();
 			HandleStarSpawning();
 
-			foreach (var so in _entityManager.GetEntitiesOfType<SkyObject>().Where(c => c.Position.X < -200))
+			foreach (SkyObject skyObject in _entityManager.GetEntitiesOfType<SkyObject>().Where(s => s.Position.X < -100))
 			{
-				_entityManager.RemoveEntity(so);
+				if (skyObject is Moon moon)
+				{
+					moon.Position = new Vector2(MainGame.WINDOW_WIDTH, MOON_POS_Y);
+				}
+				else
+					_entityManager.RemoveEntity(skyObject);
 			}
+
+			if (_previousScore != 0 && _previousScore < _scoreBoard.DisplayScore && _previousScore / NIGHT_TIME_SCORE != _scoreBoard.DisplayScore / NIGHT_TIME_SCORE)
+			{
+				TransitionToNightTime();
+			}
+
+			if (IsNight && (_scoreBoard.DisplayScore - _nightTimeStartScore >= NIGHT_TIME_DURATION_SCORE))
+			{
+				TransitionToDayTime();
+
+			}
+
+			if (_scoreBoard.DisplayScore < NIGHT_TIME_SCORE && (IsNight || _isTransitioningToNight))
+			{
+				TransitionToDayTime();
+			}
+
+			UpdateTransition(gameTime);
+
+			_previousScore = _scoreBoard.DisplayScore;
+		}
+
+		private void UpdateTransition(GameTime gameTime)
+		{
+			if (_isTransitioningToNight)
+			{
+				_normalizedScreenColor -= (float)(gameTime.ElapsedGameTime.TotalSeconds / TRANSITION_DURATION);
+
+				if (_normalizedScreenColor < 0)
+				{
+					_normalizedScreenColor = 0;					
+				}
+
+				if (_normalizedScreenColor < 0.5f)
+				{
+					InvertTextures();
+				}
+			}
+			else if (_isTransitioningToDay)
+			{
+				_normalizedScreenColor += (float)(gameTime.ElapsedGameTime.TotalSeconds / TRANSITION_DURATION);
+
+				if (_normalizedScreenColor > 1)
+				{
+					_normalizedScreenColor = 1;
+				}
+
+				if (_normalizedScreenColor >= 0.5f)
+				{
+					InvertTextures();
+				}
+			}
+		}
+
+		private void InvertTextures()
+		{
+			if (IsNight)
+			{
+				_spriteSheet.SetData(_invertedTextureData);
+			}
+			else
+			{
+				_spriteSheet.SetData(_textureData);
+			}
+		}
+
+		private bool TransitionToDayTime()
+		{
+			if (!IsNight || _isTransitioningToDay)
+			{
+				return false;
+			}
+
+			_isTransitioningToNight = false;
+			_isTransitioningToDay = true;
+			_normalizedScreenColor = 0;
+
+			return true;
+		}
+
+		private bool TransitionToNightTime()
+		{
+			if (IsNight || _isTransitioningToNight)
+			{
+				return false;
+			}
+
+			_nightTimeStartScore = _scoreBoard.DisplayScore;
+			_isTransitioningToNight = true;
+			_isTransitioningToDay = false;
+			_normalizedScreenColor = 1;
+			NightCount++;
+
+			return true;
 		}
 
 		private void HandleStarSpawning()
