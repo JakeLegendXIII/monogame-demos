@@ -96,17 +96,18 @@ namespace TRexRunner
 		{
 			_spriteBatch = new SpriteBatch(GraphicsDevice);
 
+			_sfxButtonPress = Content.Load<SoundEffect>(SFX_BUTTON_PRESS);
+			_sfxHit = Content.Load<SoundEffect>(SFX_HIT);
+			_sfxScoreReached = Content.Load<SoundEffect>(SFX_SCORE_REACHED);
+
 			_spriteSheet = Content.Load<Texture2D>(SPRITE_SHEET);
 			_invertedSpriteSheet = _spriteSheet.InvertColors(Color.Transparent);
+
 			_fadeInTexture = new Texture2D(GraphicsDevice, 1, 1);
 			_fadeInTexture.SetData(new Color[] { Color.White });
 
-			_sfxHit = Content.Load<SoundEffect>(SFX_HIT);
-			_sfxScoreReached = Content.Load<SoundEffect>(SFX_SCORE_REACHED);
-			_sfxButtonPress = Content.Load<SoundEffect>(SFX_BUTTON_PRESS);
-
-			_trex = new Trex(_spriteSheet, new Vector2(TREX_START_POS_X, TREX_START_POS_Y - Trex.TREX_DEFAULT_HEIGHT), _sfxButtonPress);			
-			_trex.DrawOrder = 10;
+			_trex = new Trex(_spriteSheet, new Vector2(TREX_START_POS_X, TREX_START_POS_Y - Trex.TREX_DEFAULT_HEIGHT), _sfxButtonPress);
+			_trex.DrawOrder = 100;
 			_trex.JumpComplete += trex_JumpComplete;
 			_trex.Died += trex_Died;
 
@@ -117,9 +118,7 @@ namespace TRexRunner
 			_inputController = new InputController(_trex);
 
 			_groundManager = new GroundManager(_spriteSheet, _entityManager, _trex);
-
 			_obstacleManager = new ObstacleManager(_entityManager, _trex, _scoreBoard, _spriteSheet);
-
 			_skyManager = new SkyManager(_trex, _spriteSheet, _invertedSpriteSheet, _entityManager, _scoreBoard);
 
 			_gameOverScreen = new GameOverScreen(_spriteSheet, this);
