@@ -12,7 +12,8 @@ namespace TRexRunner.Entities
 		private const float EPSILON = 0.01f;
 
 		private const int CLOUD_DRAW_ORDER = -1;
-		private const int STAR_DRAW_ORDER = -2;
+		private const int STAR_DRAW_ORDER = -3;
+		private const int MOON_DRAW_ORDER = -2;
 
 		private const int CLOUD_MIN_POS_Y = 20;
 		private const int CLOUD_MAX_POS_Y = 70;
