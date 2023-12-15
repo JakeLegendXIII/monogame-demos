@@ -73,15 +73,24 @@ namespace TRexRunner.Entities
 			}
 		}
 
-		public SkyManager(Trex trex, Texture2D spriteSheet, EntityManager entityManager, ScoreBoard scoreBoard)
+		public SkyManager(Trex trex, Texture2D spriteSheet, Texture2D invertedSpriteSheet, EntityManager entityManager, ScoreBoard scoreBoard)
 		{
-			_trex = trex;
-			_spriteSheet = spriteSheet;
 			_entityManager = entityManager;
 			_scoreBoard = scoreBoard;
 			_random = new Random();
+			_trex = trex;
+			_spriteSheet = spriteSheet;
+			_invertedSpriteSheet = invertedSpriteSheet;
+
+			_textureData = new Color[_spriteSheet.Width * _spriteSheet.Height];
+			_invertedTextureData = new Color[_invertedSpriteSheet.Width * _invertedSpriteSheet.Height];
+
+			_spriteSheet.GetData(_textureData);
+			_invertedSpriteSheet.GetData(_invertedTextureData);
 
 			_overlay = new Texture2D(spriteSheet.GraphicsDevice, 1, 1);
+			Color[] overlayData = new[] { Color.Gray };
+			_overlay.SetData(overlayData);
 		}
 
 		public void Draw(SpriteBatch spriteBatch, GameTime gameTime)

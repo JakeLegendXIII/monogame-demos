@@ -9,6 +9,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using TrexRunner;
 using TRexRunner.Entities;
+using TRexRunner.Extensions;
 using TRexRunner.Graphics;
 using TRexRunner.System;
 
@@ -36,7 +37,8 @@ namespace TRexRunner
 		private SoundEffect _sfxButtonPress;
 
 		private Texture2D _spriteSheet;
-		private Texture2D _fadeIntexture;
+		private Texture2D _fadeInTexture;
+		private Texture2D _invertedSpriteSheet;
 
 		private float _fadeIntexturePositionX;
 		private DateTime _highscoreDate;
@@ -79,9 +81,9 @@ namespace TRexRunner
 			_spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			_spriteSheet = Content.Load<Texture2D>(SPRITE_SHEET);
-
-			_fadeIntexture = new Texture2D(GraphicsDevice, 1, 1);
-			_fadeIntexture.SetData(new Color[] { Color.White });
+			_invertedSpriteSheet = _spriteSheet.InvertColors(Color.Transparent);
+			_fadeInTexture = new Texture2D(GraphicsDevice, 1, 1);
+			_fadeInTexture.SetData(new Color[] { Color.White });
 
 			_sfxHit = Content.Load<SoundEffect>(SFX_HIT);
 			_sfxScoreReached = Content.Load<SoundEffect>(SFX_SCORE_REACHED);
@@ -102,7 +104,7 @@ namespace TRexRunner
 
 			_obstacleManager = new ObstacleManager(_entityManager, _trex, _scoreBoard, _spriteSheet);
 
-			_skyManager = new SkyManager(_trex, _spriteSheet, _entityManager, _scoreBoard);
+			_skyManager = new SkyManager(_trex, _spriteSheet, _invertedSpriteSheet, _entityManager, _scoreBoard);
 
 			_gameOverScreen = new GameOverScreen(_spriteSheet, this);
 			_gameOverScreen.Position = new Vector2(WINDOW_WIDTH / 2 - GameOverScreen.GAME_OVER_SPRITE_WIDTH / 2, WINDOW_HEIGHT / 2 - 30);
@@ -166,7 +168,7 @@ namespace TRexRunner
 			
 			if (State == GameState.Initial || State == GameState.Transtion)
 			{
-				_spriteBatch.Draw(_fadeIntexture, new Rectangle((int)Math.Round(_fadeIntexturePositionX), 0, WINDOW_WIDTH, WINDOW_HEIGHT), Color.White);
+				_spriteBatch.Draw(_fadeInTexture, new Rectangle((int)Math.Round(_fadeIntexturePositionX), 0, WINDOW_WIDTH, WINDOW_HEIGHT), Color.White);
 			}
 
 			_spriteBatch.End();
