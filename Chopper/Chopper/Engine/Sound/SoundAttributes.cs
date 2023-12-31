@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Chopper.Engine.Sound
+﻿namespace Chopper.Engine.Sound
 {
     public class SoundAttributes
     {
