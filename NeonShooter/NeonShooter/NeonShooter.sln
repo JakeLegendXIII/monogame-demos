@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeonShooter", "NeonShooter\NeonShooter.csproj", "{3098AD5F-953A-4A1C-983A-349A0C23761F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeonShooter.Core", "NeonShooter.Core\NeonShooter.Core.csproj", "{8BD55FEC-98BC-4D84-A4BC-6E751CC5F8D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3098AD5F-953A-4A1C-983A-349A0C23761F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3098AD5F-953A-4A1C-983A-349A0C23761F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3098AD5F-953A-4A1C-983A-349A0C23761F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BD55FEC-98BC-4D84-A4BC-6E751CC5F8D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BD55FEC-98BC-4D84-A4BC-6E751CC5F8D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BD55FEC-98BC-4D84-A4BC-6E751CC5F8D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BD55FEC-98BC-4D84-A4BC-6E751CC5F8D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

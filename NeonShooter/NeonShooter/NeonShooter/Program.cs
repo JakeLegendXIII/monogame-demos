@@ -1,3 +1,3 @@
 ﻿
-using var game = new NeonShooter.Game1();
+using var game = new NeonShooter.Core.MainGame();
 game.Run();
