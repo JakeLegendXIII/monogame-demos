@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using NeonShooter.Core.Entities;
+using NeonShooter.Core.Graphics;
 
 namespace NeonShooter.Core
 {
@@ -21,20 +23,28 @@ namespace NeonShooter.Core
 			Instance = this;
 
 			_graphics = new GraphicsDeviceManager(this);
-			Content.RootDirectory = "Content";
+			_graphics.PreferredBackBufferWidth = 1920;
+			_graphics.PreferredBackBufferHeight = 1080;
+
 			IsMouseVisible = true;
 		}
 
 		protected override void Initialize()
 		{
-			// TODO: Add your initialization logic here
+			this.Content.RootDirectory = "Content";
 
 			base.Initialize();
+
+			EntityManager.Add(PlayerShip.Instance);
 		}
 
 		protected override void LoadContent()
 		{
 			_spriteBatch = new SpriteBatch(GraphicsDevice);
+
+			Art.Load(Content);
+
+			EntityManager.Add(PlayerShip.Instance);
 
 			// TODO: use this.Content to load your game content here
 		}
@@ -44,16 +54,18 @@ namespace NeonShooter.Core
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
-			// TODO: Add your update logic here
+			EntityManager.Update();
 
 			base.Update(gameTime);
 		}
 
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
+			GraphicsDevice.Clear(Color.Black);
 
-			// TODO: Add your drawing code here
+			_spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive);
+			EntityManager.Draw(_spriteBatch);
+			_spriteBatch.End();
 
 			base.Draw(gameTime);
 		}
