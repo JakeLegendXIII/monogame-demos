@@ -9,5 +9,10 @@ namespace NeonShooter.Core.Utils
 		{
 			return (float)Math.Atan2(vector.Y, vector.X);
 		}
+
+		public static float NextFloat(this Random rand, float minValue, float maxValue)
+		{
+			return (float)rand.NextDouble() * (maxValue - minValue) + minValue;
+		}
 	}
 }

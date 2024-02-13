@@ -2,12 +2,14 @@
 using NeonShooter.Core.Graphics;
 using NeonShooter.Core.Input;
 using NeonShooter.Core.Utils;
+using System;
 
 namespace NeonShooter.Core.Entities
 {
 	class PlayerShip : Entity
 	{
 		private static PlayerShip instance;
+
 		public static PlayerShip Instance
 		{
 			get
@@ -17,12 +19,22 @@ namespace NeonShooter.Core.Entities
 				return instance;
 			}
 		}
+
+		const int cooldownFrames = 6;
+		int cooldownRemaining = 0;
+
+		int framesUntilRespawn = 0;
+		public bool IsDead { get { return framesUntilRespawn > 0; } }
+
+		static Random rand = new Random();
+
 		private PlayerShip()
 		{
 			image = Art.Player;
 			Position = MainGame.ScreenSize / 2;
 			Radius = 10;
 		}
+
 		public override void Update()
 		{
 			const float speed = 8;
@@ -32,6 +44,20 @@ namespace NeonShooter.Core.Entities
 
 			if (Velocity.LengthSquared() > 0)
 				Orientation = Velocity.ToAngle();
+
+			var aim = InputManager.GetAimDirection();
+			if (aim.LengthSquared() > 0 && cooldownRemaining <= 0)
+			{
+				cooldownRemaining = cooldownFrames;
+				float aimAngle = aim.ToAngle();
+				Quaternion aimQuat = Quaternion.CreateFromYawPitchRoll(0, 0, aimAngle);
+				float randomSpread = rand.NextFloat(-0.04f, 0.04f) + rand.NextFloat(-0.04f, 0.04f);
+				Vector2 vel = MathUtil.FromPolar(aimAngle + randomSpread, 11f);
+				Vector2 offset = Vector2.Transform(new Vector2(25, -8), aimQuat);
+				EntityManager.Add(new Bullet(Position + offset, vel));
+				offset = Vector2.Transform(new Vector2(25, 8), aimQuat);
+				EntityManager.Add(new Bullet(Position + offset, vel));
+			}
 		}
 	}
 }
