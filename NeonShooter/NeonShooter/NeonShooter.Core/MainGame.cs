@@ -65,6 +65,7 @@ namespace NeonShooter.Core
 
 			_spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive);
 			EntityManager.Draw(_spriteBatch);
+			_spriteBatch.Draw(Art.Pointer, InputManager.MousePosition, Color.White);
 			_spriteBatch.End();
 
 			base.Draw(gameTime);
