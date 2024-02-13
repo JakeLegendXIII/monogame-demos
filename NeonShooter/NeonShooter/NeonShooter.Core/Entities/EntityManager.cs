@@ -9,6 +9,7 @@ namespace NeonShooter.Core.Entities
 		static List<Entity> entities = new List<Entity>();
 		static bool isUpdating;
 		static List<Entity> addedEntities = new List<Entity>();
+		static List<Bullet> bullets = new List<Bullet>();
 		public static int Count { get { return entities.Count; } }
 
 		public static void Add(Entity entity)

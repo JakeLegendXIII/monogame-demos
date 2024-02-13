@@ -14,6 +14,7 @@ namespace NeonShooter.Core.Entities
 			Orientation = Velocity.ToAngle();
 			Radius = 8;
 		}
+
 		public override void Update()
 		{
 			if (Velocity.LengthSquared() > 0)
