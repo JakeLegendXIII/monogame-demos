@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using NeonShooter.Core.Graphics;
 using NeonShooter.Core.Input;
+using NeonShooter.Core.Utils;
 
 namespace NeonShooter.Core.Entities
 {
