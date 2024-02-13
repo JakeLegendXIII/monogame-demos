@@ -1,4 +1,6 @@
-﻿using NeonShooter.Core.Graphics;
+﻿using Microsoft.Xna.Framework;
+using NeonShooter.Core.Graphics;
+using NeonShooter.Core.Input;
 
 namespace NeonShooter.Core.Entities
 {
@@ -22,7 +24,13 @@ namespace NeonShooter.Core.Entities
 		}
 		public override void Update()
 		{
-			// ship logic goes here 
+			const float speed = 8;
+			Velocity = speed * InputManager.GetMovementDirection();
+			Position += Velocity;
+			Position = Vector2.Clamp(Position, Size / 2, MainGame.ScreenSize - Size / 2);
+
+			if (Velocity.LengthSquared() > 0)
+				Orientation = Velocity.ToAngle();
 		}
 	}
 }

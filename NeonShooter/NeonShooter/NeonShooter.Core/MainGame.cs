@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using NeonShooter.Core.Entities;
 using NeonShooter.Core.Graphics;
+using NeonShooter.Core.Input;
 
 namespace NeonShooter.Core
 {
@@ -50,9 +51,8 @@ namespace NeonShooter.Core
 		}
 
 		protected override void Update(GameTime gameTime)
-		{
-			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-				Exit();
+		{			
+			InputManager.Update();
 
 			EntityManager.Update();
 
