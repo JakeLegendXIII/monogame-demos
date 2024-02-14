@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NeonShooter.Core.Utils;
+using System.Collections.Generic;
 
 namespace NeonShooter.Core.Entities
 {
-
 	class Enemy : Entity
 	{
 		private int timeUntilStart = 60;
@@ -37,5 +38,19 @@ namespace NeonShooter.Core.Entities
 		{
 			IsExpired = true;
 		}
+
+		#region Enemy behaviours
+		IEnumerable<int> FollowPlayer(float acceleration = 1f)
+		{
+			while (true)
+			{
+				Velocity += (PlayerShip.Instance.Position - Position).ScaleTo(acceleration);
+				if (Velocity != Vector2.Zero)
+					Orientation = Velocity.ToAngle();
+				yield return 0;
+			}
+		}
+
+		#endregion
 	}
 }

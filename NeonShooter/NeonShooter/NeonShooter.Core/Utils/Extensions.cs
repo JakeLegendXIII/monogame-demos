@@ -14,5 +14,10 @@ namespace NeonShooter.Core.Utils
 		{
 			return (float)rand.NextDouble() * (maxValue - minValue) + minValue;
 		}
+
+		public static Vector2 ScaleTo(this Vector2 vector, float length)
+		{
+			return vector * (length / vector.Length());
+		}
 	}
 }
