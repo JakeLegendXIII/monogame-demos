@@ -91,6 +91,12 @@ namespace NeonShooter.Core.Entities
 			}
 		}
 
+		public void HandleCollision(Enemy other)
+		{
+			var d = Position - other.Position;
+			Velocity += 10 * d / (d.LengthSquared() + 1);
+		}
+
 		public void WasShot()
 		{
 			IsExpired = true;

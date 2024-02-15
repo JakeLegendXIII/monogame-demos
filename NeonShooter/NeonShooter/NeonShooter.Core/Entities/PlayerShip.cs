@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using NeonShooter.Core.Graphics;
 using NeonShooter.Core.Input;
 using NeonShooter.Core.Utils;
@@ -37,6 +38,12 @@ namespace NeonShooter.Core.Entities
 
 		public override void Update()
 		{
+			if (IsDead)
+			{
+				framesUntilRespawn--;
+				return;
+			}
+
 			var aim = InputManager.GetAimDirection();
 			if (aim.LengthSquared() > 0 && cooldownRemaining <= 0)
 			{
@@ -67,7 +74,18 @@ namespace NeonShooter.Core.Entities
 
 			if (Velocity.LengthSquared() > 0)
 				Orientation = Velocity.ToAngle();
-		
+
+		}
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+			if (!IsDead)
+				base.Draw(spriteBatch);
+		}
+
+		public void Kill()
+		{
+			framesUntilRespawn = 60;
 		}
 	}
 }
