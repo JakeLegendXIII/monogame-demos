@@ -25,11 +25,10 @@ namespace NeonShooter.Core.Entities
 			isUpdating = false;
 
 			foreach (var entity in addedEntities)
-				entities.Add(entity);
+				AddEntity(entity);
 
 			addedEntities.Clear();
 
-			// remove any expired entities. 
 			entities = entities.Where(x => !x.IsExpired).ToList();
 			bullets = bullets.Where(x => !x.IsExpired).ToList();
 			enemies = enemies.Where(x => !x.IsExpired).ToList();
@@ -68,8 +67,7 @@ namespace NeonShooter.Core.Entities
 			{
 				if (enemies[i].IsActive && IsColliding(PlayerShip.Instance, enemies[i]))
 				{
-					PlayerShip.Instance.Kill();
-					enemies.ForEach(x => x.WasShot());
+					KillPlayer();
 					break;
 				}
 			}
@@ -90,6 +88,14 @@ namespace NeonShooter.Core.Entities
 				bullets.Add(entity as Bullet);
 			else if (entity is Enemy)
 				enemies.Add(entity as Enemy);
+		}
+
+		private static void KillPlayer()
+		{
+			PlayerShip.Instance.Kill();
+			enemies.ForEach(x => x.WasShot());
+			//blackHoles.ForEach(x => x.Kill());
+			EnemySpawner.Reset();
 		}
 
 		private static bool IsColliding(Entity a, Entity b)

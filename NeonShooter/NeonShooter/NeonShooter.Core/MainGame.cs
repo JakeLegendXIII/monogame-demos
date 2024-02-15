@@ -55,6 +55,7 @@ namespace NeonShooter.Core
 			InputManager.Update();
 
 			EntityManager.Update();
+			EnemySpawner.Update();
 
 			base.Update(gameTime);
 		}
