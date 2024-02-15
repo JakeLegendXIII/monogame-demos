@@ -17,11 +17,16 @@ namespace NeonShooter.Core.Entities
 		public static void Update()
 		{
 			isUpdating = true;
+			HandleCollisions();
+
 			foreach (var entity in entities)
 				entity.Update();
+
 			isUpdating = false;
+
 			foreach (var entity in addedEntities)
 				entities.Add(entity);
+
 			addedEntities.Clear();
 
 			// remove any expired entities. 
@@ -34,6 +39,40 @@ namespace NeonShooter.Core.Entities
 		{
 			foreach (var entity in entities)
 				entity.Draw(spriteBatch);
+		}
+
+		static void HandleCollisions()
+		{
+			// handle collisions between enemies 
+			for (int i = 0; i < enemies.Count; i++)
+				for (int j = i + 1; j < enemies.Count; j++)
+				{
+					if (IsColliding(enemies[i], enemies[j]))
+					{
+						enemies[i].HandleCollision(enemies[j]);
+						enemies[j].HandleCollision(enemies[i]);
+					}
+				}
+			// handle collisions between bullets and enemies 
+			for (int i = 0; i < enemies.Count; i++)
+				for (int j = 0; j < bullets.Count; j++)
+				{
+					if (IsColliding(enemies[i], bullets[j]))
+					{
+						enemies[i].WasShot();
+						bullets[j].IsExpired = true;
+					}
+				}
+			// handle collisions between the player and enemies 
+			for (int i = 0; i < enemies.Count; i++)
+			{
+				if (enemies[i].IsActive && IsColliding(PlayerShip.Instance, enemies[i]))
+				{
+					PlayerShip.Instance.Kill();
+					enemies.ForEach(x => x.WasShot());
+					break;
+				}
+			}
 		}
 
 		public static void Add(Entity entity)
