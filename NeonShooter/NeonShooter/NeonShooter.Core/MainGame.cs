@@ -15,6 +15,7 @@ namespace NeonShooter.Core
 		public static MainGame Instance { get; private set; }
 		public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
 		public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
+		public static GameTime GameTime { get; private set; }
 
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
@@ -49,13 +50,15 @@ namespace NeonShooter.Core
 		}
 
 		protected override void Update(GameTime gameTime)
-		{			
+		{		
+			GameTime = gameTime;
+
 			InputManager.Update();
 
 			if (InputManager.WasButtonPressed(Buttons.Back) || InputManager.WasKeyPressed(Keys.Escape))
 				this.Exit();
 
-			// PlayerStatus.Update();
+			PlayerStatus.Update();
 			EntityManager.Update();
 			EnemySpawner.Update();
 
