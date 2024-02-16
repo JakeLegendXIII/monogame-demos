@@ -75,6 +75,7 @@ namespace NeonShooter.Core.Entities
 			if (Velocity.LengthSquared() > 0)
 				Orientation = Velocity.ToAngle();
 
+			Velocity = Vector2.Zero;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)

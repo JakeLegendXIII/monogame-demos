@@ -78,7 +78,7 @@ namespace NeonShooter.Core.Entities
 			if (!isUpdating)
 				AddEntity(entity);
 			else
-				AddEntity(entity);
+				addedEntities.Add(entity);
 		}
 
 		private static void AddEntity(Entity entity)

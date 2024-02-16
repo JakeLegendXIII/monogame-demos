@@ -22,6 +22,7 @@ namespace NeonShooter.Core.Entities
 			Position = position;
 			Radius = image.Width / 2f;
 			color = Color.Transparent;
+			PointValue = 1;
 		}
 
 		public override void Update()
@@ -38,6 +39,18 @@ namespace NeonShooter.Core.Entities
 			Position += Velocity;
 			Position = Vector2.Clamp(Position, Size / 2, MainGame.ScreenSize - Size / 2);
 			Velocity *= 0.8f;
+		}
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+			if (timeUntilStart > 0)
+			{
+				// Draw an expanding, fading-out version of the sprite as part of the spawn-in effect.
+				float factor = timeUntilStart / 60f;    // decreases from 1 to 0 as the enemy spawns in
+				spriteBatch.Draw(image, Position, null, Color.White * factor, Orientation, Size / 2f, 2 - factor, 0, 0);
+			}
+
+			base.Draw(spriteBatch);
 		}
 
 		public static Enemy CreateSeeker(Vector2 position)
