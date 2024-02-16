@@ -46,14 +46,16 @@ namespace NeonShooter.Core
 			Art.Load(Content);
 
 			EntityManager.Add(PlayerShip.Instance);
-
-			// TODO: use this.Content to load your game content here
 		}
 
 		protected override void Update(GameTime gameTime)
 		{			
 			InputManager.Update();
 
+			if (InputManager.WasButtonPressed(Buttons.Back) || InputManager.WasKeyPressed(Keys.Escape))
+				this.Exit();
+
+			// PlayerStatus.Update();
 			EntityManager.Update();
 			EnemySpawner.Update();
 
@@ -62,12 +64,17 @@ namespace NeonShooter.Core
 
 		protected override void Draw(GameTime gameTime)
 		{
+
 			GraphicsDevice.Clear(Color.Black);
 
 			_spriteBatch.Begin(SpriteSortMode.Texture, BlendState.Additive);
 			EntityManager.Draw(_spriteBatch);
-			_spriteBatch.Draw(Art.Pointer, InputManager.MousePosition, Color.White);
 			_spriteBatch.End();
+
+			//_spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+			// Grid.Draw(_spriteBatch);
+			// ParticleManager.Draw(_spriteBatch);
+			//_spriteBatch.End();
 
 			base.Draw(gameTime);
 		}

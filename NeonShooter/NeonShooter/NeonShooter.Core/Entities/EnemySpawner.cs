@@ -6,7 +6,8 @@ namespace NeonShooter.Core.Entities
 	static class EnemySpawner
 	{
 		static Random rand = new Random();
-		static float inverseSpawnChance = 60;
+		static float inverseSpawnChance = 90;
+		static float inverseBlackHoleChance = 600;
 
 		public static void Update()
 		{
@@ -14,12 +15,16 @@ namespace NeonShooter.Core.Entities
 			{
 				if (rand.Next((int)inverseSpawnChance) == 0)
 					EntityManager.Add(Enemy.CreateSeeker(GetSpawnPosition()));
+
 				if (rand.Next((int)inverseSpawnChance) == 0)
 					EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
+
+				//if (EntityManager.BlackHoleCount < 2 && rand.Next((int)inverseBlackHoleChance) == 0)
+				//	EntityManager.Add(new BlackHole(GetSpawnPosition()));
 			}
 
-			// slowly increase the spawn rate as time progresses 
-			if (inverseSpawnChance > 20)
+			// slowly increase the spawn rate as time progresses
+			if (inverseSpawnChance > 30)
 				inverseSpawnChance -= 0.005f;
 		}
 
@@ -37,7 +42,7 @@ namespace NeonShooter.Core.Entities
 
 		public static void Reset()
 		{
-			inverseSpawnChance = 60;
+			inverseSpawnChance = 90;
 		}
 	}
 }
