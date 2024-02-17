@@ -16,6 +16,7 @@ namespace NeonShooter.Core.Graphics
 		public static Texture2D LineParticle { get; private set; }
 		public static Texture2D Glow { get; private set; }
 		public static Texture2D Pixel { get; private set; }     // a single white pixel
+		public static SpriteFont Font { get; private set; }
 
 		public static void Load(ContentManager content)
 		{
@@ -31,6 +32,8 @@ namespace NeonShooter.Core.Graphics
 
 			Pixel = new Texture2D(Player.GraphicsDevice, 1, 1);
 			Pixel.SetData(new[] { Color.White });
+
+			Font = content.Load<SpriteFont>("Font");
 		}
 	}
 }

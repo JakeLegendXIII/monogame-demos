@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using NeonShooter.Core.Entities;
 using NeonShooter.Core.Graphics;
 using NeonShooter.Core.Input;
+using System;
 
 namespace NeonShooter.Core
 {
@@ -80,6 +81,33 @@ namespace NeonShooter.Core
 			//_spriteBatch.End();
 
 			base.Draw(gameTime);
+
+			// Draw the user interface without bloom
+			_spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+
+			_spriteBatch.DrawString(Art.Font, "Lives: " + PlayerStatus.Lives, new Vector2(5), Color.White);
+			DrawRightAlignedString("Score: " + PlayerStatus.Score, 5);
+			DrawRightAlignedString("Multiplier: " + PlayerStatus.Multiplier, 35);
+			// draw the custom mouse cursor
+			_spriteBatch.Draw(Art.Pointer, InputManager.MousePosition, Color.White);
+
+			if (PlayerStatus.IsGameOver)
+			{
+				string text = "Game Over\n" +
+					"Your Score: " + PlayerStatus.Score + "\n" +
+					"High Score: " + PlayerStatus.HighScore;
+
+				Vector2 textSize = Art.Font.MeasureString(text);
+				_spriteBatch.DrawString(Art.Font, text, ScreenSize / 2 - textSize / 2, Color.White);
+			}
+
+			_spriteBatch.End();
+		}
+
+		private void DrawRightAlignedString(string text, float y)
+		{
+			var textWidth = Art.Font.MeasureString(text).X;
+			_spriteBatch.DrawString(Art.Font, text, new Vector2(ScreenSize.X - textWidth - 5, y), Color.White);
 		}
 	}
 }
