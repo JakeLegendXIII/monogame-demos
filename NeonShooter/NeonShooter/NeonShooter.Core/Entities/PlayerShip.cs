@@ -86,7 +86,8 @@ namespace NeonShooter.Core.Entities
 
 		public void Kill()
 		{
-			framesUntilRespawn = 60;
+			PlayerStatus.RemoveLife();
+			framesUntilRespawn = PlayerStatus.IsGameOver ? 300 : 120;
 		}
 	}
 }

@@ -113,6 +113,8 @@ namespace NeonShooter.Core.Entities
 		public void WasShot()
 		{
 			IsExpired = true;
+			PlayerStatus.AddPoints(PointValue);
+			PlayerStatus.IncreaseMultiplier();
 		}
 
 		#region Enemy behaviours

@@ -33,7 +33,7 @@ namespace NeonShooter.Core.Graphics
 			Pixel = new Texture2D(Player.GraphicsDevice, 1, 1);
 			Pixel.SetData(new[] { Color.White });
 
-			Font = content.Load<SpriteFont>("Font");
+			Font = content.Load<SpriteFont>("Fonts/Font");
 		}
 	}
 }
