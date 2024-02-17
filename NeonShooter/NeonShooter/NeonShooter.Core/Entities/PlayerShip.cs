@@ -40,7 +40,16 @@ namespace NeonShooter.Core.Entities
 		{
 			if (IsDead)
 			{
-				framesUntilRespawn--;
+				if (--framesUntilRespawn == 0)
+				{
+					if (PlayerStatus.Lives == 0)
+					{
+						PlayerStatus.Reset();
+						Position = MainGame.ScreenSize / 2;
+					}
+					// MainGame.Grid.ApplyDirectedForce(new Vector3(0, 0, 5000), new Vector3(Position, 0), 50);
+				}
+
 				return;
 			}
 
