@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using NeonShooter.Core.Entities;
 using NeonShooter.Core.Graphics;
 using NeonShooter.Core.Input;
+using NeonShooter.Core.Sound;
 using System;
 
 namespace NeonShooter.Core
@@ -39,6 +41,9 @@ namespace NeonShooter.Core
 			base.Initialize();
 
 			EntityManager.Add(PlayerShip.Instance);
+
+			MediaPlayer.IsRepeating = true;
+			MediaPlayer.Play(Sound.Sound.Music);
 		}
 
 		protected override void LoadContent()
@@ -46,6 +51,7 @@ namespace NeonShooter.Core
 			_spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			Art.Load(Content);
+			Sound.Sound.Load(Content);
 
 			EntityManager.Add(PlayerShip.Instance);
 		}
