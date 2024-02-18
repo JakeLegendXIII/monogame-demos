@@ -115,6 +115,8 @@ namespace NeonShooter.Core.Entities
 			IsExpired = true;
 			PlayerStatus.AddPoints(PointValue);
 			PlayerStatus.IncreaseMultiplier();
+
+			Sound.Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
 		}
 
 		#region Enemy behaviours
