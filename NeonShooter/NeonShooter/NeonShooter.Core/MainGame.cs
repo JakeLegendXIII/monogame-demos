@@ -25,6 +25,8 @@ namespace NeonShooter.Core
 		private SpriteBatch _spriteBatch;
 		BloomComponent bloom;
 
+		bool useBloom = true;
+
 		public MainGame()
 		{
 			Instance = this;
@@ -36,8 +38,8 @@ namespace NeonShooter.Core
 			IsMouseVisible = true;
 
 			bloom = new BloomComponent(this);
-			Components.Add(bloom);
-			bloom.Settings = new BloomSettings(null, 0.25f, 4, 2, 1, 1.5f, 1);
+					Components.Add(bloom);
+					bloom.Settings = new BloomSettings(null, 0.25f, 4, 2, 1, 1.5f, 1);
 			bloom.Visible = false;
 		}
 
@@ -82,6 +84,8 @@ namespace NeonShooter.Core
 		protected override void Draw(GameTime gameTime)
 		{
 			bloom.BeginDraw();
+			if (!useBloom)
+				base.Draw(gameTime);
 
 			GraphicsDevice.Clear(Color.Black);
 
@@ -94,7 +98,8 @@ namespace NeonShooter.Core
 			//ParticleManager.Draw(_spriteBatch);
 			//_spriteBatch.End();
 
-			base.Draw(gameTime);
+			if (useBloom)
+				base.Draw(gameTime);
 
 			// Draw the user interface without bloom
 			_spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
