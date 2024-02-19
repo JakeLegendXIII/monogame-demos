@@ -7,6 +7,7 @@ using NeonShooter.Core.Graphics;
 using NeonShooter.Core.Input;
 using NeonShooter.Core.Sound;
 using System;
+using BloomPostprocess;
 
 namespace NeonShooter.Core
 {
@@ -22,6 +23,7 @@ namespace NeonShooter.Core
 
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
+		BloomComponent bloom;
 
 		public MainGame()
 		{
@@ -32,6 +34,11 @@ namespace NeonShooter.Core
 			_graphics.PreferredBackBufferHeight = 1080;
 
 			IsMouseVisible = true;
+
+			bloom = new BloomComponent(this);
+			Components.Add(bloom);
+			bloom.Settings = new BloomSettings(null, 0.25f, 4, 2, 1, 1.5f, 1);
+			bloom.Visible = false;
 		}
 
 		protected override void Initialize()
@@ -74,6 +81,7 @@ namespace NeonShooter.Core
 
 		protected override void Draw(GameTime gameTime)
 		{
+			bloom.BeginDraw();
 
 			GraphicsDevice.Clear(Color.Black);
 
@@ -82,8 +90,8 @@ namespace NeonShooter.Core
 			_spriteBatch.End();
 
 			//_spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-			// Grid.Draw(_spriteBatch);
-			// ParticleManager.Draw(_spriteBatch);
+			//Grid.Draw(_spriteBatch);
+			//ParticleManager.Draw(_spriteBatch);
 			//_spriteBatch.End();
 
 			base.Draw(gameTime);
@@ -91,9 +99,9 @@ namespace NeonShooter.Core
 			// Draw the user interface without bloom
 			_spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
 
-			_spriteBatch.DrawString(Art.Font, "Lives: " + PlayerStatus.Lives, new Vector2(5), Color.White);
-			DrawRightAlignedString("Score: " + PlayerStatus.Score, 5);
-			DrawRightAlignedString("Multiplier: " + PlayerStatus.Multiplier, 35);
+			DrawTitleSafeAlignedString("Lives: " + PlayerStatus.Lives, 5);
+			DrawTitleSafeRightAlignedString("Score: " + PlayerStatus.Score, 5);
+			DrawTitleSafeRightAlignedString("Multiplier: " + PlayerStatus.Multiplier, 35);
 			// draw the custom mouse cursor
 			_spriteBatch.Draw(Art.Pointer, InputManager.MousePosition, Color.White);
 
@@ -114,6 +122,17 @@ namespace NeonShooter.Core
 		{
 			var textWidth = Art.Font.MeasureString(text).X;
 			_spriteBatch.DrawString(Art.Font, text, new Vector2(ScreenSize.X - textWidth - 5, y), Color.White);
+		}
+
+		private void DrawTitleSafeAlignedString(string text, int pos)
+		{
+			_spriteBatch.DrawString(Art.Font, text, new Vector2(Viewport.TitleSafeArea.X + pos), Color.White);
+		}
+
+		private void DrawTitleSafeRightAlignedString(string text, float y)
+		{
+			var textWidth = Art.Font.MeasureString(text).X;
+			_spriteBatch.DrawString(Art.Font, text, new Vector2(ScreenSize.X - textWidth - 5 - Viewport.TitleSafeArea.X, Viewport.TitleSafeArea.Y + y), Color.White);
 		}
 	}
 }
