@@ -19,8 +19,8 @@ namespace NeonShooter.Core.Entities
 				if (rand.Next((int)inverseSpawnChance) == 0)
 					EntityManager.Add(Enemy.CreateWanderer(GetSpawnPosition()));
 
-				//if (EntityManager.BlackHoleCount < 2 && rand.Next((int)inverseBlackHoleChance) == 0)
-				//	EntityManager.Add(new BlackHole(GetSpawnPosition()));
+				if (EntityManager.BlackHoleCount < 2 && rand.Next((int)inverseBlackHoleChance) == 0)
+					EntityManager.Add(new BlackHole(GetSpawnPosition()));
 			}
 
 			// slowly increase the spawn rate as time progresses
