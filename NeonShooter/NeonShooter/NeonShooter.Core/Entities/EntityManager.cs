@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -79,6 +80,11 @@ namespace NeonShooter.Core.Entities
 				AddEntity(entity);
 			else
 				addedEntities.Add(entity);
+		}
+
+		public static IEnumerable GetNearbyEntities(Vector2 position, float radius)
+		{
+			return entities.Where(x => Vector2.DistanceSquared(position, x.Position) < radius * radius);
 		}
 
 		private static void AddEntity(Entity entity)
