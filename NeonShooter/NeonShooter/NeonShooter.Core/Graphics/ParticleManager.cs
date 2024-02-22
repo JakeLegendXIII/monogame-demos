@@ -70,6 +70,11 @@ namespace NeonShooter.Core.Graphics
 			list[index2] = temp;
 		}
 
+		public void CreateParticle(Texture2D texture, Vector2 position, Color tint, float duration, float scale, T state, float theta = 0)
+		{
+			CreateParticle(texture, position, tint, duration, new Vector2(scale), state, theta);
+		}
+
 		public void CreateParticle(Texture2D texture, Vector2 position, Color tint, float duration, Vector2 scale, T state, float theta = 0)
 		{
 			Particle particle;
@@ -95,6 +100,19 @@ namespace NeonShooter.Core.Graphics
 			particle.Scale = scale;
 			particle.Orientation = theta;
 			particle.State = state;
+		}
+
+		/// <summary>
+		/// Destroys all particles
+		/// </summary>
+		public void Clear()
+		{
+			particleList.Count = 0;
+		}
+
+		public int ParticleCount
+		{
+			get { return particleList.Count; }
 		}
 
 		public class Particle
