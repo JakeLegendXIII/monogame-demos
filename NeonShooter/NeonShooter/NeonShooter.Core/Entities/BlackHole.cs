@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NeonShooter.Core.Graphics;
+using NeonShooter.Core.Sound;
 using NeonShooter.Core.Utils;
 using System;
 
@@ -100,7 +101,7 @@ namespace NeonShooter.Core.Entities
 				MainGame.ParticleManager.CreateParticle(Art.LineParticle, pos, color, 90, 1.5f, state);
 			}
 
-			Sound.Sound.Explosion.Play(0.5f, rand.NextFloat(-0.2f, 0.2f), 0);
+			SoundManager.Explosion.Play(0.5f, rand.NextFloat(-0.2f, 0.2f), 0);
 		}
 
 		public void Kill()

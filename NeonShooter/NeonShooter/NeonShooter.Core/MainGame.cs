@@ -55,7 +55,7 @@ namespace NeonShooter.Core
 			EntityManager.Add(PlayerShip.Instance);
 
 			MediaPlayer.IsRepeating = true;
-			MediaPlayer.Play(Sound.Sound.Music);
+			MediaPlayer.Play(Sound.SoundManager.Music);
 		}
 
 		protected override void LoadContent()
@@ -63,7 +63,7 @@ namespace NeonShooter.Core
 			_spriteBatch = new SpriteBatch(GraphicsDevice);
 
 			Art.Load(Content);
-			Sound.Sound.Load(Content);
+			Sound.SoundManager.Load(Content);
 
 			EntityManager.Add(PlayerShip.Instance);
 		}

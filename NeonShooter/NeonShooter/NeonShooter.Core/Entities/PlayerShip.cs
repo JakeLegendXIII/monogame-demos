@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using NeonShooter.Core.Graphics;
 using NeonShooter.Core.Input;
+using NeonShooter.Core.Sound;
 using NeonShooter.Core.Utils;
 using System;
 
@@ -69,7 +70,7 @@ namespace NeonShooter.Core.Entities
 				offset = Vector2.Transform(new Vector2(35, 8), aimQuat);
 				EntityManager.Add(new Bullet(Position + offset, vel));
 
-				Sound.Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+				SoundManager.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
 			}
 
 			if (cooldownRemaining > 0)

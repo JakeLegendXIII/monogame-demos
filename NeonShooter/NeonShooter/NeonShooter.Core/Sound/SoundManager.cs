@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NeonShooter.Core.Sound
 {
-	static class Sound
+	static class SoundManager
 	{
 		public static Song Music { get; private set; }
 		private static readonly Random rand = new Random();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NeonShooter.Core.Graphics;
+using NeonShooter.Core.Sound;
 using NeonShooter.Core.Utils;
 using System;
 using System.Collections.Generic;
@@ -135,7 +136,7 @@ namespace NeonShooter.Core.Entities
 				MainGame.ParticleManager.CreateParticle(Art.LineParticle, Position, color, 190, 1.5f, state);
 			}
 
-			Sound.Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
+			SoundManager.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
 		}
 
 		#region Enemy behaviours
