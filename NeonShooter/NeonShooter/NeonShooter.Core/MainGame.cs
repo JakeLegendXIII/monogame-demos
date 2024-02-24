@@ -20,6 +20,7 @@ namespace NeonShooter.Core
 		public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
 		public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
 		public static GameTime GameTime { get; private set; }
+		public static ParticleManager<ParticleState> ParticleManager { get; private set; }
 
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
@@ -46,6 +47,8 @@ namespace NeonShooter.Core
 		protected override void Initialize()
 		{
 			this.Content.RootDirectory = "Content";
+
+			ParticleManager = new ParticleManager<ParticleState>(1024 * 20, ParticleState.UpdateParticle);
 
 			base.Initialize();
 
@@ -77,6 +80,7 @@ namespace NeonShooter.Core
 			PlayerStatus.Update();
 			EntityManager.Update();
 			EnemySpawner.Update();
+			ParticleManager.Update();
 
 			base.Update(gameTime);
 		}
@@ -93,10 +97,10 @@ namespace NeonShooter.Core
 			EntityManager.Draw(_spriteBatch);
 			_spriteBatch.End();
 
-			//_spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-			//Grid.Draw(_spriteBatch);
-			//ParticleManager.Draw(_spriteBatch);
-			//_spriteBatch.End();
+			_spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+			// Grid.Draw(_spriteBatch);
+			ParticleManager.Draw(_spriteBatch);
+			_spriteBatch.End();
 
 			if (useBloom)
 				base.Draw(gameTime);
