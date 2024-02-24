@@ -84,6 +84,7 @@ namespace NeonShooter.Core.Entities
 			if (Velocity.LengthSquared() > 0)
 				Orientation = Velocity.ToAngle();
 
+			MakeExhaustFire();
 			Velocity = Vector2.Zero;
 		}
 
@@ -112,6 +113,47 @@ namespace NeonShooter.Core.Entities
 				};
 
 				MainGame.ParticleManager.CreateParticle(Art.LineParticle, Position, color, 190, 1.5f, state);
+			}
+		}
+
+		private void MakeExhaustFire()
+		{
+			if (Velocity.LengthSquared() > 0.1f)
+			{
+				// set up some variables
+				Orientation = Velocity.ToAngle();
+				Quaternion rot = Quaternion.CreateFromYawPitchRoll(0f, 0f, Orientation);
+
+				double t = MainGame.GameTime.TotalGameTime.TotalSeconds;
+				// The primary velocity of the particles is 3 pixels/frame in the direction opposite to which the ship is travelling.
+				Vector2 baseVel = Velocity.ScaleTo(-3);
+				// Calculate the sideways velocity for the two side streams. The direction is perpendicular to the ship's velocity and the
+				// magnitude varies sinusoidally.
+				Vector2 perpVel = new Vector2(baseVel.Y, -baseVel.X) * (0.6f * (float)Math.Sin(t * 10));
+				Color sideColor = new Color(200, 38, 9);    // deep red
+				Color midColor = new Color(255, 187, 30);   // orange-yellow
+				Vector2 pos = Position + Vector2.Transform(new Vector2(-25, 0), rot);   // position of the ship's exhaust pipe.
+				const float alpha = 0.7f;
+
+				// middle particle stream
+				Vector2 velMid = baseVel + rand.NextVector2(0, 1);
+				MainGame.ParticleManager.CreateParticle(Art.LineParticle, pos, Color.White * alpha, 60f, new Vector2(0.5f, 1),
+					new ParticleState(velMid, ParticleType.Enemy));
+				MainGame.ParticleManager.CreateParticle(Art.Glow, pos, midColor * alpha, 60f, new Vector2(0.5f, 1),
+					new ParticleState(velMid, ParticleType.Enemy));
+
+				// side particle streams
+				Vector2 vel1 = baseVel + perpVel + rand.NextVector2(0, 0.3f);
+				Vector2 vel2 = baseVel - perpVel + rand.NextVector2(0, 0.3f);
+				MainGame.ParticleManager.CreateParticle(Art.LineParticle, pos, Color.White * alpha, 60f, new Vector2(0.5f, 1),
+					new ParticleState(vel1, ParticleType.Enemy));
+				MainGame.ParticleManager.CreateParticle(Art.LineParticle, pos, Color.White * alpha, 60f, new Vector2(0.5f, 1),
+					new ParticleState(vel2, ParticleType.Enemy));
+
+				MainGame.ParticleManager.CreateParticle(Art.Glow, pos, sideColor * alpha, 60f, new Vector2(0.5f, 1),
+					new ParticleState(vel1, ParticleType.Enemy));
+				MainGame.ParticleManager.CreateParticle(Art.Glow, pos, sideColor * alpha, 60f, new Vector2(0.5f, 1),
+					new ParticleState(vel2, ParticleType.Enemy));
 			}
 		}
 	}
