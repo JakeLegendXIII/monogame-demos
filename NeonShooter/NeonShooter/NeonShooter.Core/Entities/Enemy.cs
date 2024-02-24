@@ -116,6 +116,25 @@ namespace NeonShooter.Core.Entities
 			PlayerStatus.AddPoints(PointValue);
 			PlayerStatus.IncreaseMultiplier();
 
+			float hue1 = rand.NextFloat(0, 6);
+			float hue2 = (hue1 + rand.NextFloat(0, 2)) % 6f;
+			Color color1 = ColorUtil.HSVToColor(hue1, 0.5f, 1);
+			Color color2 = ColorUtil.HSVToColor(hue2, 0.5f, 1);
+
+			for (int i = 0; i < 120; i++)
+			{
+				float speed = 18f * (1f - 1 / rand.NextFloat(1, 10));
+				var state = new ParticleState()
+				{
+					Velocity = rand.NextVector2(speed, speed),
+					Type = ParticleType.Enemy,
+					LengthMultiplier = 1
+				};
+
+				Color color = Color.Lerp(color1, color2, rand.NextFloat(0, 1));
+				MainGame.ParticleManager.CreateParticle(Art.LineParticle, Position, color, 190, 1.5f, state);
+			}
+
 			Sound.Sound.Shot.Play(0.2f, rand.NextFloat(-0.2f, 0.2f), 0);
 		}
 
