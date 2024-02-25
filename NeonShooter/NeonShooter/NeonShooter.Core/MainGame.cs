@@ -21,6 +21,7 @@ namespace NeonShooter.Core
 		public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
 		public static GameTime GameTime { get; private set; }
 		public static ParticleManager<ParticleState> ParticleManager { get; private set; }
+		public static Grid Grid { get; private set; }
 
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
@@ -49,6 +50,10 @@ namespace NeonShooter.Core
 			this.Content.RootDirectory = "Content";
 
 			ParticleManager = new ParticleManager<ParticleState>(1024 * 20, ParticleState.UpdateParticle);
+
+			const int maxGridPoints = 1600;
+			Vector2 gridSpacing = new Vector2((float)Math.Sqrt(Viewport.Width * Viewport.Height / maxGridPoints));
+			Grid = new Grid(Viewport.Bounds, gridSpacing);
 
 			base.Initialize();
 
@@ -81,6 +86,7 @@ namespace NeonShooter.Core
 			EntityManager.Update();
 			EnemySpawner.Update();
 			ParticleManager.Update();
+			Grid.Update();
 
 			base.Update(gameTime);
 		}
@@ -98,7 +104,7 @@ namespace NeonShooter.Core
 			_spriteBatch.End();
 
 			_spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-			// Grid.Draw(_spriteBatch);
+			Grid.Draw(_spriteBatch);
 			ParticleManager.Draw(_spriteBatch);
 			_spriteBatch.End();
 
