@@ -48,7 +48,7 @@ namespace NeonShooter.Core.Entities
 						PlayerStatus.Reset();
 						Position = MainGame.ScreenSize / 2;
 					}
-					// MainGame.Grid.ApplyDirectedForce(new Vector3(0, 0, 5000), new Vector3(Position, 0), 50);
+					MainGame.Grid.ApplyDirectedForce(new Vector3(0, 0, 5000), new Vector3(Position, 0), 50);
 				}
 
 				return;
