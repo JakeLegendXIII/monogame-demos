@@ -61,7 +61,7 @@ namespace NeonShooter.Core.Entities
 			// rotate the spray direction
 			sprayAngle -= MathHelper.TwoPi / 50f;
 
-			// MainGame.Grid.ApplyImplosiveForce((float)Math.Sin(sprayAngle / 2) * 10 + 20, Position, 200);
+			MainGame.Grid.ApplyImplosiveForce((float)Math.Sin(sprayAngle / 2) * 10 + 20, Position, 200);
 		}
 
 		public override void Draw(SpriteBatch spriteBatch)

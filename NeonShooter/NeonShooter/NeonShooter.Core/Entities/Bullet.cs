@@ -24,7 +24,7 @@ namespace NeonShooter.Core.Entities
 				Orientation = Velocity.ToAngle();
 
 			Position += Velocity;
-			// MainGame.Grid.ApplyExplosiveForce(0.5f * Velocity.Length(), Position, 80);
+			MainGame.Grid.ApplyExplosiveForce(0.5f * Velocity.Length(), Position, 80);
 
 			// delete bullets that go off-screen
 			if (!MainGame.Viewport.Bounds.Contains(Position.ToPoint()))
