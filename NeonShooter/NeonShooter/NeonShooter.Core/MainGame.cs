@@ -28,6 +28,7 @@ namespace NeonShooter.Core
 		BloomComponent bloom;
 
 		bool useBloom = true;
+		bool paused = false;
 
 		public MainGame()
 		{
@@ -82,11 +83,19 @@ namespace NeonShooter.Core
 			if (InputManager.WasButtonPressed(Buttons.Back) || InputManager.WasKeyPressed(Keys.Escape))
 				this.Exit();
 
-			PlayerStatus.Update();
-			EntityManager.Update();
-			EnemySpawner.Update();
-			ParticleManager.Update();
-			Grid.Update();
+			if (InputManager.WasKeyPressed(Keys.P))
+				paused = !paused;
+			if (InputManager.WasKeyPressed(Keys.B))
+				bloom.Visible = !bloom.Visible;
+
+			if (!paused)
+			{
+				PlayerStatus.Update();
+				EntityManager.Update();
+				EnemySpawner.Update();
+				ParticleManager.Update();
+				Grid.Update();
+			}
 
 			base.Update(gameTime);
 		}
