@@ -272,7 +272,9 @@ namespace TRexRunner
 			{
 				using (FileStream fileStream = new FileStream(SAVE_FILE_NAME, FileMode.Create))
 				{
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
 					BinaryFormatter binaryFormatter = new BinaryFormatter();
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
 					binaryFormatter.Serialize(fileStream, saveState);
 				}
 			}
@@ -289,7 +291,9 @@ namespace TRexRunner
 			{
 				using (FileStream fileStream = new FileStream(SAVE_FILE_NAME, FileMode.OpenOrCreate))
 				{
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
 					BinaryFormatter binaryFormatter = new BinaryFormatter();
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
 
 					if (binaryFormatter.Deserialize(fileStream) is SaveState saveState)
 					{
