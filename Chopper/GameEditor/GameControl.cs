@@ -2,12 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Forms.NET.Controls;
-using MonoGame.Extended.TextureAtlases;
 using MonoGame.Extended.ViewportAdapters;
 using ChopperPipelineExtensions;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using MonoGame.Extended.Graphics;
 
 namespace GameEditor
 {
@@ -31,7 +31,7 @@ namespace GameEditor
 		private bool _cameraDrag;
 
 
-		public Dictionary<string, TextureAtlas> Atlas { get; private set; }
+		public Dictionary<string, Texture2DAtlas> Atlas { get; private set; }
 
 		public event EventHandler<EventArgs> OnInitialized;
 
@@ -44,14 +44,13 @@ namespace GameEditor
 			ResetCameraPostion();
 
 			// Load Atlas
-			Atlas = new Dictionary<string, TextureAtlas>();
+			Atlas = new Dictionary<string, Texture2DAtlas>();
 			var groundTiles = GetGroundTiles();
 			//var buildingTiles = GetBuildingTiles();
-			//var objectTiles = GetObjectTiles();
+			//var objectTiles = GetObjectTiles();			
+			//var groundAtlas = new TextureAtlas(GROUND, _groundTexture, groundTiles);
 
-			var groundAtlas = new TextureAtlas(GROUND, _groundTexture, groundTiles);
-
-			Atlas.Add(GROUND, groundAtlas);
+			//Atlas.Add(GROUND, groundAtlas);
 
 			OnInitialized(this, EventArgs.Empty);
 		}	
