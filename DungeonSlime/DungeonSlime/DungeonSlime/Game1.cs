@@ -1,52 +1,55 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameLibrary;
 
-namespace DungeonSlime
+namespace DungeonSlime;
+
+public class Game1 : Core
 {
-    public class Game1 : Game
+    // The MonoGame logo texture
+    private Texture2D _logo;
+
+    public Game1() : base("Dungeon Slime", 1280, 720, false)
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
 
-        public Game1()
-        {
-            _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            IsMouseVisible = true;
-        }
+    }
 
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
+    protected override void Initialize()
+    {
+        // TODO: Add your initialization logic here
 
-            base.Initialize();
-        }
+        base.Initialize();
+    }
 
-        protected override void LoadContent()
-        {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+    protected override void LoadContent()
+    {
+        _logo = Content.Load<Texture2D>("Sprites/logo");
+    }
 
-            // TODO: use this.Content to load your game content here
-        }
+    protected override void Update(GameTime gameTime)
+    {
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            Exit();
 
-        protected override void Update(GameTime gameTime)
-        {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+        // TODO: Add your update logic here
 
-            // TODO: Add your update logic here
+        base.Update(gameTime);
+    }
 
-            base.Update(gameTime);
-        }
+    protected override void Draw(GameTime gameTime)
+    {
+        GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+        // Begin the sprite batch to prepare for rendering.
+        SpriteBatch.Begin();
 
-            // TODO: Add your drawing code here
+        // Draw the logo texture
+        SpriteBatch.Draw(_logo, Vector2.Zero, Color.White);
 
-            base.Draw(gameTime);
-        }
+        // Always end the sprite batch when finished.
+        SpriteBatch.End();
+
+        base.Draw(gameTime);
     }
 }
