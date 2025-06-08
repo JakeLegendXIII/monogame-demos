@@ -112,9 +112,9 @@ namespace _2DStartKit.Core
             {
                 languages.Add(cultures[i]);
             }
-            // var selectedLanguage = languages[settingsManager.Settings.Language].Name;
+            var selectedLanguage = languages[settingsManager.Settings.Language].Name;
 
-            LocalizationManager.SetCulture("en-US");
+            LocalizationManager.SetCulture(selectedLanguage);
 
             // Add background and main menu screens.
             screenManager.AddScreen(new BackgroundScreen(), null);

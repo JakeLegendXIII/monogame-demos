@@ -36,7 +36,7 @@ namespace _2DStartKit.Core.Localization
             Assembly assembly = Assembly.GetExecutingAssembly();
 
             // Resource manager for your Resources.resx
-            ResourceManager resourceManager = new ResourceManager("_2DStartKit.Core.Localization.Resources", assembly);
+            ResourceManager resourceManager = new ResourceManager("2DStartKit.Core.Localization.Resources", assembly);
 
             // Get all cultures defined in the satellite assemblies
             CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
