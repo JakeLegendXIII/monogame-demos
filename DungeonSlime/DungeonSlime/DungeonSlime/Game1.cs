@@ -46,19 +46,20 @@ public class Game1 : Core
 
         // Draw the logo texture
         SpriteBatch.Draw(
-            _logo,                          // texture
-            new Vector2(                    // position
+            _logo,                              // texture
+            new Vector2(                        // position
                 Window.ClientBounds.Width,
                 Window.ClientBounds.Height) * 0.5f,
-            null,                           // sourceRectangle
-            Color.White,                    // color
-            0.0f,                           // rotation
-            new Vector2(                    // origin
+            null,                               // sourceRectangle
+            Color.White,                        // color
+            0.0f,                               // rotation
+            new Vector2(                        // origin
                 _logo.Width,
                 _logo.Height) * 0.5f,
-            1.0f,                           // scale
-            SpriteEffects.FlipHorizontally, // effects
-            0.0f                            // layerDepth
+            1.0f,                               // scale
+            SpriteEffects.FlipHorizontally |    // effects
+            SpriteEffects.FlipVertically,
+            0.0f                                // layerDepth
         );
 
         // Always end the sprite batch when finished.
