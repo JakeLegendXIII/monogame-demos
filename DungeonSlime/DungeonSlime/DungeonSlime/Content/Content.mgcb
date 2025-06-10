@@ -13,6 +13,9 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Sprites/atlas-definition.xml
+/copy:Sprites/atlas-definition.xml
+
 #begin Sprites/atlas.png
 /importer:TextureImporter
 /processor:TextureProcessor
