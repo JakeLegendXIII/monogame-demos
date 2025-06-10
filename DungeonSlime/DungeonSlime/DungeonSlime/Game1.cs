@@ -51,7 +51,7 @@ public class Game1 : Core
                 Window.ClientBounds.Width,
                 Window.ClientBounds.Height) * 0.5f,
             null,               // sourceRectangle
-            Color.Green,        // color
+            Color.White * 0.5f, // color
             0.0f,               // rotation
             new Vector2(        // origin
                 _logo.Width,
@@ -60,7 +60,6 @@ public class Game1 : Core
             SpriteEffects.None, // effects
             0.0f
         );
-
         // Always end the sprite batch when finished.
         SpriteBatch.End();
 
