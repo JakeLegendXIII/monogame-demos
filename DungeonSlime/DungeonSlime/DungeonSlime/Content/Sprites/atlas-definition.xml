@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TextureAtlas>
-	<Texture>images/atlas</Texture>
+	<Texture>Sprites/atlas</Texture>
 	<Regions>
 		<Region name="slime-1" x="0" y="0" width="20" height="20" />
 		<Region name="slime-2" x="0" y="20" width="20" height="20" />
