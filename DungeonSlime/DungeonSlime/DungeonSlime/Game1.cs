@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
+using System;
 
 namespace DungeonSlime;
 
@@ -12,8 +13,13 @@ public class Game1 : Core
     private AnimatedSprite _slime;
     // Defines the bat animated sprite.
     private AnimatedSprite _bat;
+	// Tracks the position of the slime.
+	private Vector2 _slimePosition;
 
-    public Game1() : base("Dungeon Slime", 1280, 720, false)
+	// Speed multiplier when moving.
+	private const float MOVEMENT_SPEED = 5.0f;
+
+	public Game1() : base("Dungeon Slime", 1280, 720, false)
     {
 
     }
@@ -50,10 +56,26 @@ public class Game1 : Core
         // Update the bat animated sprite
         _bat.Update(gameTime);
 
-        base.Update(gameTime);
+		// Check for keyboard input and handle it.
+		CheckKeyboardInput();
+
+		// Check for gamepad input and handle it.
+		CheckGamePadInput();
+
+		base.Update(gameTime);
     }
 
-    protected override void Draw(GameTime gameTime)
+	private void CheckGamePadInput()
+	{
+		throw new NotImplementedException();
+	}
+
+	private void CheckKeyboardInput()
+	{
+		throw new NotImplementedException();
+	}
+
+	protected override void Draw(GameTime gameTime)
     {
         // Clear the back buffer.
         GraphicsDevice.Clear(Color.CornflowerBlue);
