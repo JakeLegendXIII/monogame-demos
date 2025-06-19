@@ -40,3 +40,6 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/logo.png
 
+#begin Sprites/tilemap-definition.xml
+/copy:Sprites/tilemap-definition.xml
+
