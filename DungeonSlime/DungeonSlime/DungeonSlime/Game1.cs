@@ -42,6 +42,9 @@ public class Game1 : Core
     // The sound effect to play when the slime eats a bat.
     private SoundEffect _collectSoundEffect;
 
+    // The background theme song
+    private Song _themeSong;
+
     public Game1() : base("Dungeon Slime", 1280, 720, false)
 	{
 
@@ -70,7 +73,10 @@ public class Game1 : Core
 
 		// Assign the initial random velocity to the bat.
 		AssignRandomBatVelocity();
-	}
+
+        // Start playing the background music
+        Audio.PlaySong(_themeSong);
+    }
 
 	protected override void LoadContent()
 	{
@@ -96,19 +102,7 @@ public class Game1 : Core
         _collectSoundEffect = Content.Load<SoundEffect>("audio/collect");
 
         // Load the background theme music
-        Song theme = Content.Load<Song>("audio/theme");
-
-        // Ensure media player is not already playing on device, if so, stop it
-        if (MediaPlayer.State == MediaState.Playing)
-        {
-            MediaPlayer.Stop();
-        }
-
-        // Play the background theme music.
-        MediaPlayer.Play(theme);
-
-        // Set the theme music to repeat.
-        MediaPlayer.IsRepeating = true;
+        _themeSong = Content.Load<Song>("Audio/theme");
     }
 
 	protected override void Update(GameTime gameTime)
@@ -208,8 +202,8 @@ public class Game1 : Core
 		{
 			_batVelocity = Vector2.Reflect(_batVelocity, normal);
 
-            // Play the bounce sound effect
-            _bounceSoundEffect.Play();
+			// Play the bounce sound effect
+			Audio.PlaySoundEffect(_bounceSoundEffect);            
         }
 
 		_batPosition = newBatPosition;
@@ -234,7 +228,7 @@ public class Game1 : Core
 			AssignRandomBatVelocity();
 
             // Play the collect sound effect
-            _collectSoundEffect.Play();
+			Audio.PlaySoundEffect(_collectSoundEffect);            
         }
 
 		base.Update(gameTime);
@@ -286,7 +280,27 @@ public class Game1 : Core
 		{
 			_slimePosition.X += speed;
 		}
-	}
+
+        // If the M key is pressed, toggle mute state for audio.
+        if (Input.Keyboard.WasKeyJustPressed(Keys.M))
+        {
+            Audio.ToggleMute();
+        }
+
+        // If the + button is pressed, increase the volume.
+        if (Input.Keyboard.WasKeyJustPressed(Keys.OemPlus))
+        {
+            Audio.SongVolume += 0.1f;
+            Audio.SoundEffectVolume += 0.1f;
+        }
+
+        // If the - button was pressed, decrease the volume.
+        if (Input.Keyboard.WasKeyJustPressed(Keys.OemMinus))
+        {
+            Audio.SongVolume -= 0.1f;
+            Audio.SoundEffectVolume -= 0.1f;
+        }
+    }
 
 	private void CheckGamePadInput()
 	{
