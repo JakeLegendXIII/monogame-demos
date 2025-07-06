@@ -1,12 +1,18 @@
 ﻿using System;
+using Gum.DataTypes;
+using Gum.Wireframe;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameGum;
+using MonoGameGum.Forms.Controls;
+using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using MonoGameLibrary.Input;
 using MonoGameLibrary.Scenes;
+
 
 namespace DungeonSlime.Scenes;
 
@@ -54,7 +60,19 @@ public class GameScene : Scene
     // Defines the origin used when drawing the score text.
     private Vector2 _scoreTextOrigin;
 
-    public override void Initialize()
+	// A reference to the pause panel UI element so we can set its visibility
+	// when the game is paused.
+	private Panel _pausePanel;
+
+	// A reference to the resume button UI element so we can focus it
+	// when the game is paused.
+	private Button _resumeButton;
+
+	// The UI sound effect to play when a UI event is triggered.
+	private SoundEffect _uiSoundEffect;
+
+
+	public override void Initialize()
     {
         // LoadContent is called during base.Initialize().
         base.Initialize();
@@ -232,7 +250,50 @@ public class GameScene : Scene
         }
     }
 
-    private void AssignRandomBatVelocity()
+	public override void Draw(GameTime gameTime)
+	{
+		// Clear the back buffer.
+		Core.GraphicsDevice.Clear(Color.CornflowerBlue);
+
+		// Begin the sprite batch to prepare for rendering.
+		Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+		// Draw the tilemap
+		_tilemap.Draw(Core.SpriteBatch);
+
+		// Draw the slime sprite.
+		_slime.Draw(Core.SpriteBatch, _slimePosition);
+
+		// Draw the bat sprite.
+		_bat.Draw(Core.SpriteBatch, _batPosition);
+
+		// Draw the score.
+		Core.SpriteBatch.DrawString(
+			_font,              // spriteFont
+			$"Score: {_score}", // text
+			_scoreTextPosition, // position
+			Color.White,        // color
+			0.0f,               // rotation
+			_scoreTextOrigin,   // origin
+			1.0f,               // scale
+			SpriteEffects.None, // effects
+			0.0f                // layerDepth
+		);
+
+		// Always end the sprite batch when finished.
+		Core.SpriteBatch.End();
+	}
+	private void PauseGame()
+	{
+		// Make the pause panel UI element visible.
+		_pausePanel.IsVisible = true;
+
+		// Set the resume button to have focus
+		_resumeButton.IsFocused = true;
+	}
+
+
+	private void AssignRandomBatVelocity()
     {
         // Generate a random angle.
         float angle = (float)(Random.Shared.NextDouble() * Math.PI * 2);
@@ -361,40 +422,6 @@ public class GameScene : Scene
                 _slimePosition.X += speed;
             }
         }
-    }
-
-    public override void Draw(GameTime gameTime)
-    {
-        // Clear the back buffer.
-        Core.GraphicsDevice.Clear(Color.CornflowerBlue);
-
-        // Begin the sprite batch to prepare for rendering.
-        Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
-
-        // Draw the tilemap
-        _tilemap.Draw(Core.SpriteBatch);
-
-        // Draw the slime sprite.
-        _slime.Draw(Core.SpriteBatch, _slimePosition);
-
-        // Draw the bat sprite.
-        _bat.Draw(Core.SpriteBatch, _batPosition);
-
-        // Draw the score.
-        Core.SpriteBatch.DrawString(
-            _font,              // spriteFont
-            $"Score: {_score}", // text
-            _scoreTextPosition, // position
-            Color.White,        // color
-            0.0f,               // rotation
-            _scoreTextOrigin,   // origin
-            1.0f,               // scale
-            SpriteEffects.None, // effects
-            0.0f                // layerDepth
-        );
-
-        // Always end the sprite batch when finished.
-        Core.SpriteBatch.End();
-    }
+    }   
 
 }
