@@ -31,6 +31,12 @@
 /processorParam:Quality=Best
 /build:Audio/theme.ogg
 
+#begin Audio/ui.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/ui.wav
+
 #begin Fonts/04B_30_5x.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
