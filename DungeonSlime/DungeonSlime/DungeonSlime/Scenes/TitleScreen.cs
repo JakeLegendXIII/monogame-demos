@@ -9,7 +9,6 @@ using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
 using MonoGameLibrary.Scenes;
 
-
 namespace DungeonSlime.Scenes;
 
 public class TitleScene : Scene
@@ -215,6 +214,106 @@ public class TitleScene : Scene
 
 		// Give the back button on the options panel focus.
 		_optionsBackButton.IsFocused = true;
+	}
+
+	private void CreateOptionsPanel()
+	{
+		_optionsPanel = new Panel();
+		_optionsPanel.Dock(Gum.Wireframe.Dock.Fill);
+		_optionsPanel.IsVisible = false;
+		_optionsPanel.AddToRoot();
+
+		var optionsText = new TextRuntime();
+		optionsText.X = 10;
+		optionsText.Y = 10;
+		optionsText.Text = "OPTIONS";
+		_optionsPanel.AddChild(optionsText);
+
+		var musicSlider = new Slider();
+		musicSlider.Anchor(Gum.Wireframe.Anchor.Top);
+		musicSlider.Visual.Y = 30f;
+		musicSlider.Minimum = 0;
+		musicSlider.Maximum = 1;
+		musicSlider.Value = Core.Audio.SongVolume;
+		musicSlider.SmallChange = .1;
+		musicSlider.LargeChange = .2;
+		musicSlider.ValueChanged += HandleMusicSliderValueChanged;
+		musicSlider.ValueChangeCompleted += HandleMusicSliderValueChangeCompleted;
+		_optionsPanel.AddChild(musicSlider);
+
+		var sfxSlider = new Slider();
+		sfxSlider.Anchor(Gum.Wireframe.Anchor.Top);
+		sfxSlider.Visual.Y = 93;
+		sfxSlider.Minimum = 0;
+		sfxSlider.Maximum = 1;
+		sfxSlider.Value = Core.Audio.SoundEffectVolume;
+		sfxSlider.SmallChange = .1;
+		sfxSlider.LargeChange = .2;
+		sfxSlider.ValueChanged += HandleSfxSliderChanged;
+		sfxSlider.ValueChangeCompleted += HandleSfxSliderChangeCompleted;
+		_optionsPanel.AddChild(sfxSlider);
+
+		_optionsBackButton = new Button();
+		_optionsBackButton.Text = "BACK";
+		_optionsBackButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
+		_optionsBackButton.X = -28f;
+		_optionsBackButton.Y = -10f;
+		_optionsBackButton.Click += HandleOptionsButtonBack;
+		_optionsPanel.AddChild(_optionsBackButton);
+	}
+
+	private void HandleSfxSliderChanged(object sender, EventArgs args)
+	{
+		// Intentionally not playing the UI sound effect here so that it is not
+		// constantly triggered as the user adjusts the slider's thumb on the
+		// track.
+
+		// Get a reference to the sender as a Slider.
+		var slider = (Slider)sender;
+
+		// Set the global sound effect volume to the value of the slider.;
+		Core.Audio.SoundEffectVolume = (float)slider.Value;
+	}
+
+	private void HandleSfxSliderChangeCompleted(object sender, EventArgs e)
+	{
+		// Play the UI Sound effect so the player can hear the difference in audio.
+		Core.Audio.PlaySoundEffect(_uiSoundEffect);
+	}
+
+	private void HandleMusicSliderValueChanged(object sender, EventArgs args)
+	{
+		// Intentionally not playing the UI sound effect here so that it is not
+		// constantly triggered as the user adjusts the slider's thumb on the
+		// track.
+
+		// Get a reference to the sender as a Slider.
+		var slider = (Slider)sender;
+
+		// Set the global song volume to the value of the slider.
+		Core.Audio.SongVolume = (float)slider.Value;
+	}
+
+	private void HandleMusicSliderValueChangeCompleted(object sender, EventArgs args)
+	{
+		// A UI interaction occurred, play the sound effect
+		Core.Audio.PlaySoundEffect(_uiSoundEffect);
+	}
+
+	private void HandleOptionsButtonBack(object sender, EventArgs e)
+	{
+		// A UI interaction occurred, play the sound effect
+		Core.Audio.PlaySoundEffect(_uiSoundEffect);
+
+		// Set the title panel to be visible.
+		_titleScreenButtonsPanel.IsVisible = true;
+
+		// Set the options panel to be invisible.
+		_optionsPanel.IsVisible = false;
+
+		// Give the options button on the title panel focus since we are coming
+		// back from the options screen.
+		_optionsButton.IsFocused = true;
 	}
 
 }
