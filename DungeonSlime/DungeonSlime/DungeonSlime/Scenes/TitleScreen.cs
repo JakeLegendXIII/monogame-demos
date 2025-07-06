@@ -1,8 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameGum;
+using MonoGameGum.Forms.Controls;
+using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
 using MonoGameLibrary.Scenes;
+
 
 namespace DungeonSlime.Scenes;
 
@@ -12,8 +18,15 @@ public class TitleScene : Scene
     private const string SLIME_TEXT = "Slime";
     private const string PRESS_ENTER_TEXT = "Press Enter To Start";
 
-    // The font to use to render normal text.
-    private SpriteFont _font;
+	private SoundEffect _uiSoundEffect;
+	private Panel _titleScreenButtonsPanel;
+	private Panel _optionsPanel;
+	private Button _optionsButton;
+	private Button _optionsBackButton;
+
+
+	// The font to use to render normal text.
+	private SpriteFont _font;
 
     // The font used to render the title text.
     private SpriteFont _font5x;
@@ -79,6 +92,9 @@ public class TitleScene : Scene
 		// Set the background pattern destination rectangle to fill the entire
 		// screen background.
 		_backgroundDestination = Core.GraphicsDevice.PresentationParameters.Bounds;
+
+		// Load the sound effect to play when ui actions occur.
+		_uiSoundEffect = Core.Content.Load<SoundEffect>("Audio/ui");
 	}
 
     public override void LoadContent()
@@ -148,5 +164,57 @@ public class TitleScene : Scene
         // Always end the sprite batch when finished.
         Core.SpriteBatch.End();
     }
+
+	private void CreateTitlePanel()
+	{
+		// Create a container to hold all of our buttons
+		_titleScreenButtonsPanel = new Panel();
+		_titleScreenButtonsPanel.Dock(Gum.Wireframe.Dock.Fill);
+		_titleScreenButtonsPanel.AddToRoot();
+
+		var startButton = new Button();
+		startButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
+		startButton.Visual.X = 50;
+		startButton.Visual.Y = -12;
+		startButton.Visual.Width = 70;
+		startButton.Text = "Start";
+		startButton.Click += HandleStartClicked;
+		_titleScreenButtonsPanel.AddChild(startButton);
+
+		_optionsButton = new Button();
+		_optionsButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
+		_optionsButton.Visual.X = -50;
+		_optionsButton.Visual.Y = -12;
+		_optionsButton.Visual.Width = 70;
+		_optionsButton.Text = "Options";
+		_optionsButton.Click += HandleOptionsClicked;
+		_titleScreenButtonsPanel.AddChild(_optionsButton);
+
+		startButton.IsFocused = true;
+	}
+
+	private void HandleStartClicked(object sender, EventArgs e)
+	{
+		// A UI interaction occurred, play the sound effect
+		Core.Audio.PlaySoundEffect(_uiSoundEffect);
+
+		// Change to the game scene to start the game.
+		Core.ChangeScene(new GameScene());
+	}
+
+	private void HandleOptionsClicked(object sender, EventArgs e)
+	{
+		// A UI interaction occurred, play the sound effect
+		Core.Audio.PlaySoundEffect(_uiSoundEffect);
+
+		// Set the title panel to be invisible.
+		_titleScreenButtonsPanel.IsVisible = false;
+
+		// Set the options panel to be visible.
+		_optionsPanel.IsVisible = true;
+
+		// Give the back button on the options panel focus.
+		_optionsBackButton.IsFocused = true;
+	}
 
 }
