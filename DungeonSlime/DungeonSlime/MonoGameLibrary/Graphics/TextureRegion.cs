@@ -33,15 +33,35 @@ public class TextureRegion
     /// </summary>
     public TextureRegion() { }
 
-    /// <summary>
-    /// Creates a new texture region using the specified source texture.
-    /// </summary>
-    /// <param name="texture">The texture to use as the source texture for this texture region.</param>
-    /// <param name="x">The x-coordinate position of the upper-left corner of this texture region relative to the upper-left corner of the source texture.</param>
-    /// <param name="y"><The y-coordinate position of the upper-left corner of this texture region relative to the upper-left corner of the source texture./param>
-    /// <param name="width">The width, in pixels, of this texture region.</param>
-    /// <param name="height">The height, in pixels, of this texture region.</param>
-    public TextureRegion(Texture2D texture, int x, int y, int width, int height)
+	/// <summary>
+	/// Gets the top normalized texture coordinate of this region.
+	/// </summary>
+	public float TopTextureCoordinate => SourceRectangle.Top / (float)Texture.Height;
+
+	/// <summary>
+	/// Gets the bottom normalized texture coordinate of this region.
+	/// </summary>
+	public float BottomTextureCoordinate => SourceRectangle.Bottom / (float)Texture.Height;
+
+	/// <summary>
+	///  Gets the left normalized texture coordinate of this region.
+	/// </summary>
+	public float LeftTextureCoordinate => SourceRectangle.Left / (float)Texture.Width;
+
+	/// <summary>
+	/// Gets the right normalized texture coordinate of this region.
+	/// </summary>
+	public float RightTextureCoordinate => SourceRectangle.Right / (float)Texture.Width;
+
+	/// <summary>
+	/// Creates a new texture region using the specified source texture.
+	/// </summary>
+	/// <param name="texture">The texture to use as the source texture for this texture region.</param>
+	/// <param name="x">The x-coordinate position of the upper-left corner of this texture region relative to the upper-left corner of the source texture.</param>
+	/// <param name="y"><The y-coordinate position of the upper-left corner of this texture region relative to the upper-left corner of the source texture./param>
+	/// <param name="width">The width, in pixels, of this texture region.</param>
+	/// <param name="height">The height, in pixels, of this texture region.</param>
+	public TextureRegion(Texture2D texture, int x, int y, int width, int height)
     {
         Texture = texture;
         SourceRectangle = new Rectangle(x, y, width, height);
