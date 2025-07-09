@@ -1,4 +1,5 @@
 ﻿using System;
+using DungeonSlime.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,6 +8,7 @@ using MonoGameGum;
 using MonoGameGum.Forms.Controls;
 using MonoGameGum.GueDeriving;
 using MonoGameLibrary;
+using MonoGameLibrary.Graphics;
 using MonoGameLibrary.Scenes;
 
 namespace DungeonSlime.Scenes;
@@ -20,8 +22,12 @@ public class TitleScene : Scene
 	private SoundEffect _uiSoundEffect;
 	private Panel _titleScreenButtonsPanel;
 	private Panel _optionsPanel;
-	private Button _optionsButton;
-	private Button _optionsBackButton;
+
+	// The options button used to open the options menu.
+	private AnimatedButton _optionsButton;
+
+	// The back button used to exit the options menu back to the title menu.
+	private AnimatedButton _optionsBackButton;
 
 
 	// The font to use to render normal text.
@@ -60,6 +66,10 @@ public class TitleScene : Scene
 
 	// The speed that the background pattern scrolls.
 	private float _scrollSpeed = 50.0f;
+
+	// Reference to the texture atlas that we can pass to UI elements when they
+	// are created.
+	private TextureAtlas _atlas;
 
 	public override void Initialize()
     {
@@ -109,6 +119,9 @@ public class TitleScene : Scene
 
 		// Load the background pattern texture.
 		_backgroundPattern = Content.Load<Texture2D>("Sprites/background-pattern");
+
+		// Load the texture atlas from the xml configuration file.
+		_atlas = TextureAtlas.FromFile(Core.Content, "Sprites/atlas-definition.xml");
 	}
 
     public override void Update(GameTime gameTime)
@@ -190,26 +203,25 @@ public class TitleScene : Scene
 		_titleScreenButtonsPanel.Dock(Gum.Wireframe.Dock.Fill);
 		_titleScreenButtonsPanel.AddToRoot();
 
-		var startButton = new Button();
+		AnimatedButton startButton = new AnimatedButton(_atlas);
 		startButton.Anchor(Gum.Wireframe.Anchor.BottomLeft);
 		startButton.Visual.X = 50;
 		startButton.Visual.Y = -12;
-		startButton.Visual.Width = 70;
 		startButton.Text = "Start";
 		startButton.Click += HandleStartClicked;
 		_titleScreenButtonsPanel.AddChild(startButton);
 
-		_optionsButton = new Button();
+		_optionsButton = new AnimatedButton(_atlas);
 		_optionsButton.Anchor(Gum.Wireframe.Anchor.BottomRight);
 		_optionsButton.Visual.X = -50;
 		_optionsButton.Visual.Y = -12;
-		_optionsButton.Visual.Width = 70;
 		_optionsButton.Text = "Options";
 		_optionsButton.Click += HandleOptionsClicked;
 		_titleScreenButtonsPanel.AddChild(_optionsButton);
 
 		startButton.IsFocused = true;
 	}
+
 
 	private void HandleStartClicked(object sender, EventArgs e)
 	{
