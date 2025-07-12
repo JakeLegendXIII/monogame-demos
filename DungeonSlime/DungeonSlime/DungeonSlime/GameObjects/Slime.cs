@@ -149,4 +149,93 @@ public class Slime
 		}
 	}
 
+	/// <summary>
+	/// Informs the slime to grow by one segment.
+	/// </summary>
+	public void Grow()
+	{
+		// Capture the value of the tail segment
+		SlimeSegment tail = _segments[_segments.Count - 1];
+
+		// Create a new tail segment that is positioned a grid cell in the
+		// reverse direction from the tail moving to the tail.
+		SlimeSegment newTail = new SlimeSegment();
+		newTail.At = tail.To + tail.ReverseDirection * _stride;
+		newTail.To = tail.At;
+		newTail.Direction = Vector2.Normalize(tail.At - newTail.At);
+
+		// Add the new tail segment
+		_segments.Add(newTail);
+	}
+
+	/// <summary>
+	/// Updates the slime.
+	/// </summary>
+	/// <param name="gameTime">A snapshot of the timing values for the current update cycle.</param>
+	public void Update(GameTime gameTime)
+	{
+		// Update the animated sprite.
+		_sprite.Update(gameTime);
+
+		// Handle any player input
+		HandleInput();
+
+		// Increment the movement timer by the frame elapsed time.
+		_movementTimer += gameTime.ElapsedGameTime;
+
+		// If the movement timer has accumulated enough time to be greater than
+		// the movement time threshold, then perform a full movement.
+		if (_movementTimer >= s_movementTime)
+		{
+			_movementTimer -= s_movementTime;
+			Move();
+		}
+
+		// Update the movement lerp offset amount
+		_movementProgress = (float)(_movementTimer.TotalSeconds / s_movementTime.TotalSeconds);
+	}
+
+
+	/// <summary>
+	/// Draws the slime.
+	/// </summary>
+	public void Draw()
+	{
+		// Iterate through each segment and draw it
+		foreach (SlimeSegment segment in _segments)
+		{
+			// Calculate the visual position of the segment at the moment by
+			// lerping between its "at" and "to" position by the movement
+			// offset lerp amount
+			Vector2 pos = Vector2.Lerp(segment.At, segment.To, _movementProgress);
+
+			// Draw the slime sprite at the calculated visual position of this
+			// segment
+			_sprite.Draw(Core.SpriteBatch, pos);
+		}
+	}
+
+	/// <summary>
+	/// Returns a Circle value that represents collision bounds of the slime.
+	/// </summary>
+	/// <returns>A Circle value.</returns>
+	public Circle GetBounds()
+	{
+		SlimeSegment head = _segments[0];
+
+		// Calculate the visual position of the head at the moment of this
+		// method call by lerping between the "at" and "to" position by the
+		// movement offset lerp amount
+		Vector2 pos = Vector2.Lerp(head.At, head.To, _movementProgress);
+
+		// Create the bounds using the calculated visual position of the head.
+		Circle bounds = new Circle(
+			(int)(pos.X + (_sprite.Width * 0.5f)),
+			(int)(pos.Y + (_sprite.Height * 0.5f)),
+			(int)(_sprite.Width * 0.5f)
+		);
+
+		return bounds;
+	}
+
 }
