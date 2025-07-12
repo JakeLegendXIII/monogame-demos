@@ -36,7 +36,26 @@ public class Bat
 		_bounceSoundEffect = bounceSoundEffect;
 	}
 
+	/// <summary>
+	/// Updates the bat.
+	/// </summary>
+	/// <param name="gameTime">A snapshot of the timing values for the current update cycle.</param>
+	public void Update(GameTime gameTime)
+	{
+		// Update the animated sprite
+		_sprite.Update(gameTime);
 
+		// Update the position of the bat based on the velocity.
+		Position += _velocity;
+	}
+
+	/// <summary>
+	/// Draws the bat.
+	/// </summary>
+	public void Draw()
+	{
+		_sprite.Draw(Core.SpriteBatch, Position);
+	}
 
 	/// <summary>
 	/// Randomizes the velocity of the bat.
@@ -87,6 +106,19 @@ public class Bat
 
 		// Play the bounce sound effect.
 		Core.Audio.PlaySoundEffect(_bounceSoundEffect);
+	}
+
+	/// <summary>
+	/// Returns a Circle value that represents collision bounds of the bat.
+	/// </summary>
+	/// <returns>A Circle value.</returns>
+	public Circle GetBounds()
+	{
+		int x = (int)(Position.X + _sprite.Width * 0.5f);
+		int y = (int)(Position.Y + _sprite.Height * 0.5f);
+		int radius = (int)(_sprite.Width * 0.25f);
+
+		return new Circle(x, y, radius);
 	}
 
 }
