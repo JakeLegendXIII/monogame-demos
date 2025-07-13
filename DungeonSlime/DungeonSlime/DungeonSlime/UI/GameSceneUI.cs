@@ -88,6 +88,23 @@ public class GameSceneUI : ContainerRuntime
 	}
 
 	/// <summary>
+	/// Updates the game scene ui.
+	/// </summary>
+	/// <param name="gameTime">A snapshot of the timing values for the current update cycle.</param>
+	public void Update(GameTime gameTime)
+	{
+		GumService.Default.Update(gameTime);
+	}
+
+	/// <summary>
+	/// Draws the game scene ui.
+	/// </summary>
+	public void Draw()
+	{
+		GumService.Default.Draw();
+	}
+
+	/// <summary>
 	/// Updates the text on the score display.
 	/// </summary>
 	/// <param name="score">The score to display.</param>
@@ -139,24 +156,6 @@ public class GameSceneUI : ContainerRuntime
 	{
 		_gameOverPanel.IsVisible = false;
 	}
-
-	/// <summary>
-	/// Updates the game scene ui.
-	/// </summary>
-	/// <param name="gameTime">A snapshot of the timing values for the current update cycle.</param>
-	public void Update(GameTime gameTime)
-	{
-		GumService.Default.Update(gameTime);
-	}
-
-	/// <summary>
-	/// Draws the game scene ui.
-	/// </summary>
-	public void Draw()
-	{
-		GumService.Default.Draw();
-	}
-
 
 	private TextRuntime CreateScoreText()
 	{
