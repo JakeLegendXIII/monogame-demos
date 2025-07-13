@@ -254,7 +254,7 @@ public class GameSceneUI : ContainerRuntime
 		text.Text = "GAME OVER";
 		text.WidthUnits = DimensionUnitType.RelativeToChildren;
 		text.UseCustomFont = true;
-		text.CustomFontFile = "fonts/04b_30.fnt";
+		text.CustomFontFile = "Fonts/04b_30.fnt";
 		text.FontScale = 0.5f;
 		text.X = 10.0f;
 		text.Y = 10.0f;

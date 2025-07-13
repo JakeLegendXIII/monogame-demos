@@ -112,10 +112,10 @@ public class TitleScene : Scene
 	public override void LoadContent()
     {
         // Load the font for the standard text.
-        _font = Core.Content.Load<SpriteFont>("fonts/04B_30");
+        _font = Core.Content.Load<SpriteFont>("Fonts/04B_30");
 
         // Load the font for the title text.
-        _font5x = Content.Load<SpriteFont>("fonts/04B_30_5x");
+        _font5x = Content.Load<SpriteFont>("Fonts/04B_30_5x");
 
 		// Load the background pattern texture.
 		_backgroundPattern = Content.Load<Texture2D>("Sprites/background-pattern");
@@ -260,7 +260,7 @@ public class TitleScene : Scene
 		optionsText.Text = "OPTIONS";
 		optionsText.UseCustomFont = true;
 		optionsText.FontScale = 0.5f;
-		optionsText.CustomFontFile = @"fonts/04b_30.fnt";
+		optionsText.CustomFontFile = @"Fonts/04b_30.fnt";
 		_optionsPanel.AddChild(optionsText);
 
 		OptionsSlider musicSlider = new OptionsSlider(_atlas);
