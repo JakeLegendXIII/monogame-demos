@@ -76,10 +76,10 @@ public class GameScene : Scene
 	public override void LoadContent()
 	{
 		// Create the texture atlas from the XML configuration file.
-		TextureAtlas atlas = TextureAtlas.FromFile(Core.Content, "images/atlas-definition.xml");
+		TextureAtlas atlas = TextureAtlas.FromFile(Core.Content, "Sprites/atlas-definition.xml");
 
 		// Create the tilemap from the XML configuration file.
-		_tilemap = Tilemap.FromFile(Content, "images/tilemap-definition.xml");
+		_tilemap = Tilemap.FromFile(Content, "Sprites/tilemap-definition.xml");
 		_tilemap.Scale = new Vector2(4.0f, 4.0f);
 
 		// Create the animated sprite for the slime from the atlas.
@@ -94,7 +94,7 @@ public class GameScene : Scene
 		batAnimation.Scale = new Vector2(4.0f, 4.0f);
 
 		// Load the bounce sound effect for the bat.
-		SoundEffect bounceSoundEffect = Content.Load<SoundEffect>("audio/bounce");
+		SoundEffect bounceSoundEffect = Content.Load<SoundEffect>("Audio/bounce");
 
 		// Create the bat.
 		_bat = new Bat(batAnimation, bounceSoundEffect);
