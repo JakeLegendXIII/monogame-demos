@@ -48,6 +48,6 @@ technique SpriteDrawing
 {
     pass P0
     {
-        PixelShader = compile PS_SHADERMODELMainPS();
+        PixelShader = compile PS_SHADERMODEL MainPS();
     }
 };
