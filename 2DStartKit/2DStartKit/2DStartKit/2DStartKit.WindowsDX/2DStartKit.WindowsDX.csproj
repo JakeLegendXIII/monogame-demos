@@ -16,8 +16,8 @@
     </MonoGameContentReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
-    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.*" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.5.1" />
+    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.5.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\2DStartKit.Core\2DStartKit.Core.csproj" />
